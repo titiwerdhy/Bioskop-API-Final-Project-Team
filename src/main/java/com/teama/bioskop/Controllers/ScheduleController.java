@@ -1,4 +1,4 @@
-package com.teama.bioskop.Controller;
+package com.teama.bioskop.Controllers;
 import com.teama.bioskop.DTO.ScheduleRequestDTO;
 import com.teama.bioskop.DTO.ScheduleResponseDTO;
 import com.teama.bioskop.Helpers.DataNotFoundException;
