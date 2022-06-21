@@ -2,5 +2,7 @@ package com.teama.bioskop.Repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface SeatsRepository extends JpaRepository<SeatsRepository, Integer> {
+import com.teama.bioskop.Models.Seats;
+
+public interface SeatsRepository extends JpaRepository<Seats, Integer> {
 }
