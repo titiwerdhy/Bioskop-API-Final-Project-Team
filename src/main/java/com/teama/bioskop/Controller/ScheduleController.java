@@ -1,7 +1,7 @@
 package com.teama.bioskop.Controller;
 import com.teama.bioskop.DTO.ScheduleRequestDTO;
 import com.teama.bioskop.DTO.ScheduleResponseDTO;
-import com.teama.bioskop.Helpers.ScheduleNotFoundException;
+import com.teama.bioskop.Helpers.DataNotFoundException;
 import com.teama.bioskop.Models.Schedule;
 
 import com.teama.bioskop.Services.ScheduleService;
@@ -24,7 +24,7 @@ public class ScheduleController {
     }
 
     @GetMapping("/schedule/{id}")
-    public ResponseEntity<ScheduleResponseDTO> getScheduleById(@PathVariable Integer id) throws ScheduleNotFoundException {
+    public ResponseEntity<ScheduleResponseDTO> getScheduleById(@PathVariable Integer id) throws DataNotFoundException {
         Schedule schedule = this.scheduleService.getOneSchedule(id);
 
         ScheduleResponseDTO responseDTO = schedule.convertToResponse();
@@ -43,7 +43,7 @@ public class ScheduleController {
     }
 
     @PutMapping("/schedule/{id}")
-    public ResponseEntity<ScheduleResponseDTO> updateSchedule(@PathVariable Integer id, @RequestBody ScheduleRequestDTO scheduleRequestDTO) throws ScheduleNotFoundException {
+    public ResponseEntity<ScheduleResponseDTO> updateSchedule(@PathVariable Integer id, @RequestBody ScheduleRequestDTO scheduleRequestDTO) throws DataNotFoundException {
         Schedule schedule = scheduleRequestDTO.convertToEntity();
 
         schedule.setScheduleId(id);
@@ -54,7 +54,7 @@ public class ScheduleController {
     }
 
     @DeleteMapping("/schedule/{id}")
-    public void deleteSchedule(@PathVariable Integer id) throws ScheduleNotFoundException {
+    public void deleteSchedule(@PathVariable Integer id) throws DataNotFoundException {
         Schedule schedule = new Schedule();
         schedule.setScheduleId(id);
 
