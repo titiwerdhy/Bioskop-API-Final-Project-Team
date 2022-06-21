@@ -1,41 +1,37 @@
 package com.teama.bioskop.Models;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import java.time.LocalTime;
-import java.util.Date;
+import com.teama.bioskop.DTO.ScheduleResponseDTO;
+import lombok.*;
+
+import javax.persistence.*;
+import java.sql.Date;
+import java.sql.Time;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @Entity
+@Builder
 public class Schedule {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer scheduleId;
 
-
-    private Integer filmCode;
-
-
+    @ManyToOne
+    @JoinColumn(name ="film_code")
+    private Films films;
     private Date tanggalTayang;
+    private Time jamMulai;
+    private Time jamSelesai;
+    private Double hargaTiket;
 
 
-    private LocalTime jamMulai;
-
-
-    private LocalTime jamSelesai;
-
-
-    private  Double hargaTiket;
-
+    public ScheduleResponseDTO convertToResponse(){
+        return ScheduleResponseDTO.builder().
+                films(this.films).tanggalTayang(this.tanggalTayang).jamMulai(this.jamMulai).
+                jamSelesai(this.jamSelesai).hargaTiket(this.hargaTiket).build();
+    }
 
 }
