@@ -1,4 +1,4 @@
-package com.teama.bioskop.Service;
+package com.teama.bioskop.Services;
 
 import com.teama.bioskop.Models.Schedule;
 import com.teama.bioskop.Repositories.ScheduleRepository;
