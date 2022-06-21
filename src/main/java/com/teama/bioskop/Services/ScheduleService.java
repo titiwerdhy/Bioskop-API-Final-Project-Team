@@ -15,7 +15,7 @@ import java.util.Optional;
 public class ScheduleService {
     private final ScheduleRepository scheduleRepository;
 
-    public List<Schedule> getAllSchedule    (){
+    public List<Schedule> getAllSchedule(){
         return this.scheduleRepository.findAll();
     }
 
