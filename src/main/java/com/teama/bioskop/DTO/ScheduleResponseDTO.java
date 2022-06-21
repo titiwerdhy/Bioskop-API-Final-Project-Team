@@ -9,6 +9,9 @@ import lombok.Setter;
 
 import java.sql.Date;
 import java.sql.Time;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @Getter
 @Setter
@@ -18,13 +21,13 @@ public class ScheduleResponseDTO {
     private Films films;
 
     @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date tanggalTayang;
+    private LocalDate tanggalTayang;
 
     @JsonFormat(pattern = "HH:mm:ss")
-    private Time jamMulai;
+    private LocalTime jamMulai;
 
     @JsonFormat(pattern = "HH:mm:ss")
-    private Time jamSelesai;
+    private LocalTime jamSelesai;
 
 
     private  Double hargaTiket;
