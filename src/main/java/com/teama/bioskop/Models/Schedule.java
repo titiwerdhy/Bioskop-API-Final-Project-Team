@@ -1,15 +1,10 @@
 package com.teama.bioskop.Models;
 
-
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.teama.bioskop.DTO.ScheduleResponseDTO;
 import lombok.*;
 
 import javax.persistence.*;
-import java.sql.Date;
-import java.sql.Time;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 @AllArgsConstructor

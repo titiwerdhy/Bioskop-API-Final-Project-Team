@@ -5,10 +5,7 @@ import com.teama.bioskop.Models.Films;
 import com.teama.bioskop.Models.Schedule;
 import lombok.*;
 
-import java.sql.Date;
-import java.sql.Time;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 @Getter
