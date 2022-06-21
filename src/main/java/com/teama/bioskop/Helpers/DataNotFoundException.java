@@ -1,23 +1,23 @@
 package com.teama.bioskop.Helpers;
 
-public class ScheduleNotFoundException extends Exception{
-    public ScheduleNotFoundException() {
+public class DataNotFoundException extends Exception{
+    public DataNotFoundException() {
         super();
     }
 
-    public ScheduleNotFoundException(String message) {
+    public DataNotFoundException(String message) {
         super(message);
     }
 
-    public ScheduleNotFoundException(String message, Throwable cause) {
+    public DataNotFoundException(String message, Throwable cause) {
         super(message, cause);
     }
 
-    public ScheduleNotFoundException(Throwable cause) {
+    public DataNotFoundException(Throwable cause) {
         super(cause);
     }
 
-    protected ScheduleNotFoundException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+    protected DataNotFoundException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
         super(message, cause, enableSuppression, writableStackTrace);
     }
 }

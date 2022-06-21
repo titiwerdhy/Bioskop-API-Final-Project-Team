@@ -12,8 +12,8 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @ResponseStatus
 public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
 
-    @ExceptionHandler(ScheduleNotFoundException.class)
-    public ResponseEntity<ErrorMessage> scheduleNotFoundException(ScheduleNotFoundException e, WebRequest request){
+    @ExceptionHandler(DataNotFoundException.class)
+    public ResponseEntity<ErrorMessage> dataNotFoundException(DataNotFoundException e, WebRequest request){
         ErrorMessage errorMessage = new ErrorMessage(HttpStatus.NOT_FOUND, e.getMessage());
 
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorMessage);
