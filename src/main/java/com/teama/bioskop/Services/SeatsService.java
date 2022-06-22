@@ -20,9 +20,8 @@ public class SeatsService {
     public Seats insertNewSeats(Seats seats) {
         return this.seatsRepository.save(seats);
     }
-    public Seats UpdateSeats (Integer id){
-        Seats UpdateSeats = seatsRepository.getReferenceById(id);
-        return this.seatsRepository.save(UpdateSeats);
+    public Seats UpdateSeats ( Seats seats ){
+        return this.seatsRepository.save(seats);
     }
 
     public void deleteSeat(Integer id) {

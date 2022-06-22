@@ -33,7 +33,7 @@ public class SeatsController {
 
     @PutMapping("/seats")
     public Seats UpdateSeats(@RequestBody Seats seats) {
-        seatsService.UpdateSeats(seats.getSeatId());
+        seatsService.UpdateSeats(seats);
         return seats;
     }
 
