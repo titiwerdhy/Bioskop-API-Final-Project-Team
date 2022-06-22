@@ -12,28 +12,23 @@ import javax.persistence.Id;
 import java.time.LocalTime;
 import java.util.Date;
 
-@AllArgsConstructor
-@NoArgsConstructor
-@Getter
-@Setter
-@Entity
+@AllArgsConstructor //anotasi ini digunakan untuk generate constructor
+@NoArgsConstructor //anotasi ini digunakan untuk generate constructor kosongan
+@Getter //sebuah aksi saat kita mengambil sebuah nilai/values dari suatu variable/object.
+@Setter //sebuah aksi saat kita memasukan sebuah nilai/values kedalam suatu variable/object
+@Entity //annotasi yang mendifinisikan class sebagai tabel didatabase
 public class Schedule {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer scheduleId;
 
-
     private Integer filmCode;
-
 
     private Date tanggalTayang;
 
-
     private LocalTime jamMulai;
 
-
     private LocalTime jamSelesai;
-
 
     private  Double hargaTiket;
 

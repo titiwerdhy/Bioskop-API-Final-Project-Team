@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@RestController
+@RestController // annotation untuk menandakan bahwa suatu class adalah Controller
 @AllArgsConstructor
 public class FilmsController {
     private final FilmsService filmsService;
