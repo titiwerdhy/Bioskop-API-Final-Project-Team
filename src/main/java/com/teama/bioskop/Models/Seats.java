@@ -15,7 +15,7 @@ import javax.persistence.Id;
 @Getter
 @Setter
 @Entity
-public class Seats {
+public class Seats extends Users {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer seatId;
@@ -23,4 +23,6 @@ public class Seats {
     private String studioName;
 
     private Integer nomorKursi;
+
+
 }
