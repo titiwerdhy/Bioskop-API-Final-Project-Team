@@ -60,4 +60,14 @@ public class FilmsController {
 
         this.filmsService.deleteFilm(films);
     }
+
+    @PostMapping("/films/isplaying")
+    public List<Films> findFilmsByIsPlaying(@RequestBody Films films){
+        return this.filmsService.getByIsPlaying(films.getIsPlaying());
+    }
+
+    @PostMapping("/films/studioname")
+    public List<Films> findFilmsByStudioName(@RequestBody Films films){
+        return this.filmsService.getByStudioName(films.getSeatId().getStudioName());
+    }
 }
