@@ -1,4 +1,4 @@
-package com.teama.bioskop.Controller;
+package com.teama.bioskop.Controllers;
 
 import com.teama.bioskop.Models.Films;
 import com.teama.bioskop.Services.FilmsService;
