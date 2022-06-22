@@ -17,7 +17,7 @@ public class SeatsService {
       return this.seatsRepository.findAll();
     }
 
-    public Optional<Seats> CreateSeats(Integer seats) { return this.seatsRepository.findById(seats);
+    public Optional<Seats> CreateSeats(Integer seats) { return this.seatsRepository.findByseath(seats);
     }
 
     public Seats insertNewSeats(Seats seats) {return this.seatsRepository.save(seats);
