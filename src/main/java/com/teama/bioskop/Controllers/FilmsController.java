@@ -2,10 +2,8 @@ package com.teama.bioskop.Controllers;
 
 import com.teama.bioskop.DTO.FilmRequestDTO;
 import com.teama.bioskop.DTO.FilmResponseDTO;
-import com.teama.bioskop.DTO.ScheduleResponseDTO;
 import com.teama.bioskop.Helpers.DataNotFoundException;
 import com.teama.bioskop.Models.Films;
-import com.teama.bioskop.Models.Schedule;
 import com.teama.bioskop.Services.FilmsService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
