@@ -49,4 +49,12 @@ public class FilmsService {
 
         this.filmsRepository.delete(deletedFilms.get());
     }
+
+    public List<Films> getByIsPlaying(Boolean isPlaying){
+        return this.filmsRepository.getFilmByIsPlaying(isPlaying);
+    }
+
+    public List<Films> getByStudioName(String studioName){
+        return this.filmsRepository.getFilmByStudioName(studioName);
+    }
 }
