@@ -62,7 +62,7 @@ public class UsersController {
      */
     @PutMapping("/user")
     public Users update(@RequestBody Users users){
-        usersService.updateUsersById(users.getUserId());
+        usersService.updateUsersById(users);
         return users;
     }
 
