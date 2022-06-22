@@ -27,9 +27,8 @@ public class UsersService {
         return this.usersRepository.save(users);
     }
 
-    public Users updateUsersById(Integer id){
-        Users updateUser = usersRepository.getReferenceById(id);
-        return this.usersRepository.save(updateUser);
+    public Users updateUsersById(Users users){
+        return this.usersRepository.save(users);
     }
 
     public void deleteUserById(Integer id){
