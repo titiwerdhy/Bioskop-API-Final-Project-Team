@@ -3,8 +3,6 @@ package com.teama.bioskop.Controllers;
 import com.teama.bioskop.Models.Seats;
 import com.teama.bioskop.Services.SeatsService;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -41,10 +39,9 @@ public class SeatsController {
     }
 
     @DeleteMapping("/seats/{id}")
-    public ResponseEntity<Optional<Seats>> deleteSeath(@PathVariable("seats") Integer seath) {
-        Optional<Seats> deletedSeats = seatsService.getSeatsById(seath);
+    public Integer deleteSeath(@PathVariable("seats") Integer seath) {
         seatsService.deleteSeath(seath);
-        return ResponseEntity.status(HttpStatus.OK).body(deletedSeats);
+        return seath;
 
     }
 }

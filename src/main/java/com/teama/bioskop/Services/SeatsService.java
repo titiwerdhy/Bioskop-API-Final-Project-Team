@@ -32,4 +32,9 @@ public class SeatsService {
         Seats deleteSeath = seatsRepository.getReferenceById(seath);
         return this.seatsRepository.save(deleteSeath);
     }
+
+    public Seats getSeatsById(Integer seath) {
+        Seats getSeath = seatsRepository.getReferenceById(seath);
+        return this.seatsRepository.save(getSeath);
+    }
 }
