@@ -67,7 +67,7 @@ public class FilmsController {
     }
 
     @PostMapping("/films/studioname")
-    public List<Films> findFilmsByStudioName(@RequestBody Films films){
+    public List<Films> findFilmsByStudioName(@RequestBody Films films) throws DataNotFoundException {
         return this.filmsService.getByStudioName(films.getSeatId().getStudioName());
     }
 }
