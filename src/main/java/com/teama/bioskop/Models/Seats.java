@@ -22,6 +22,10 @@ public class Seats  {
 
     private String studioName;
 
+    private String barisKursi;
+
+    private Boolean isAvailable;
+
     private Integer nomorKursi;
 
     @CreationTimestamp
