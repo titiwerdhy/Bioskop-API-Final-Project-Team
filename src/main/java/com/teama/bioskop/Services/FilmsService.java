@@ -54,7 +54,14 @@ public class FilmsService {
         return this.filmsRepository.getFilmByIsPlaying(isPlaying);
     }
 
-    public List<Films> getByStudioName(String studioName){
-        return this.filmsRepository.getFilmByStudioName(studioName);
+    public List<Films> getByStudioName(String studioName) throws DataNotFoundException {
+
+        List<Films> filmsList = this.filmsRepository.getFilmByStudioName(studioName);
+
+        if(filmsList.isEmpty()){
+            throw new DataNotFoundException("There is no film playing in "+ studioName);
+        }
+
+        return filmsList;
     }
 }
