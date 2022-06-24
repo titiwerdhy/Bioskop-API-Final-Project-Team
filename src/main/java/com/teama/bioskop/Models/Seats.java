@@ -28,8 +28,6 @@ public class Seats  {
 
     private Integer nomorKursi;
 
-    private Boolean isAvailable;
-
     @CreationTimestamp
     @Column(updatable = false, nullable = false)
     private LocalDateTime createdAt;
