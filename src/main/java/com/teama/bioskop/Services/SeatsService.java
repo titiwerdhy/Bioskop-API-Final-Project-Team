@@ -37,4 +37,9 @@ public class SeatsService {
         Seats getSeath = seatsRepository.getReferenceById(seath);
         return this.seatsRepository.save(getSeath);
     }
+    public List<Seats> getSeatsAvailable(Boolean isAvailable){
+
+        List<Seats> seatsAvailable = this.seatsRepository.getSeatsAvailable(isAvailable);
+        return seatsAvailable;
+    }
 }
