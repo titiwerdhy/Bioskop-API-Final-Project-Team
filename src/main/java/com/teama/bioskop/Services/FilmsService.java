@@ -56,11 +56,11 @@ public class FilmsService {
 
     public List<Films> getByStudioName(String studioName) throws DataNotFoundException {
 
-       List<Films> filmsList = this.filmsRepository.getFilmByStudioName(studioName);
+        List<Films> filmsList = this.filmsRepository.getFilmByStudioName(studioName);
 
-       if(filmsList.isEmpty()){
-           throw new DataNotFoundException("There is no film playing in "+ studioName);
-       }
+        if(filmsList.isEmpty()){
+            throw new DataNotFoundException("There is no film playing in "+ studioName);
+        }
 
         return filmsList;
     }

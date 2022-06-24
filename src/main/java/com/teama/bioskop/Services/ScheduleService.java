@@ -46,4 +46,13 @@ public class ScheduleService {
 
         this.scheduleRepository.delete(deletedSchedule.get());
     }
+
+    public List<Schedule> getSchedulesByFilmName(String filmName) throws DataNotFoundException{
+        List<Schedule> schedulesByFilmName = this.scheduleRepository.getScheduleByFilmName(filmName);
+        if(schedulesByFilmName.isEmpty()){
+            throw new DataNotFoundException("Schedule with film name "+ filmName +" is Not Available");
+        }
+
+        return schedulesByFilmName;
+    }
 }
