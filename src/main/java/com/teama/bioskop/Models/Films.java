@@ -4,6 +4,10 @@ import javax.persistence.*;
 
 import com.teama.bioskop.DTO.FilmResponseDTO;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import java.time.LocalDateTime;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -23,6 +27,13 @@ public class Films {
     private String filmName;
 
     private Boolean isPlaying;
+
+    @CreationTimestamp
+    @Column(updatable = false, nullable = false)
+    private LocalDateTime createdAt;
+
+    @UpdateTimestamp
+    private LocalDateTime updatedAt;
 
     public FilmResponseDTO convertToResponse(){
         return FilmResponseDTO.builder().
