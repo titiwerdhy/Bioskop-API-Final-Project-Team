@@ -1,7 +1,6 @@
 package com.teama.bioskop.DTO;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.teama.bioskop.Models.Films;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
