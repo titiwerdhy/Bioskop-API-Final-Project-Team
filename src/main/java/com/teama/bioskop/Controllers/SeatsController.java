@@ -43,4 +43,10 @@ public class SeatsController {
         seatsService.deleteSeat(id);
         return ResponseEntity.status(HttpStatus.OK).body(deletedSeats);
     }
+
+    @PostMapping("/seats/available")
+    public ResponseEntity<List<Seats>> findSeatsAvailable(@RequestBody Seats seats){
+        List<Seats> seatsAvailable = this.seatsService.getSeatsAvailable(seats.getIsAvailable());
+        return ResponseEntity.status(HttpStatus.OK).body(seatsAvailable);
+    }
 }
