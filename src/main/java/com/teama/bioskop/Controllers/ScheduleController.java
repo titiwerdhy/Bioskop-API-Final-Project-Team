@@ -61,6 +61,10 @@ public class ScheduleController {
         this.scheduleService.deleteSchedule(schedule);
     }
 
+    @PostMapping("/schedule/filmname")
+    public List<Schedule> findScheduleByFilmName(@RequestBody Schedule schedule) throws DataNotFoundException{
+        List<Schedule> schedulesByFilmNameList = this.scheduleService.getSchedulesByFilmName(schedule.getFilms().getFilmName());
 
-
+        return schedulesByFilmNameList;
+    }
 }
