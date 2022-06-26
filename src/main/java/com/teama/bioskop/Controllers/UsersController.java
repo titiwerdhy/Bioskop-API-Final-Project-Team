@@ -1,6 +1,9 @@
 package com.teama.bioskop.Controllers;
 
 
+import com.teama.bioskop.DTOs.UsersRequestDTO;
+import com.teama.bioskop.DTOs.UsersResponseDTO;
+import com.teama.bioskop.Helpers.DataNotFoundException;
 import com.teama.bioskop.Models.Users;
 
 import com.teama.bioskop.Services.UsersService;
@@ -17,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @AllArgsConstructor
@@ -29,19 +31,22 @@ public class UsersController {
      * @return List of Users
      */
     @GetMapping("/users")
-    public List<Users> getAll() {
-        return this.usersService.getAllUsers();
-
+    public ResponseEntity<List<Users>> getAll() {
+        List<Users> users = this.usersService.getAllUsers();
+        return ResponseEntity.status(HttpStatus.OK).body(users);
     }
 
     /***
      * Get one User by Id
      * @param id of selected Users
      * @return Selected User data 
+     * @throws DataNotFoundException
      */
     @GetMapping("/user/{id}")
-    public Optional<Users> getById(@PathVariable("id") Integer id){
-        return this.usersService.getUserById(id);
+    public ResponseEntity<UsersResponseDTO> getById(@PathVariable("id") Integer id) throws DataNotFoundException{
+        Users user = this.usersService.getUserById(id);
+        UsersResponseDTO usersResponseDTO = user.convertToResponse();
+        return ResponseEntity.status(HttpStatus.OK).body(usersResponseDTO);
     }
 
     /***
@@ -50,9 +55,9 @@ public class UsersController {
      * @return new User
      */
     @PostMapping("/user")
-    public Users insert(@RequestBody Users users){
-        usersService.insertNewUsers(users);
-        return users;
+    public ResponseEntity<Users> insert(@RequestBody UsersRequestDTO usersRequestDTO){
+        Users newUser = usersService.insertNewUsers(usersRequestDTO.convertToUsers());
+        return ResponseEntity.status(HttpStatus.OK).body(newUser);
     }
 
     /***
@@ -61,19 +66,20 @@ public class UsersController {
      * @return updated users
      */
     @PutMapping("/user")
-    public Users update(@RequestBody Users users){
-        usersService.updateUsersById(users);
-        return users;
+    public ResponseEntity<Users> update(@RequestBody UsersRequestDTO usersRequestDTO){
+        Users updatedUser = usersService.updateUsersById(usersRequestDTO.updateUsers());
+        return ResponseEntity.status(HttpStatus.OK).body(updatedUser);
     }
 
     /***
      * Delete data to User table
      * @param id Users which going to be deleted
      * @return response status
+     * @throws DataNotFoundException
      */
     @DeleteMapping("/user/{id}")
-    public ResponseEntity<Optional<Users>> deleteById(@PathVariable("id") Integer id){
-        Optional<Users> deletedUsers = usersService.getUserById(id);
+    public ResponseEntity<Users> deleteById(@PathVariable("id") Integer id) throws DataNotFoundException{
+        Users deletedUsers = usersService.getUserById(id);
         usersService.deleteUserById(id);
         return ResponseEntity.status(HttpStatus.OK).body(deletedUsers);
     }

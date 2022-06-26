@@ -1,11 +1,13 @@
 package com.teama.bioskop.Models;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import com.teama.bioskop.DTOs.UsersResponseDTO;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -15,6 +17,7 @@ import java.time.LocalDateTime;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Users {
 
     @Id
@@ -34,4 +37,12 @@ public class Users {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
+    public UsersResponseDTO convertToResponse(){
+        return UsersResponseDTO.builder()
+            .userId(this.userId)
+            .username(this.username)
+            .emailAddress(this.emailAddress)
+            .password(this.password)
+            .build();
+    }
 }

@@ -1,4 +1,4 @@
-package com.teama.bioskop.DTO;
+package com.teama.bioskop.DTOs;
 
 import com.teama.bioskop.Models.Films;
 import com.teama.bioskop.Models.Seats;
@@ -17,7 +17,11 @@ public class FilmRequestDTO {
     private Boolean isPlaying;
 
     public Films convertToEntity(){
-        return Films.builder().filmCode(this.filmCode).seatId(this.seatId).filmName(this.filmName).isPlaying(this.isPlaying).build();
+        return Films.builder()
+            .filmCode(this.filmCode)
+            .seatId(this.seatId)
+            .filmName(this.filmName)
+            .isPlaying(this.isPlaying)
+            .build();
     }
-
 }

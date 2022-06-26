@@ -2,10 +2,11 @@ package com.teama.bioskop.Models;
 
 import javax.persistence.*;
 
-import com.teama.bioskop.DTO.FilmResponseDTO;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+
+import com.teama.bioskop.DTOs.FilmResponseDTO;
 
 import java.time.LocalDateTime;
 
@@ -36,7 +37,11 @@ public class Films {
     private LocalDateTime updatedAt;
 
     public FilmResponseDTO convertToResponse(){
-        return FilmResponseDTO.builder().
-                filmCode(this.filmCode).seatId(this.seatId).filmName(this.filmName).isPlaying(this.isPlaying).build();
+        return FilmResponseDTO.builder()
+            .filmCode(this.filmCode)
+            .seatId(this.seatId)
+            .filmName(this.filmName)
+            .isPlaying(this.isPlaying)
+            .build();
     }
 }

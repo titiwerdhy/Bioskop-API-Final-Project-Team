@@ -1,7 +1,8 @@
 package com.teama.bioskop.Controllers;
-import com.teama.bioskop.DTO.ScheduleRequestDTO;
-import com.teama.bioskop.DTO.ScheduleResponseDTO;
+import com.teama.bioskop.DTOs.ScheduleRequestDTO;
+import com.teama.bioskop.DTOs.ScheduleResponseDTO;
 import com.teama.bioskop.Helpers.DataNotFoundException;
+import com.teama.bioskop.Models.Films;
 import com.teama.bioskop.Models.Schedule;
 
 import com.teama.bioskop.Services.ScheduleService;
@@ -62,8 +63,8 @@ public class ScheduleController {
     }
 
     @PostMapping("/schedule/filmname")
-    public List<Schedule> findScheduleByFilmName(@RequestBody Schedule schedule) throws DataNotFoundException{
-        List<Schedule> schedulesByFilmNameList = this.scheduleService.getSchedulesByFilmName(schedule.getFilms().getFilmName());
+    public List<Schedule> findScheduleByFilmName(@RequestBody Films films) throws DataNotFoundException{
+        List<Schedule> schedulesByFilmNameList = this.scheduleService.getSchedulesByFilmName(films.getFilmName());
 
         return schedulesByFilmNameList;
     }
