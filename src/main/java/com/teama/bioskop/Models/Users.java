@@ -43,6 +43,8 @@ public class Users {
             .username(this.username)
             .emailAddress(this.emailAddress)
             .password(this.password)
+            .createdAt(this.createdAt)
+            .updatedAt(updatedAt)
             .build();
     }
 }
