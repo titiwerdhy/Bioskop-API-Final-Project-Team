@@ -34,7 +34,7 @@ public class ScheduleController {
     }
 
     @GetMapping("/schedule/{id}")
-    public ResponseEntity<ScheduleResponseDTO> getScheduleById(@PathVariable Integer id) throws DataNotFoundException {
+    public ResponseEntity<ScheduleResponseDTO> getScheduleById(@PathVariable Integer id) {
 
         try {
 
@@ -83,7 +83,7 @@ public class ScheduleController {
     }
 
     @PutMapping("/schedule/{id}")
-    public ResponseEntity<ScheduleResponseDTO> updateSchedule(@PathVariable Integer id, @RequestBody ScheduleRequestDTO scheduleRequestDTO) throws DataNotFoundException {
+    public ResponseEntity<ScheduleResponseDTO> updateSchedule(@PathVariable Integer id, @RequestBody ScheduleRequestDTO scheduleRequestDTO) {
 
         try {
 
@@ -109,7 +109,7 @@ public class ScheduleController {
     }
 
     @DeleteMapping("/schedule/{id}")
-    public void deleteSchedule(@PathVariable Integer id) throws DataNotFoundException {
+    public void deleteSchedule(@PathVariable Integer id) {
         try {
 
         Schedule schedule = new Schedule();
