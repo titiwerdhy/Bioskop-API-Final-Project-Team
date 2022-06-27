@@ -44,4 +44,16 @@ public class Films {
             .isPlaying(this.isPlaying)
             .build();
     }
+
+    @Override
+    public String toString() {
+        return "Films{" +
+                "filmCode=" + filmCode +
+                ", seatId=" + seatId.toString() +
+                ", filmName='" + filmName + '\'' +
+                ", isPlaying=" + isPlaying +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
+                '}';
+    }
 }
