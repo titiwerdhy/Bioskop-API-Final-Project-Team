@@ -1,9 +1,10 @@
 package com.teama.bioskop.Models;
 
-import com.teama.bioskop.DTO.ScheduleResponseDTO;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+
+import com.teama.bioskop.DTOs.ScheduleResponseDTO;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -24,9 +25,13 @@ public class Schedule {
     @ManyToOne
     @JoinColumn(name ="film_code")
     public Films films;
+
     private LocalDate tanggalTayang;
+
     private LocalTime jamMulai;
+
     private LocalTime jamSelesai;
+
     private Double hargaTiket;
 
     @CreationTimestamp
@@ -36,11 +41,15 @@ public class Schedule {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
-
     public ScheduleResponseDTO convertToResponse(){
-        return ScheduleResponseDTO.builder().
-                filmsCode(this.films.getFilmCode()).tanggalTayang(this.tanggalTayang).jamMulai(this.jamMulai).
-                jamSelesai(this.jamSelesai).hargaTiket(this.hargaTiket).createdAt(this.createdAt).build();
+        return ScheduleResponseDTO.builder()
+            .filmsCode(this.films.getFilmCode())
+            .tanggalTayang(this.tanggalTayang)
+            .jamMulai(this.jamMulai)
+            .jamSelesai(this.jamSelesai)
+            .hargaTiket(this.hargaTiket)
+            .createdAt(this.createdAt)
+            .build();
     }
 
 }

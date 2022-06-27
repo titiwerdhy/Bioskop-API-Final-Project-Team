@@ -1,4 +1,4 @@
-package com.teama.bioskop.DTO;
+package com.teama.bioskop.DTOs;
 
 import com.teama.bioskop.Models.Seats;
 import lombok.AllArgsConstructor;

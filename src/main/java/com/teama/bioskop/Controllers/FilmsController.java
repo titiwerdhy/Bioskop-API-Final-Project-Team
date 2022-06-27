@@ -1,7 +1,7 @@
 package com.teama.bioskop.Controllers;
 
-import com.teama.bioskop.DTO.FilmRequestDTO;
-import com.teama.bioskop.DTO.FilmResponseDTO;
+import com.teama.bioskop.DTOs.FilmRequestDTO;
+import com.teama.bioskop.DTOs.FilmResponseDTO;
 import com.teama.bioskop.Helpers.DataNotFoundException;
 import com.teama.bioskop.Models.Films;
 import com.teama.bioskop.Services.FilmsService;
@@ -70,4 +70,5 @@ public class FilmsController {
     public List<Films> findFilmsByStudioName(@RequestBody Films films) throws DataNotFoundException {
         return this.filmsService.getByStudioName(films.getSeatId().getStudioName());
     }
+
 }

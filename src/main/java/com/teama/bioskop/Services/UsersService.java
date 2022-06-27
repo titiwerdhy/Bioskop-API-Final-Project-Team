@@ -1,5 +1,6 @@
 package com.teama.bioskop.Services;
 
+import com.teama.bioskop.Helpers.DataNotFoundException;
 import com.teama.bioskop.Models.Users;
 import com.teama.bioskop.Repositories.UsersRepository;
 import lombok.AllArgsConstructor;
@@ -11,7 +12,6 @@ import java.util.Optional;
 
 @Service
 @AllArgsConstructor
-
 public class UsersService {
     private UsersRepository usersRepository;
 
@@ -19,8 +19,13 @@ public class UsersService {
         return this.usersRepository.findAll();
     }
 
-    public Optional<Users> getUserById(Integer id) {
-        return this.usersRepository.findById(id);
+    public Users getUserById(Integer id) throws DataNotFoundException {
+        Optional<Users> optionalUser = this.usersRepository.findById(id);
+        if(optionalUser.isEmpty()){
+            throw new DataNotFoundException("User with id"+ id +"is Not Available");
+        }
+
+        return optionalUser.get();
     }
 
     public Users insertNewUsers(Users users){
@@ -31,8 +36,11 @@ public class UsersService {
         return this.usersRepository.save(users);
     }
 
-    public void deleteUserById(Integer id){
-        Users deleteUser = usersRepository.getReferenceById(id);
-        this.usersRepository.delete(deleteUser);
+    public void deleteUserById(Integer id) throws DataNotFoundException{
+        Optional<Users> optionalUser = usersRepository.findById(id);
+        if(optionalUser.isEmpty()){
+            throw new DataNotFoundException("User with id"+ id +"is Not Available");
+        }
+        this.usersRepository.delete(optionalUser.get());
     }
 }

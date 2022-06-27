@@ -1,27 +1,21 @@
-package com.teama.bioskop.Models;
+package com.teama.bioskop.DTOs;
+
+import java.time.LocalDateTime;
+
+import com.teama.bioskop.Models.Seats;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
-
-import com.teama.bioskop.DTOs.SeatsResponseDTO;
-
-import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-@Entity
 @Builder
-public class Seats  {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class SeatsRequestDTO {
     private Integer seatId;
 
     private String studioName;
@@ -32,15 +26,12 @@ public class Seats  {
 
     private Integer nomorKursi;
 
-    @CreationTimestamp
-    @Column(updatable = false, nullable = false)
     private LocalDateTime createdAt;
 
-    @UpdateTimestamp
     private LocalDateTime updatedAt;
 
-    public SeatsResponseDTO convertToResponse(){
-        return SeatsResponseDTO.builder()
+    public Seats converToSeat(){
+        return Seats.builder()
             .seatId(this.seatId)
             .studioName(this.studioName)
             .barisKursi(this.barisKursi)

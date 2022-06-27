@@ -1,4 +1,4 @@
-package com.teama.bioskop.DTO;
+package com.teama.bioskop.DTOs;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;

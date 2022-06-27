@@ -1,5 +1,6 @@
 package com.teama.bioskop.Services;
 
+import com.teama.bioskop.Helpers.DataNotFoundException;
 import com.teama.bioskop.Models.Seats;
 import com.teama.bioskop.Repositories.SeatsRepository;
 import lombok.AllArgsConstructor;
@@ -24,19 +25,22 @@ public class SeatsService {
         return this.seatsRepository.save(seats);
     }
 
-    public void deleteSeat(Integer id) {
-        Seats deleteSeat = seatsRepository.getReferenceById(id);
-        this.seatsRepository.delete(deleteSeat);
+    public void deleteSeatById(Integer id) throws DataNotFoundException {
+        Optional<Seats> optionalSeat = seatsRepository.findById(id);
+        if(optionalSeat.isEmpty()){
+            throw new DataNotFoundException("Seat with id "+ id +"is Not Available");
+        }
+        this.seatsRepository.delete(optionalSeat.get());
     }
 
-    public Optional<Seats> getSeatById(Integer id){
-        return this.seatsRepository.findById(id);
+    public Seats getSeatById(Integer id) throws DataNotFoundException {
+        Optional<Seats> optionalSeat = seatsRepository.findById(id);
+        if(optionalSeat.isEmpty()){
+            throw new DataNotFoundException("Seat with id "+ id +"is Not Available");
+        }
+        return optionalSeat.get();
     }
 
-    public Seats getSeatsById(Integer seath) {
-        Seats getSeath = seatsRepository.getReferenceById(seath);
-        return this.seatsRepository.save(getSeath);
-    }
     public List<Seats> getSeatsAvailable(Boolean isAvailable){
 
         List<Seats> seatsAvailable = this.seatsRepository.getSeatsAvailable(isAvailable);

@@ -1,27 +1,21 @@
-package com.teama.bioskop.Models;
+package com.teama.bioskop.DTOs;
+
+import java.time.LocalDateTime;
+
+import com.teama.bioskop.Models.Users;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
-import com.teama.bioskop.DTOs.UsersResponseDTO;
 
-import javax.persistence.*;
-import java.time.LocalDateTime;
-
-@Entity
-@Setter
 @Getter
-@NoArgsConstructor
+@Setter
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
-public class Users {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class UsersRequestDTO {
     private Integer userId;
 
     private String username;
@@ -30,21 +24,30 @@ public class Users {
 
     private String password;
 
-    @CreationTimestamp
-    @Column(updatable = false, nullable = false)
     private LocalDateTime createdAt;
-
-    @UpdateTimestamp
+    
     private LocalDateTime updatedAt;
 
-    public UsersResponseDTO convertToResponse(){
-        return UsersResponseDTO.builder()
+    /***
+     * Save new user data
+     * @return requirements to create new data of user
+     */
+    public Users convertToUsers(){
+        return Users.builder()
+            .username(this.username)
+            .emailAddress(this.emailAddress)
+            .password(this.password)
+            .build();
+    }
+
+    public Users updateUsers(){
+        return Users.builder()
             .userId(this.userId)
             .username(this.username)
             .emailAddress(this.emailAddress)
             .password(this.password)
             .createdAt(this.createdAt)
-            .updatedAt(updatedAt)
+            .updatedAt(this.updatedAt)
             .build();
     }
 }
