@@ -49,7 +49,7 @@ public class Films {
     public String toString() {
         return "Films{" +
                 "filmCode=" + filmCode +
-                ", seatId=" + seatId.toString() +
+                ", seatId=" + seatId +
                 ", filmName='" + filmName + '\'' +
                 ", isPlaying=" + isPlaying +
                 ", createdAt=" + createdAt +

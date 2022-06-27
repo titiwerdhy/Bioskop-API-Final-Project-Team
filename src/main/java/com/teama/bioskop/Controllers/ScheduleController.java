@@ -60,37 +60,89 @@ public class ScheduleController {
 
     @PostMapping("/schedule")
     public ResponseEntity<ScheduleResponseDTO> createSchedule(@RequestBody ScheduleRequestDTO scheduleRequestDTO){
+        try {
+
         Schedule newSchedule = scheduleRequestDTO.convertToEntity();
 
         Schedule schedule = this.scheduleService.createSchedule(newSchedule);
         ScheduleResponseDTO responseDTO = schedule.convertToResponse();
+            logger.info("------------------------------------");
+            logger.info("SUCCESS CREATE DATA " + schedule);
+            logger.info("-------------------------------------");
 
         return ResponseEntity.status(HttpStatus.CREATED).body(responseDTO);
+        } catch (Exception e){
+
+            logger.error("------------------------------------");
+            logger.error(e.getMessage());
+            logger.error("------------------------------------");
+
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
+
     }
 
     @PutMapping("/schedule/{id}")
     public ResponseEntity<ScheduleResponseDTO> updateSchedule(@PathVariable Integer id, @RequestBody ScheduleRequestDTO scheduleRequestDTO) throws DataNotFoundException {
-        Schedule schedule = scheduleRequestDTO.convertToEntity();
 
-        schedule.setScheduleId(id);
+        try {
 
-        Schedule updateSchedule = this.scheduleService.updateSchedule(schedule);
+            Schedule schedule = scheduleRequestDTO.convertToEntity();
+            schedule.setScheduleId(id);
 
-        return ResponseEntity.ok(updateSchedule.convertToResponse());
+            Schedule updateSchedule = this.scheduleService.updateSchedule(schedule);
+
+            logger.info("------------------------------------");
+            logger.info("SUCCESS UPDATE DATA " + schedule);
+            logger.info("-------------------------------------");
+
+            return ResponseEntity.ok(updateSchedule.convertToResponse());
+        } catch (DataNotFoundException e){
+
+            logger.error("------------------------------------");
+            logger.error(e.getMessage());
+            logger.error("------------------------------------");
+
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+
     }
 
     @DeleteMapping("/schedule/{id}")
     public void deleteSchedule(@PathVariable Integer id) throws DataNotFoundException {
+        try {
+
         Schedule schedule = new Schedule();
         schedule.setScheduleId(id);
 
         this.scheduleService.deleteSchedule(schedule);
+            logger.info("------------------------------------");
+            logger.info("SUCCESS DELETE DATA WITH ID " + id);
+            logger.info("-------------------------------------");
+        } catch (DataNotFoundException e){
+
+            logger.error("------------------------------------");
+            logger.error(e.getMessage());
+            logger.error("------------------------------------");
+
+        }
     }
 
     @PostMapping("/schedule/filmname")
     public List<Schedule> findScheduleByFilmName(@RequestBody Films films) throws DataNotFoundException{
-        List<Schedule> schedulesByFilmNameList = this.scheduleService.getSchedulesByFilmName(films.getFilmName());
+       try {
+           List<Schedule> schedulesByFilmNameList = this.scheduleService.getSchedulesByFilmName(films.getFilmName());
+           logger.info("------------------------------------");
+           logger.info("SUCCESS FIND THE DATA " + schedulesByFilmNameList);
+           logger.info("-------------------------------------");
+            return schedulesByFilmNameList;
+       } catch (Exception e){
+           logger.error("------------------------------------");
+           logger.error(e.getMessage());
+           logger.error("------------------------------------");
 
-        return schedulesByFilmNameList;
+           return null;
+       }
+
     }
 }
