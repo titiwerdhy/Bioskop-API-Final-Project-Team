@@ -48,12 +48,12 @@ public class Films {
     @Override
     public String toString() {
         return "Films{" +
-                "filmCode=" + filmCode +
+                "\nfilmCode=" + filmCode +
                 ", seatId=" + seatId +
                 ", filmName='" + filmName + '\'' +
                 ", isPlaying=" + isPlaying +
                 ", createdAt=" + createdAt +
                 ", updatedAt=" + updatedAt +
-                '}';
+                "}";
     }
 }
