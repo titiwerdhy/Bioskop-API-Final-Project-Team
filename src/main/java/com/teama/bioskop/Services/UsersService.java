@@ -15,14 +15,14 @@ import java.util.Optional;
 public class UsersService {
     private UsersRepository usersRepository;
 
-    public List<Users> getAllUsers() {
+    public List<Users> getAllUsers(){
         return this.usersRepository.findAll();
     }
 
     public Users getUserById(Integer id) throws DataNotFoundException {
         Optional<Users> optionalUser = this.usersRepository.findById(id);
         if(optionalUser.isEmpty()){
-            throw new DataNotFoundException("User with id "+ id +" is Not Available");
+            throw new DataNotFoundException("User with id "+ id +" is not exist!");
         }
 
         return optionalUser.get();
@@ -35,7 +35,7 @@ public class UsersService {
     public Users updateUsersById(Users users) throws DataNotFoundException{
         Optional<Users> updateUser = usersRepository.findById(users.getUserId());
         if(updateUser.isEmpty()){
-            throw new DataNotFoundException("User with id " + users.getUserId() + " is Not Available");
+            throw new DataNotFoundException("User with id " + users.getUserId() + " is not exist!");
         }
         return this.usersRepository.save(users);
     }
@@ -43,7 +43,7 @@ public class UsersService {
     public void deleteUserById(Integer id) throws DataNotFoundException{
         Optional<Users> optionalUser = usersRepository.findById(id);
         if(optionalUser.isEmpty()){
-            throw new DataNotFoundException("User with id "+ id +" is Not Available");
+            throw new DataNotFoundException("User with id "+ id +" is not exist!");
         }
         this.usersRepository.delete(optionalUser.get());
     }
