@@ -22,7 +22,7 @@ public class UsersService {
     public Users getUserById(Integer id) throws DataNotFoundException {
         Optional<Users> optionalUser = this.usersRepository.findById(id);
         if(optionalUser.isEmpty()){
-            throw new DataNotFoundException("User with id"+ id +"is Not Available");
+            throw new DataNotFoundException("User with id "+ id +" is Not Available");
         }
 
         return optionalUser.get();
