@@ -32,14 +32,18 @@ public class UsersService {
         return this.usersRepository.save(users);
     }
 
-    public Users updateUsersById(Users users){
+    public Users updateUsersById(Users users) throws DataNotFoundException{
+        Optional<Users> updateUser = usersRepository.findById(users.getUserId());
+        if(updateUser.isEmpty()){
+            throw new DataNotFoundException("User with id " + users.getUserId() + " is Not Available");
+        }
         return this.usersRepository.save(users);
     }
 
     public void deleteUserById(Integer id) throws DataNotFoundException{
         Optional<Users> optionalUser = usersRepository.findById(id);
         if(optionalUser.isEmpty()){
-            throw new DataNotFoundException("User with id"+ id +"is Not Available");
+            throw new DataNotFoundException("User with id "+ id +" is Not Available");
         }
         this.usersRepository.delete(optionalUser.get());
     }
