@@ -2,6 +2,7 @@ package com.teama.bioskop.Controllers;
 
 import com.teama.bioskop.DTOs.FilmRequestDTO;
 import com.teama.bioskop.DTOs.FilmResponseDTO;
+import com.teama.bioskop.Handlers.ResponseHandler;
 import com.teama.bioskop.Helpers.DataNotFoundException;
 import com.teama.bioskop.Models.Films;
 import com.teama.bioskop.Models.Schedule;
@@ -14,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 @AllArgsConstructor
@@ -23,17 +25,20 @@ public class FilmsController {
     private static final Logger logger = LogManager.getLogger(FilmsController.class);
 
     @GetMapping("/films")
-    public List<Films> getAll() {
-        List<Films> films = filmsService.getAllFilms();
-        logger.info("--------------------------");
-        logger.info("Get All Films Data "+films);
-        logger.info("--------------------------");
-        return this.filmsService.getAllFilms();
-
+    public ResponseEntity<Object> getAll(){
+        try{
+            List<Films> films = filmsService.getAllFilms();
+            logger.info("--------------------------");
+            logger.info("Get All Films Data "+films);
+            logger.info("--------------------------");
+            return ResponseHandler.generateResponse("Successfully retrieve all Films!", HttpStatus.OK, films);
+        } catch (Exception e){
+            return ResponseHandler.generateResponse(e.getMessage(),HttpStatus.MULTI_STATUS,null);
+        }
     }
 
     @GetMapping("/films/{id}")
-    public ResponseEntity<FilmResponseDTO> getFilmById(@PathVariable Integer id) throws DataNotFoundException{
+    public ResponseEntity<Object> getFilmById(@PathVariable Integer id) throws DataNotFoundException{
         try {
             Films films = this.filmsService.getOneFilms(id);
             FilmResponseDTO responseDTO = films.convertToResponse();
@@ -42,19 +47,19 @@ public class FilmsController {
             logger.info("GET FILMS BY ID "+ films);
             logger.info("--------------------------");
 
-            return ResponseEntity.ok(responseDTO);
-
+//            return ResponseEntity.ok(responseDTO);
+            return ResponseHandler.generateResponse("Successfully get film by id!",HttpStatus.OK, films);
         } catch (DataNotFoundException e){
             logger.error("--------------------------");
             logger.error("GET FILMS BY ID "+ id + " NOT FOUND");
             logger.error("--------------------------");
 
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+            return ResponseHandler.generateResponse(e.getMessage(), HttpStatus.MULTI_STATUS, null);
         }
     }
 
     @PostMapping("/films")
-    public ResponseEntity<FilmResponseDTO> createFilm(@RequestBody FilmRequestDTO filmRequestDTO){
+    public ResponseEntity<Object> createFilm(@RequestBody FilmRequestDTO filmRequestDTO){
         try{
             Films newFilm = filmRequestDTO.convertToEntity();
 
@@ -65,18 +70,18 @@ public class FilmsController {
             logger.info("FILM SUCCESSFULLY RECORDED");
             logger.info("--------------------------");
 
-            return ResponseEntity.status(HttpStatus.CREATED).body(responseDTO);
+            return ResponseHandler.generateResponse("Films Successfully Recorded", HttpStatus.OK, null);
         } catch (Exception e) {
             logger.error("--------------------------");
             logger.error(e.getMessage());
             logger.error("--------------------------");
 
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+            return ResponseHandler.generateResponse(e.getMessage(), HttpStatus.MULTI_STATUS, null);
         }
     }
 
     @PutMapping("/films/{id}")
-    public ResponseEntity<FilmResponseDTO> updateFilms(@PathVariable Integer id, @RequestBody FilmRequestDTO filmRequestDTO) throws DataNotFoundException {
+    public ResponseEntity<Object> updateFilms(@PathVariable Integer id, @RequestBody FilmRequestDTO filmRequestDTO) throws DataNotFoundException {
         try{
             Films films = filmRequestDTO.convertToEntity();
             films.setFilmCode(id);
@@ -86,19 +91,19 @@ public class FilmsController {
             logger.info("FILM SUCCESSFULLY UPDATED"+updateFilms);
             logger.info("--------------------------");
 
-            return ResponseEntity.ok(updateFilms.convertToResponse());
+            return ResponseHandler.generateResponse("Films Updated!",HttpStatus.OK, updateFilms);
         } catch (Exception e){
 
             logger.error("--------------------------");
             logger.error(e.getMessage());
             logger.error("--------------------------");
 
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+            return ResponseHandler.generateResponse(e.getMessage(), HttpStatus.MULTI_STATUS, null);
         }
     }
 
     @DeleteMapping("/films/{id}")
-    public void deleteFilm(@PathVariable Integer id) throws DataNotFoundException{
+    public ResponseEntity<Object> deleteFilm(@PathVariable Integer id) throws DataNotFoundException{
         try{
             Films films = new Films();
             films.setFilmCode(id);
@@ -108,34 +113,44 @@ public class FilmsController {
             logger.info("--------------------------");
             logger.info("SUCCESS DELETE BY ID "+id);
             logger.info("--------------------------");
+
+            return ResponseHandler.generateResponse("Films Deleted!", HttpStatus.OK, films);
         } catch(DataNotFoundException e){
             logger.error("--------------------------");
             logger.error(e.getMessage());
             logger.error("--------------------------");
+            return ResponseHandler.generateResponse(e.getMessage(), HttpStatus.MULTI_STATUS, null);
         }
-
     }
 
     @PostMapping("/films/isplaying")
-    public List<Films> findFilmsByIsPlaying(@RequestBody Films films) {
+    public ResponseEntity<Object> findFilmsByIsPlaying(@RequestBody Films films) {
+        try {
             List<Films> filmsl = this.filmsService.getByIsPlaying(films.getIsPlaying());
 
             logger.info("--------------------------");
-            logger.info("GET DATA BY AVAILABLE FILMS "+filmsl);
+            logger.info("GET DATA BY AVAILABLE FILMS " + filmsl);
             logger.info("--------------------------");
 
-            return this.filmsService.getByIsPlaying(films.getIsPlaying());
+            return ResponseHandler.generateResponse("Success Get Data By Playing", HttpStatus.OK, filmsl);
+        } catch (Exception e) {
+            return ResponseHandler.generateResponse(e.getMessage(), HttpStatus.MULTI_STATUS, null);
+        }
     }
 
     @PostMapping("/films/studioname")
-    public List<Films> findFilmsByStudioName(@RequestBody Films films) throws DataNotFoundException {
-            List<Films> filmsl = this.filmsService.getByIsPlaying(films.getIsPlaying());
+    public ResponseEntity<Object> findFilmsByStudioName(@RequestBody Films films) throws DataNotFoundException {
+        try{
+            List<Films> filmsl = this.filmsService.getByStudioName(films.getSeatId().getStudioName());
 
             logger.info("--------------------------");
             logger.info("GET DATA BY STUDIO NAME "+filmsl);
             logger.info("--------------------------");
 
-            return this.filmsService.getByStudioName(films.getSeatId().getStudioName());
+            return ResponseHandler.generateResponse("Success Get All Data By Studio Name", HttpStatus.OK, filmsl);
+        } catch (Exception e) {
+            return ResponseHandler.generateResponse(e.getMessage(), HttpStatus.MULTI_STATUS, null);
+        }
     }
 
 }
