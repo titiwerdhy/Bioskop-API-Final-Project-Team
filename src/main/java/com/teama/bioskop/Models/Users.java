@@ -47,4 +47,11 @@ public class Users {
             .updatedAt(updatedAt)
             .build();
     }
+
+    @Override
+    public String toString() {
+        return "\n Users [createdAt=" + createdAt + ", emailAddress=" + emailAddress + ", password=" + password
+                + ", updatedAt=" + updatedAt + ", userId=" + userId + ", username=" + username + "]";
+    }
+
 }
