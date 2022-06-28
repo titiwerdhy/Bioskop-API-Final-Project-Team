@@ -70,7 +70,7 @@ public class FilmsController {
             logger.info("FILM SUCCESSFULLY RECORDED");
             logger.info("--------------------------");
 
-            return ResponseHandler.generateResponse("Films Successfully Recorded", HttpStatus.OK, null);
+            return ResponseHandler.generateResponse("Films Successfully Recorded", HttpStatus.OK, responseDTO);
         } catch (Exception e) {
             logger.error("--------------------------");
             logger.error(e.getMessage());
