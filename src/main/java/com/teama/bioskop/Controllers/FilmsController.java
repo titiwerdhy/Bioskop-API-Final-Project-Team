@@ -17,10 +17,7 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 public class FilmsController {
-    private static final Logger logger = LogManager.getLogger(FilmsController.class);
-
     private final FilmsService filmsService;
-
     private static final Logger logger = LogManager.getLogger(FilmsController.class);
 
     @GetMapping("/films")
