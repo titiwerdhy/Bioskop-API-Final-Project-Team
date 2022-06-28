@@ -4,6 +4,7 @@ import com.teama.bioskop.DTOs.FilmRequestDTO;
 import com.teama.bioskop.DTOs.FilmResponseDTO;
 import com.teama.bioskop.Helpers.DataNotFoundException;
 import com.teama.bioskop.Models.Films;
+import com.teama.bioskop.Models.Schedule;
 import com.teama.bioskop.Services.FilmsService;
 import lombok.AllArgsConstructor;
 import org.apache.log4j.LogManager;
@@ -44,9 +45,9 @@ public class FilmsController {
             return ResponseEntity.ok(responseDTO);
 
         } catch (DataNotFoundException e){
-            logger.info("--------------------------");
-            logger.info("GET FILMS BY ID "+ id + " NOT FOUND");
-            logger.info("--------------------------");
+            logger.error("--------------------------");
+            logger.error("GET FILMS BY ID "+ id + " NOT FOUND");
+            logger.error("--------------------------");
 
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
@@ -66,9 +67,9 @@ public class FilmsController {
 
             return ResponseEntity.status(HttpStatus.CREATED).body(responseDTO);
         } catch (Exception e) {
-            logger.info("--------------------------");
-            logger.info(e.getMessage());
-            logger.info("--------------------------");
+            logger.error("--------------------------");
+            logger.error(e.getMessage());
+            logger.error("--------------------------");
 
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
@@ -108,9 +109,9 @@ public class FilmsController {
             logger.info("SUCCESS DELETE BY ID "+id);
             logger.info("--------------------------");
         } catch(DataNotFoundException e){
-            logger.info("--------------------------");
-            logger.info(e.getMessage());
-            logger.info("--------------------------");
+            logger.error("--------------------------");
+            logger.error(e.getMessage());
+            logger.error("--------------------------");
         }
 
     }
