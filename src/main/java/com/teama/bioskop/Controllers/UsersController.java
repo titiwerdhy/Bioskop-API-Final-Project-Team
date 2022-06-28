@@ -3,6 +3,7 @@ package com.teama.bioskop.Controllers;
 
 import com.teama.bioskop.DTOs.UsersRequestDTO;
 import com.teama.bioskop.DTOs.UsersResponseDTO;
+import com.teama.bioskop.Handlers.ResponseHandler;
 import com.teama.bioskop.Helpers.DataNotFoundException;
 import com.teama.bioskop.Models.Users;
 
@@ -35,10 +36,15 @@ public class UsersController {
      * @return List of Users
      */
     @GetMapping("/users")
-    public ResponseEntity<List<Users>> getAll() {
-        List<Users> users = this.usersService.getAllUsers();
-        logger.info("Get All Users: " + users);
-        return ResponseEntity.status(HttpStatus.OK).body(users);
+    public ResponseEntity<Object> getAll() {
+        try {
+            List<Users> users = this.usersService.getAllUsers();
+            logger.info("Get All Users: " + users);
+            return ResponseHandler.generateResponse("Successfully retrieved data!", HttpStatus.OK, users);
+        } catch (Exception e) {
+            logger.error("Users table doesn't have any data!");
+            return ResponseHandler.generateResponse(e.getMessage(), HttpStatus.NOT_FOUND, null);
+        }
     }
 
     /***
@@ -48,11 +54,16 @@ public class UsersController {
      * @throws DataNotFoundException
      */
     @GetMapping("/user/{id}")
-    public ResponseEntity<UsersResponseDTO> getById(@PathVariable("id") Integer id) throws DataNotFoundException{
-        Users user = this.usersService.getUserById(id);
-        UsersResponseDTO usersResponseDTO = user.convertToResponse();
-        logger.info("Get User by Id: " + user);
-        return ResponseEntity.status(HttpStatus.OK).body(usersResponseDTO);
+    public ResponseEntity<Object> getById(@PathVariable("id") Integer id) throws DataNotFoundException{
+        try {
+            Users user = this.usersService.getUserById(id);
+            UsersResponseDTO usersResponseDTO = user.convertToResponse();
+            logger.info("Get User by Id: " + user);
+            return ResponseHandler.generateResponse("Successfully retrieved data!", HttpStatus.OK, usersResponseDTO);
+        } catch (DataNotFoundException e) {
+            logger.error("Cannot find User with Id " + id);
+            return ResponseHandler.generateResponse(e.getMessage(), HttpStatus.NOT_FOUND, null);
+        }
     }
 
     /***
@@ -61,10 +72,15 @@ public class UsersController {
      * @return new User
      */
     @PostMapping("/user")
-    public ResponseEntity<Users> insert(@RequestBody UsersRequestDTO usersRequestDTO){
-        Users newUser = usersService.insertNewUsers(usersRequestDTO.convertToUsers());
-        logger.info("Create new User: " + newUser);
-        return ResponseEntity.status(HttpStatus.OK).body(newUser);
+    public ResponseEntity<Object> insert(@RequestBody UsersRequestDTO usersRequestDTO){
+        try {
+            Users newUser = usersService.insertNewUsers(usersRequestDTO.convertToUsers());
+            logger.info("Create new User: " + newUser);
+            return ResponseHandler.generateResponse("Data successfully inserted!", HttpStatus.OK, newUser);
+        } catch (Exception e) {
+            logger.error("Cannot create into user: " + usersRequestDTO);
+            return ResponseHandler.generateResponse(e.getMessage(), HttpStatus.MULTI_STATUS, null);
+        }
     }
 
     /***
@@ -74,10 +90,15 @@ public class UsersController {
      * @throws DataNotFoundException
      */
     @PutMapping("/user")
-    public ResponseEntity<Users> update(@RequestBody UsersRequestDTO usersRequestDTO) throws DataNotFoundException{
-        Users updatedUser = usersService.updateUsersById(usersRequestDTO.updateUsers());
-        logger.info("Update User: " + updatedUser);
-        return ResponseEntity.status(HttpStatus.OK).body(updatedUser);
+    public ResponseEntity<Object> update(@RequestBody UsersRequestDTO usersRequestDTO) throws DataNotFoundException{
+        try {
+            Users updatedUser = usersService.updateUsersById(usersRequestDTO.updateUsers());
+            logger.info("Update User: " + updatedUser);
+            return ResponseHandler.generateResponse("Data successfully updated", HttpStatus.OK, updatedUser);
+        } catch (DataNotFoundException e) {
+            logger.error("Cannot update user: " + usersRequestDTO);
+            return ResponseHandler.generateResponse(e.getMessage(), HttpStatus.NOT_FOUND, null);
+        }
     }
 
     /***
@@ -87,10 +108,16 @@ public class UsersController {
      * @throws DataNotFoundException
      */
     @DeleteMapping("/user/{id}")
-    public ResponseEntity<Users> deleteById(@PathVariable("id") Integer id) throws DataNotFoundException{
-        Users deletedUsers = usersService.getUserById(id);
-        usersService.deleteUserById(id);
-        logger.info("Delete User: " + deletedUsers);
-        return ResponseEntity.status(HttpStatus.OK).body(deletedUsers);
+    public ResponseEntity<Object> deleteById(@PathVariable("id") Integer id) throws DataNotFoundException{
+        try {
+            Users deletedUsers = usersService.getUserById(id);
+            usersService.deleteUserById(id);
+            logger.info("Delete User: " + deletedUsers);
+            return ResponseHandler.generateResponse("Successfully delete user!", HttpStatus.OK, deletedUsers);
+        } catch (DataNotFoundException e) {
+            logger.error("Cannot delete user with ID " + id);
+            return ResponseHandler.generateResponse(e.getMessage(), HttpStatus.NOT_FOUND, null);
+
+        }
     }
 }
