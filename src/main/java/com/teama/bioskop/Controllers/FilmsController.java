@@ -6,6 +6,8 @@ import com.teama.bioskop.Helpers.DataNotFoundException;
 import com.teama.bioskop.Models.Films;
 import com.teama.bioskop.Services.FilmsService;
 import lombok.AllArgsConstructor;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,10 +17,13 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 public class FilmsController {
+    private static final Logger logger = LogManager.getLogger(FilmsController.class);
+
     private final FilmsService filmsService;
 
     @GetMapping("/films")
     public List<Films> getAll() {
+        logger.info("Get All Films" + this.filmsService.getAllFilms());
         return this.filmsService.getAllFilms();
 
     }
