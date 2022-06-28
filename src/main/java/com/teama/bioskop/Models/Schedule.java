@@ -52,4 +52,18 @@ public class Schedule {
             .build();
     }
 
+    @Override
+    public String toString() {
+        return "Schedule{" +
+                "\nscheduleId=" + scheduleId +
+                ", films=" + films.toString() +
+                ", tanggalTayang=" + tanggalTayang +
+                ", jamMulai=" + jamMulai +
+                ", jamSelesai=" + jamSelesai +
+                ", hargaTiket=" + hargaTiket +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
+                '}';
+    }
+
 }

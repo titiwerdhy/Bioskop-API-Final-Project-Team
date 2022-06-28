@@ -50,4 +50,17 @@ public class Seats  {
             .updatedAt(this.updatedAt)
             .build();
     }
+
+    @Override
+    public String toString() {
+        return "Seats{" +
+                "seatId=" + seatId +
+                ", studioName='" + studioName + '\'' +
+                ", barisKursi='" + barisKursi + '\'' +
+                ", isAvailable=" + isAvailable +
+                ", nomorKursi=" + nomorKursi +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
+                '}';
+    }
 }
