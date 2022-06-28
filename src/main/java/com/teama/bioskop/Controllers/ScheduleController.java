@@ -2,6 +2,7 @@ package com.teama.bioskop.Controllers;
 
 import com.teama.bioskop.DTOs.ScheduleRequestDTO;
 import com.teama.bioskop.DTOs.ScheduleResponseDTO;
+import com.teama.bioskop.Handlers.ResponseHandlers;
 import com.teama.bioskop.Helpers.DataNotFoundException;
 import com.teama.bioskop.Models.Films;
 import com.teama.bioskop.Models.Schedule;
@@ -9,10 +10,13 @@ import com.teama.bioskop.Services.ScheduleService;
 import lombok.AllArgsConstructor;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.List;
 
 @RestController
@@ -34,7 +38,10 @@ public class ScheduleController {
     }
 
     @GetMapping("/schedule/{id}")
-    public ResponseEntity<ScheduleResponseDTO> getScheduleById(@PathVariable Integer id) {
+    public ResponseEntity<?> getScheduleById(@PathVariable Integer id) {
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("APP-NAME", "BIOSKOP API KELOMPOK 1");
 
         try {
 
@@ -45,7 +52,8 @@ public class ScheduleController {
             logger.info("GET ALL SCHEDULE DATA " + schedule);
             logger.info("-------------------------------------");
 
-            return ResponseEntity.ok(responseDTO);
+            var body = ResponseHandlers.generateResponse("", HttpStatus.OK, headers, ZonedDateTime.now(ZoneId.of("Asia/Tokyo")), responseDTO);
+            return ResponseEntity.ok().headers(headers).body(body);
 
         } catch (DataNotFoundException e){
 
@@ -53,7 +61,7 @@ public class ScheduleController {
             logger.error("DATA WITH ID "+ id + "IS NOT FOUND");
             logger.error("------------------------------------");
 
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).headers(headers).body(null);
         }
 
     }
