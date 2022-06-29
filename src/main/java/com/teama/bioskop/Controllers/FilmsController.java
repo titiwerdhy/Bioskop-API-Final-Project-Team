@@ -44,7 +44,6 @@ public class FilmsController {
             logger.info("GET FILMS BY ID "+ films);
             logger.info("--------------------------");
 
-//            return ResponseEntity.ok(responseDTO);
             return ResponseHandler.generateResponse("Successfully get film by id!",HttpStatus.OK, responseDTO);
         } catch (DataNotFoundException e){
             logger.error("--------------------------");
