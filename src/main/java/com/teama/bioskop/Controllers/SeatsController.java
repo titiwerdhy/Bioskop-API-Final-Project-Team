@@ -119,9 +119,9 @@ public class SeatsController {
         try {
         List<Seats> seatsAvailable = this.seatsService.getSeatsAvailable(seats.getIsAvailable());
             logger.info("--------------------------");
-            logger.info("GET DATA BY SEAT AVAILBILITY "+ seatsAvailable);
+            logger.info("GET SEAT DATA BY AVAILBILITY "+ seatsAvailable);
             logger.info("--------------------------");
-            return ResponseHandler.generateResponse("Success Get All Data By Seat ", HttpStatus.OK, seatsAvailable);
+            return ResponseHandler.generateResponse("Success Get Seat Available Data ", HttpStatus.OK, seatsAvailable);
         } catch (Exception e) {
             return ResponseHandler.generateResponse(e.getMessage(), HttpStatus.MULTI_STATUS, null);
         }
