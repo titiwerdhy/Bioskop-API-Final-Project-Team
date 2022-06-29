@@ -41,11 +41,11 @@ public class SeatsController {
     public ResponseEntity<Object> getById(@PathVariable("id") Integer id) throws DataNotFoundException {
         try {
             Seats seats = this.seatsService.getSeatById(id);
-            SeatsResponseDTO seatsResponseDTO = seats.convertToResponse();
+            SeatsResponseDTO SeatsResponseDTO = seats.convertToResponse();
             logger.info("--------------------------");
             logger.info("GET SEAT BY ID : " + seats);
             logger.info("--------------------------");
-            return ResponseHandler.generateResponse("Successfully retrieved data!", HttpStatus.OK, seats);
+            return ResponseHandler.generateResponse("Successfully retrieved data!", HttpStatus.OK, SeatsResponseDTO);
         } catch (DataNotFoundException e) {
             logger.error("--------------------------");
             logger.error("GET SEAT BY ID " + id + " NOT FOUND");
@@ -66,7 +66,7 @@ public class SeatsController {
             logger.info("SEAT SUCCESSFULLY RECORDED");
             logger.info("--------------------------");
 
-            return ResponseHandler.generateResponse("Seat Successfully Recorded", HttpStatus.OK, seats);
+            return ResponseHandler.generateResponse("Seat Successfully Recorded", HttpStatus.OK, responseDTO);
         } catch (Exception e) {
 
             Seats createdSeat = seatsService.insertNewSeats(seatsRequestDTO.converToSeat());
@@ -78,7 +78,7 @@ public class SeatsController {
         }
     }
 
-    @PutMapping("/seats")
+    @PutMapping("/seats/{id}")
     public ResponseEntity<Object> UpdateSeats(@PathVariable Integer id, @RequestBody SeatsRequestDTO seatsRequestDTO) throws DataNotFoundException {
         try {
             Seats seat = seatsRequestDTO.converToSeat();
@@ -101,18 +101,21 @@ public class SeatsController {
     }
 
     @DeleteMapping("/seats/{id}")
-    public ResponseEntity<Object> deleteSeat(@PathVariable Integer id) {
-        Seats seat = new Seats();
-        seat.setSeatId(id);
+    public ResponseEntity<Object> deleteSeat(@PathVariable ("id") Integer id) throws DataNotFoundException {
+        try {
+            Seats deletedSeat = seatsService.getSeatById(id);
 
-        this.seatsService.deleteSeatById(seat);
+            seatsService.deleteSeatById(id);
 
-        logger.info("--------------------------");
-        logger.info("SUCCESS DELETE BY ID " + id);
-        logger.info("--------------------------");
-        return ResponseHandler.generateResponse("Seat Deleted!", HttpStatus.OK, seat);
+            logger.info("--------------------------");
+            logger.info("SUCCESS DELETE SEAT BY ID " + id);
+            logger.info("--------------------------");
+            return ResponseHandler.generateResponse("Successfully delete user!", HttpStatus.OK, deletedSeat);
+        }catch (DataNotFoundException e) {
+            logger.error("Cannot delete seat with ID " + id);
+            return ResponseHandler.generateResponse(e.getMessage(), HttpStatus.NOT_FOUND, null);
+        }
     }
-
 
     @PostMapping("/seats/available")
     public ResponseEntity<Object> findSeatsAvailable(@RequestBody Seats seats){
@@ -123,7 +126,10 @@ public class SeatsController {
             logger.info("--------------------------");
             return ResponseHandler.generateResponse("Success Get Seat Available Data ", HttpStatus.OK, seatsAvailable);
         } catch (Exception e) {
-            return ResponseHandler.generateResponse(e.getMessage(), HttpStatus.MULTI_STATUS, null);
+            logger.error("------------------------------------");
+            logger.error(e.getMessage());
+
+            return null;
         }
     }
 }
