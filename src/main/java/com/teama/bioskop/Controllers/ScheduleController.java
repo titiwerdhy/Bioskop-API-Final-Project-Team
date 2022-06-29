@@ -58,6 +58,13 @@ public class ScheduleController {
         }
     }
 
+    /***
+     * Get one data from Schedules table with Path Variable
+     * @param id from Path Variable
+     * @return ResponseEntity fully formed
+     * @throws DataNotFoundException if a data is not found
+     */
+
     @GetMapping("/schedule/{id}")
     public ResponseEntity<?> getScheduleById(@PathVariable Integer id) {
 
@@ -87,11 +94,17 @@ public class ScheduleController {
         }
     }
 
+    /***
+     * Post one data into Schedules table
+     * @throws Exception if bad request happened
+     * @return ResponseEntity fully formed
+     */
+
     @PostMapping("/schedule")
     public ResponseEntity<?> createSchedule(@RequestBody ScheduleRequestDTO scheduleRequestDTO){
 
-            HttpHeaders headers = new HttpHeaders();
-            headers.set("APP-NAME", "BIOSKOP API KELOMPOK 1");
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("APP-NAME", "BIOSKOP API KELOMPOK 1");
 
         try {
 
@@ -116,6 +129,13 @@ public class ScheduleController {
         }
 
     }
+
+    /***
+     * Put one data from Schedules table with Path Variable
+     * @param id from Path Variable
+     * @throws DataNotFoundException if a data is not found
+     * @return ResponseEntity fully formed
+     */
 
     @PutMapping("/schedule/{id}")
     public ResponseEntity<?> updateSchedule(@PathVariable Integer id, @RequestBody ScheduleRequestDTO scheduleRequestDTO) {
@@ -150,6 +170,13 @@ public class ScheduleController {
 
     }
 
+    /***
+     * Get one data from Schedules table with Path Variable
+     * @param id from Path Variable
+     * @return ResponseEntity fully formed
+     * @throws DataNotFoundException if a data is not found
+     */
+
     @DeleteMapping("/schedule/{id}")
     public ResponseEntity<?> deleteSchedule(@PathVariable Integer id) {
 
@@ -179,6 +206,12 @@ public class ScheduleController {
         }
     }
 
+    /***
+     * Get one data from Schedules with requestBody
+     * @return ResponseEntity fully formed
+     * @throws DataNotFoundException if data is not found
+     */
+
     @PostMapping("/schedule/filmname")
     public ResponseEntity<?> findScheduleByFilmName(@RequestBody Films films) throws DataNotFoundException{
 
@@ -195,12 +228,12 @@ public class ScheduleController {
             ResponseEntity<?> body = ResponseHandlers.generateResponse("", HttpStatus.OK, headers, ZonedDateTime.now(ZoneId.of("Asia/Tokyo")), schedulesByFilmNameList);
             return ResponseEntity.status(body.getStatusCode()).headers(headers).body(body);
 
-        } catch (Exception e){
+        } catch (DataNotFoundException e){
             logger.error("------------------------------------");
             logger.error(e.getMessage());
             logger.error("------------------------------------");
 
-            ResponseEntity<?> body = ResponseHandlers.generateResponse(e.getMessage(), HttpStatus.BAD_REQUEST, headers, ZonedDateTime.now(ZoneId.of("Asia/Tokyo")), null);
+            ResponseEntity<?> body = ResponseHandlers.generateResponse(e.getMessage(), HttpStatus.NOT_FOUND, headers, ZonedDateTime.now(ZoneId.of("Asia/Tokyo")), null);
             return ResponseEntity.status(body.getStatusCode()).headers(headers).body(body);
         }
 
