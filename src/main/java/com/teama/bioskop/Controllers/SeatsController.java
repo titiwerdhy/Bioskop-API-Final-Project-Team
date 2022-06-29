@@ -22,6 +22,12 @@ public class SeatsController {
     private static final Logger logger = LogManager.getLogger(SeatsController.class);
     private final SeatsService seatsService;
 
+    /***
+     * Get all data from Seayt table
+     * @return List of Seat
+     */
+
+
     @GetMapping("/seats")
     public ResponseEntity<Object> getAll() {
         try {
@@ -36,6 +42,13 @@ public class SeatsController {
 
         }
     }
+
+    /***
+     * Get one Seat by Id
+     * @param id of selected Seat
+     * @return Selected Seat data
+     * @throws DataNotFoundException
+     */
 
     @GetMapping("/seats/{id}")
     public ResponseEntity<Object> getById(@PathVariable("id") Integer id) throws DataNotFoundException {
@@ -53,6 +66,13 @@ public class SeatsController {
             return ResponseHandler.generateResponse(e.getMessage(), HttpStatus.NOT_FOUND, null);
         }
     }
+
+    /***
+     * Insert new data to Seat table
+     * @param seats new users data
+     * @return new Seat
+     */
+
 
     @PostMapping("/seats")
     public ResponseEntity<Object> InsertSeats(@RequestBody SeatsRequestDTO seatsRequestDTO) {
@@ -78,6 +98,12 @@ public class SeatsController {
         }
     }
 
+    /***
+     * Update data to Seat table
+     * @param seats Seat which going to be updated
+     * @return updated Seat
+     * @throws DataNotFoundException
+     */
     @PutMapping("/seats/{id}")
     public ResponseEntity<Object> UpdateSeats(@PathVariable Integer id, @RequestBody SeatsRequestDTO seatsRequestDTO) throws DataNotFoundException {
         try {
@@ -100,6 +126,12 @@ public class SeatsController {
         }
     }
 
+    /***
+     * Delete data to Seat table
+     * @param id Seat which going to be deleted
+     * @return response status
+     * @throws DataNotFoundException
+     */
     @DeleteMapping("/seats/{id}")
     public ResponseEntity<Object> deleteSeat(@PathVariable ("id") Integer id) throws DataNotFoundException {
         try {
@@ -116,6 +148,12 @@ public class SeatsController {
             return ResponseHandler.generateResponse(e.getMessage(), HttpStatus.NOT_FOUND, null);
         }
     }
+
+    /***
+     * Insert new seat data available to Seat table
+     * @param seats new seat data available
+     * @return new Seat available
+     */
 
     @PostMapping("/seats/available")
     public ResponseEntity<Object> findSeatsAvailable(@RequestBody Seats seats){
