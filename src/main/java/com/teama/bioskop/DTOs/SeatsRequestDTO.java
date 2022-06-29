@@ -30,15 +30,16 @@ public class SeatsRequestDTO {
 
     private LocalDateTime updatedAt;
 
-    public Seats converToSeat(){
+    public Seats converToSeat() {
         return Seats.builder()
-            .seatId(this.seatId)
-            .studioName(this.studioName)
-            .barisKursi(this.barisKursi)
-            .isAvailable(this.isAvailable)
-            .nomorKursi(this.nomorKursi)
-            .createdAt(this.createdAt)
-            .updatedAt(this.updatedAt)
-            .build();
+                .seatId(this.seatId)
+                .studioName(this.studioName)
+                .barisKursi(this.barisKursi)
+                .isAvailable(this.isAvailable)
+                .nomorKursi(this.nomorKursi)
+                .createdAt(this.createdAt)
+                .updatedAt(this.updatedAt)
+                .build();
     }
+
 }

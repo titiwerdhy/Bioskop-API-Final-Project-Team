@@ -46,4 +46,11 @@ public class SeatsService {
         List<Seats> seatsAvailable = this.seatsRepository.getSeatsAvailable(isAvailable);
         return seatsAvailable;
     }
+
+    public Seats getSeatById(Seats newseats) {
+        return newseats;
+    }
+
+    public void deleteSeatById(Seats seat) {
+    }
 }
