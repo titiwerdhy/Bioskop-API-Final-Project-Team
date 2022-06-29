@@ -22,6 +22,12 @@ public class SeatsController {
     private static final Logger logger = LogManager.getLogger(SeatsController.class);
     private final SeatsService seatsService;
 
+    /***
+     * Get all data from Seayt table
+     * @return List of Seat
+     */
+
+
     @GetMapping("/seats")
     public ResponseEntity<Object> getAll() {
         try {
@@ -37,15 +43,22 @@ public class SeatsController {
         }
     }
 
+    /***
+     * Get one Seat by Id
+     * @param id of selected Seat
+     * @return Selected Seat data
+     * @throws DataNotFoundException
+     */
+
     @GetMapping("/seats/{id}")
     public ResponseEntity<Object> getById(@PathVariable("id") Integer id) throws DataNotFoundException {
         try {
             Seats seats = this.seatsService.getSeatById(id);
-            SeatsResponseDTO seatsResponseDTO = seats.convertToResponse();
+            SeatsResponseDTO SeatsResponseDTO = seats.convertToResponse();
             logger.info("--------------------------");
             logger.info("GET SEAT BY ID : " + seats);
             logger.info("--------------------------");
-            return ResponseHandler.generateResponse("Successfully retrieved data!", HttpStatus.OK, seats);
+            return ResponseHandler.generateResponse("Successfully retrieved data!", HttpStatus.OK, SeatsResponseDTO);
         } catch (DataNotFoundException e) {
             logger.error("--------------------------");
             logger.error("GET SEAT BY ID " + id + " NOT FOUND");
@@ -53,6 +66,13 @@ public class SeatsController {
             return ResponseHandler.generateResponse(e.getMessage(), HttpStatus.NOT_FOUND, null);
         }
     }
+
+    /***
+     * Insert new data to Seat table
+     * @param seats new users data
+     * @return new Seat
+     */
+
 
     @PostMapping("/seats")
     public ResponseEntity<Object> InsertSeats(@RequestBody SeatsRequestDTO seatsRequestDTO) {
@@ -66,19 +86,22 @@ public class SeatsController {
             logger.info("SEAT SUCCESSFULLY RECORDED");
             logger.info("--------------------------");
 
-            return ResponseHandler.generateResponse("Seat Successfully Recorded", HttpStatus.OK, seats);
+            return ResponseHandler.generateResponse("Seat Successfully Recorded", HttpStatus.OK, responseDTO);
         } catch (Exception e) {
-
-            Seats createdSeat = seatsService.insertNewSeats(seatsRequestDTO.converToSeat());
             logger.error("--------------------------");
             logger.error(e.getMessage());
             logger.error("--------------------------");
-
             return ResponseHandler.generateResponse(e.getMessage(), HttpStatus.NOT_FOUND, null);
         }
     }
 
-    @PutMapping("/seats")
+    /***
+     * Update data to Seat table
+     * @param seats Seat which going to be updated
+     * @return updated Seat
+     * @throws DataNotFoundException
+     */
+    @PutMapping("/seats/{id}")
     public ResponseEntity<Object> UpdateSeats(@PathVariable Integer id, @RequestBody SeatsRequestDTO seatsRequestDTO) throws DataNotFoundException {
         try {
             Seats seat = seatsRequestDTO.converToSeat();
@@ -86,7 +109,7 @@ public class SeatsController {
             Seats updatedSeat = this.seatsService.UpdateSeats(seat);
 
             logger.info("--------------------------");
-            logger.info("FILM SUCCESSFULLY UPDATED" + updatedSeat);
+            logger.info("SEAT SUCCESSFULLY UPDATED" + updatedSeat);
             logger.info("--------------------------");
 
             return ResponseHandler.generateResponse("Seat Updated!", HttpStatus.OK, updatedSeat);
@@ -100,30 +123,48 @@ public class SeatsController {
         }
     }
 
+    /***
+     * Delete data to Seat table
+     * @param id Seat which going to be deleted
+     * @return response status
+     * @throws DataNotFoundException
+     */
     @DeleteMapping("/seats/{id}")
-    public ResponseEntity<Object> deleteSeat(@PathVariable Integer id) {
-        Seats seat = new Seats();
-        seat.setSeatId(id);
+    public ResponseEntity<Object> deleteSeat(@PathVariable ("id") Integer id) throws DataNotFoundException {
+        try {
+            Seats deletedSeat = seatsService.getSeatById(id);
 
-        this.seatsService.deleteSeatById(seat);
+            seatsService.deleteSeatById(id);
 
-        logger.info("--------------------------");
-        logger.info("SUCCESS DELETE BY ID " + id);
-        logger.info("--------------------------");
-        return ResponseHandler.generateResponse("Seat Deleted!", HttpStatus.OK, seat);
+            logger.info("--------------------------");
+            logger.info("SUCCESS DELETE SEAT BY ID " + id);
+            logger.info("--------------------------");
+            return ResponseHandler.generateResponse("Successfully delete user!", HttpStatus.OK, deletedSeat);
+        }catch (DataNotFoundException e) {
+            logger.error("Cannot delete seat with ID " + id);
+            return ResponseHandler.generateResponse(e.getMessage(), HttpStatus.NOT_FOUND, null);
+        }
     }
 
+    /***
+     * Insert new seat data available to Seat table
+     * @param seats new seat data available
+     * @return new Seat available
+     */
 
     @PostMapping("/seats/available")
     public ResponseEntity<Object> findSeatsAvailable(@RequestBody Seats seats){
         try {
         List<Seats> seatsAvailable = this.seatsService.getSeatsAvailable(seats.getIsAvailable());
             logger.info("--------------------------");
-            logger.info("GET DATA BY STUDIO NAME "+ seatsAvailable);
+            logger.info("GET SEAT DATA BY AVAILBILITY "+ seatsAvailable);
             logger.info("--------------------------");
-            return ResponseHandler.generateResponse("Success Get All Data By Studio Name", HttpStatus.OK, seatsAvailable);
+            return ResponseHandler.generateResponse("Success Get Seat Available Data ", HttpStatus.OK, seatsAvailable);
         } catch (Exception e) {
-            return ResponseHandler.generateResponse(e.getMessage(), HttpStatus.MULTI_STATUS, null);
+            logger.error("------------------------------------");
+            logger.error(e.getMessage());
+
+            return null;
         }
     }
 }
