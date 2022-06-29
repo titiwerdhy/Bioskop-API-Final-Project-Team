@@ -45,7 +45,7 @@ public class SeatsController {
             logger.info("--------------------------");
             logger.info("GET SEAT BY ID : " + seats);
             logger.info("--------------------------");
-            return ResponseHandler.generateResponse("Successfully retrieved data!", HttpStatus.OK, seats);
+            return ResponseHandler.generateResponse("Successfully retrieved data!", HttpStatus.OK, seatsResponseDTO);
         } catch (DataNotFoundException e) {
             logger.error("--------------------------");
             logger.error("GET SEAT BY ID " + id + " NOT FOUND");
@@ -66,14 +66,11 @@ public class SeatsController {
             logger.info("SEAT SUCCESSFULLY RECORDED");
             logger.info("--------------------------");
 
-            return ResponseHandler.generateResponse("Seat Successfully Recorded", HttpStatus.OK, seats);
+            return ResponseHandler.generateResponse("Seat Successfully Recorded", HttpStatus.OK, responseDTO);
         } catch (Exception e) {
-
-            Seats createdSeat = seatsService.insertNewSeats(seatsRequestDTO.converToSeat());
             logger.error("--------------------------");
             logger.error(e.getMessage());
             logger.error("--------------------------");
-
             return ResponseHandler.generateResponse(e.getMessage(), HttpStatus.NOT_FOUND, null);
         }
     }

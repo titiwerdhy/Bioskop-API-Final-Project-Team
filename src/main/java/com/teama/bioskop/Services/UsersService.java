@@ -15,10 +15,20 @@ import java.util.Optional;
 public class UsersService {
     private UsersRepository usersRepository;
 
+    /***
+     * Get List of All Users
+     * @return List of Users
+     */
     public List<Users> getAllUsers(){
         return this.usersRepository.findAll();
     }
 
+    /***
+     * Get one user by its id
+     * @param id 
+     * @return all data users 
+     * @throws DataNotFoundException
+     */
     public Users getUserById(Integer id) throws DataNotFoundException {
         Optional<Users> optionalUser = this.usersRepository.findById(id);
         if(optionalUser.isEmpty()){
