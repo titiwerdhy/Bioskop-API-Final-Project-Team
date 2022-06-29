@@ -138,19 +138,19 @@ public class ScheduleController {
 
     @PostMapping("/schedule/filmname")
     public List<Schedule> findScheduleByFilmName(@RequestBody Films films) throws DataNotFoundException{
-       try {
-           List<Schedule> schedulesByFilmNameList = this.scheduleService.getSchedulesByFilmName(films.getFilmName());
-           logger.info("------------------------------------");
-           logger.info("SUCCESS FIND THE DATA " + schedulesByFilmNameList);
-           logger.info("-------------------------------------");
+        try {
+            List<Schedule> schedulesByFilmNameList = this.scheduleService.getSchedulesByFilmName(films.getFilmName());
+            logger.info("------------------------------------");
+            logger.info("SUCCESS FIND THE DATA " + schedulesByFilmNameList);
+            logger.info("-------------------------------------");
             return schedulesByFilmNameList;
-       } catch (Exception e){
-           logger.error("------------------------------------");
-           logger.error(e.getMessage());
-           logger.error("------------------------------------");
+        } catch (Exception e){
+            logger.error("------------------------------------");
+            logger.error(e.getMessage());
+            logger.error("------------------------------------");
 
-           return null;
-       }
+            return null;
+        }
 
     }
 }

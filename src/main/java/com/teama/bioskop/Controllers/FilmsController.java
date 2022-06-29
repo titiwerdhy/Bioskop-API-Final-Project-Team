@@ -5,7 +5,6 @@ import com.teama.bioskop.DTOs.FilmResponseDTO;
 import com.teama.bioskop.Handlers.ResponseHandler;
 import com.teama.bioskop.Helpers.DataNotFoundException;
 import com.teama.bioskop.Models.Films;
-import com.teama.bioskop.Models.Schedule;
 import com.teama.bioskop.Services.FilmsService;
 import lombok.AllArgsConstructor;
 import org.apache.log4j.LogManager;
@@ -15,7 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Objects;
 
 @RestController
 @AllArgsConstructor
@@ -47,7 +45,7 @@ public class FilmsController {
             logger.info("--------------------------");
 
 //            return ResponseEntity.ok(responseDTO);
-            return ResponseHandler.generateResponse("Successfully get film by id!",HttpStatus.OK, films);
+            return ResponseHandler.generateResponse("Successfully get film by id!",HttpStatus.OK, responseDTO);
         } catch (DataNotFoundException e){
             logger.error("--------------------------");
             logger.error("GET FILMS BY ID "+ id + " NOT FOUND");
