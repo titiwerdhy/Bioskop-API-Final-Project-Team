@@ -21,6 +21,10 @@ public class FilmsController {
     private final FilmsService filmsService;
     private static final Logger logger = LogManager.getLogger(FilmsController.class);
 
+    /**
+     * Get all film from Films Table
+     * @return List of films
+     */
     @GetMapping("/films")
     public ResponseEntity<Object> getAll(){
         try{
@@ -34,6 +38,12 @@ public class FilmsController {
         }
     }
 
+    /**
+     * Get A Film by filmCode(id)
+     * @param id is a filmCode
+     * @return Selected Film Data
+     * @throws DataNotFoundException
+     */
     @GetMapping("/films/{id}")
     public ResponseEntity<Object> getFilmById(@PathVariable Integer id) throws DataNotFoundException{
         try {
@@ -54,6 +64,11 @@ public class FilmsController {
         }
     }
 
+    /**
+     * Input new film data into Films Table
+     * @param filmRequestDTO new Film Data
+     * @return insert New FIlm to Films Database
+     */
     @PostMapping("/films")
     public ResponseEntity<Object> createFilm(@RequestBody FilmRequestDTO filmRequestDTO){
         try{
@@ -76,6 +91,13 @@ public class FilmsController {
         }
     }
 
+    /**
+     * Updated Film Data, Selected By filmCode(id)
+     * @param id is filmCode
+     * @param filmRequestDTO Film which is going to be updated
+     * @return updated new Film
+     * @throws DataNotFoundException
+     */
     @PutMapping("/films/{id}")
     public ResponseEntity<Object> updateFilms(@PathVariable Integer id, @RequestBody FilmRequestDTO filmRequestDTO) throws DataNotFoundException {
         try{
@@ -98,6 +120,12 @@ public class FilmsController {
         }
     }
 
+    /**
+     * Delete One Film by filmCode(id)
+     * @param id is a filmCode
+     * @return Deleted one film
+     * @throws DataNotFoundException
+     */
     @DeleteMapping("/films/{id}")
     public ResponseEntity<Object> deleteFilm(@PathVariable Integer id) throws DataNotFoundException{
         try{
@@ -119,6 +147,11 @@ public class FilmsController {
         }
     }
 
+    /**
+     * Find Films Data by its status isPlaying(true/flase)
+     * @param isPlaying
+     * @return Get Films Data By its Status
+     */
     @PostMapping("/films/isplaying")
     public ResponseEntity<Object> findFilmsByIsPlaying(@RequestBody Films films) {
         try {
@@ -134,6 +167,12 @@ public class FilmsController {
         }
     }
 
+    /**
+     * Find Films By Studi Name
+     * @param studioName
+     * @return Get All Data By Studio Name
+     * @throws DataNotFoundException
+     */
     @PostMapping("/films/studioname")
     public ResponseEntity<Object> findFilmsByStudioName(@RequestBody Films films) throws DataNotFoundException {
         try{
