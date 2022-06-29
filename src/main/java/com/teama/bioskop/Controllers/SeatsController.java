@@ -86,7 +86,7 @@ public class SeatsController {
             Seats updatedSeat = this.seatsService.UpdateSeats(seat);
 
             logger.info("--------------------------");
-            logger.info("FILM SUCCESSFULLY UPDATED" + updatedSeat);
+            logger.info("SEAT SUCCESSFULLY UPDATED" + updatedSeat);
             logger.info("--------------------------");
 
             return ResponseHandler.generateResponse("Seat Updated!", HttpStatus.OK, updatedSeat);
@@ -119,9 +119,9 @@ public class SeatsController {
         try {
         List<Seats> seatsAvailable = this.seatsService.getSeatsAvailable(seats.getIsAvailable());
             logger.info("--------------------------");
-            logger.info("GET DATA BY STUDIO NAME "+ seatsAvailable);
+            logger.info("GET DATA BY SEAT AVAILBILITY "+ seatsAvailable);
             logger.info("--------------------------");
-            return ResponseHandler.generateResponse("Success Get All Data By Studio Name", HttpStatus.OK, seatsAvailable);
+            return ResponseHandler.generateResponse("Success Get All Data By Seat ", HttpStatus.OK, seatsAvailable);
         } catch (Exception e) {
             return ResponseHandler.generateResponse(e.getMessage(), HttpStatus.MULTI_STATUS, null);
         }
