@@ -169,7 +169,6 @@ public class FilmsController {
 
     /**
      * Find Films By Studi Name
-     * @param studioName
      * @return Get All Data By Studio Name
      * @throws DataNotFoundException
      */

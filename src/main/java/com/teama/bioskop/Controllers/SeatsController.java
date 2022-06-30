@@ -26,8 +26,6 @@ public class SeatsController {
      * Get all data from Seayt table
      * @return List of Seat
      */
-
-
     @GetMapping("/seats")
     public ResponseEntity<Object> getAll() {
         try {
@@ -49,7 +47,6 @@ public class SeatsController {
      * @return Selected Seat data
      * @throws DataNotFoundException
      */
-
     @GetMapping("/seats/{id}")
     public ResponseEntity<Object> getById(@PathVariable("id") Integer id) throws DataNotFoundException {
         try {
@@ -72,8 +69,6 @@ public class SeatsController {
      * @param seats new users data
      * @return new Seat
      */
-
-
     @PostMapping("/seats")
     public ResponseEntity<Object> InsertSeats(@RequestBody SeatsRequestDTO seatsRequestDTO) {
         try {
@@ -151,7 +146,6 @@ public class SeatsController {
      * @param seats new seat data available
      * @return new Seat available
      */
-
     @PostMapping("/seats/available")
     public ResponseEntity<Object> findSeatsAvailable(@RequestBody Seats seats){
         try {
