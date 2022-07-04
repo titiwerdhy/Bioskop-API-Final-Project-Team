@@ -55,7 +55,7 @@ public class ReservationsService {
         if (optionalReservations.isEmpty()){
             throw new DataNotFoundException("Reservation with id :"+ reservations.getReservationId()+ " not exist ");
         }
-        return this.reservationsRepository.save(optionalReservations.get());
+        return this.reservationsRepository.save(reservations);
     }
 
     public void deleteReservation (Reservations reservations) throws DataNotFoundException {
