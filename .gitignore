@@ -1,17 +1,8 @@
 HELP.md
 target/
-!.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
 
-### STS ###
-.apt_generated
-.classpath
-.factorypath
-.project
-.settings
-.springBeans
-.sts4-cache
 
 ### IntelliJ IDEA ###
 .idea
@@ -19,23 +10,17 @@ target/
 *.iml
 *.ipr
 
-### NetBeans ###
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
-build/
-!/resources
+
+!**/resources/**/
+application.properties
+!**/resources/**/
+log4j.properties
 !**/src/main/**/build/
 !**/src/test/**/build/
 
 ### VS Code ###
 .vscode/
-/src/main/resources/application.properties
-/pom.xml
-pom.xml
-src/main/resources/application.properties
+
 /log
-application.properties
-log4j.properties
+
+
