@@ -88,14 +88,15 @@ public class ReservationsController {
     @PostMapping("/reservation")
     public ResponseEntity<Object> createNew(@RequestBody ReservationsRequestDTO reservationsRequestDTO) throws DataNotFoundException{
         Reservations newReservation = reservationsRequestDTO.convertToReservations();
-        ReservationsResponseDTO reservationsResponseDTO = newReservation.convertToResponse();
         try {
-            this.reservationsService.createReservation(newReservation);
+            Reservations createdReservations = this.reservationsService.createReservation(newReservation);
+            ReservationsResponseDTO reservationsResponseDTO = createdReservations.convertToResponse();
             logger.info(line + "Start Create New Reservation" + line);
             logger.info("Create New Reservation : " + reservationsResponseDTO);
             logger.info(line + "End Create New Reservation" + line);
             return ResponseHandler.generateResponse("New reservation data successfully created", HttpStatus.CREATED, reservationsResponseDTO);
         } catch (DataNotFoundException e) {
+            ReservationsResponseDTO reservationsResponseDTO = newReservation.convertToResponse();
             logger.error(line + "Start Create New Reservation" + line);
             logger.error("Cannot create new Reservation : " + reservationsResponseDTO);
             logger.error(line + "End Create New Reservation" + line);
@@ -110,8 +111,9 @@ public class ReservationsController {
      * @throws DataNotFoundException
      */
     @PutMapping("/reservation/{id}")
-    public ResponseEntity<Object> updateById(@PathVariable Integer id) throws DataNotFoundException{
-        Reservations reservation = this.reservationsService.getReservationById(id);
+    public ResponseEntity<Object> updateById(@PathVariable Integer id, @RequestBody ReservationsRequestDTO reservationsRequestDTO) throws DataNotFoundException{
+        Reservations reservation = reservationsRequestDTO.convertToReservations();
+        reservation.setReservationId(id);
         try {
             Reservations updateReservation = this.reservationsService.updateReservation(reservation);
             ReservationsResponseDTO reservationsResponseDTO = updateReservation.convertToResponse();
