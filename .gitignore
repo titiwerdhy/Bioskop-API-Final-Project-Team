@@ -35,3 +35,6 @@ build/
 /pom.xml
 pom.xml
 src/main/resources/application.properties
+/log
+application.properties
+log4j.properties
