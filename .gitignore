@@ -18,7 +18,7 @@ target/
 *.iws
 *.iml
 *.ipr
-*.properties
+
 ### NetBeans ###
 /nbproject/private/
 /nbbuild/
@@ -36,3 +36,5 @@ build/
 pom.xml
 src/main/resources/application.properties
 /log
+application.properties
+log4j.properties
