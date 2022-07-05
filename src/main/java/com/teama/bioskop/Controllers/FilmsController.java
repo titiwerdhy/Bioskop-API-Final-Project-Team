@@ -80,14 +80,4 @@ public class FilmsController {
         return "redirect:/crud/films";
     }
 
-    /**
-     * Get film by name
-     * @param name
-     * @return
-     */
-//    @GetMapping("/film/{name}")
-//    public String getFilmByName(Model model, @ModelAttribute Films films,String name) throws DataNotFoundException {
-//        this.filmsService.getFilmByName(name);
-//        return "redirect:/crud/films";
-//    }
 }
