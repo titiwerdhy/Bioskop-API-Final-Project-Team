@@ -16,4 +16,6 @@ public interface FilmsRepository extends JpaRepository<Films,Integer>{
     
     @Query("Select f from Films f where f.seatId.studioName =?1")
     public List<Films> getFilmByStudioName(String studioName);
+
+    public List<Films> findByNameContains(String filmName);
 }

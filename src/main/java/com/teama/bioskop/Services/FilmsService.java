@@ -50,6 +50,19 @@ public class FilmsService {
         this.filmsRepository.delete(deletedFilms.get());
     }
 
+    public void deleteFilmById(Integer id) throws DataNotFoundException{
+        this.getOneFilms(id);
+        this.filmsRepository.deleteById(id);
+    }
+
+    public Films getFilmById(Integer id) throws DataNotFoundException{
+        return this.filmsRepository.findById(id).get();
+    }
+
+    public List<Films> getFilmByName(String name) throws DataNotFoundException{
+        return this.filmsRepository.findByNameContains(name);
+    }
+
     public List<Films> getByIsPlaying(Boolean isPlaying){
         return this.filmsRepository.getFilmByIsPlaying(isPlaying);
     }
