@@ -1,4 +1,4 @@
-package com.teama.bioskop.Controllers;
+package com.teama.bioskop.RestControllers;
 
 import java.util.ArrayList;
 import java.util.List;

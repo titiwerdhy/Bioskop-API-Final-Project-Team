@@ -1,4 +1,4 @@
-package com.teama.bioskop.Controllers;
+package com.teama.bioskop.RestControllers;
 
 import com.teama.bioskop.DTOs.ScheduleRequestDTO;
 import com.teama.bioskop.DTOs.ScheduleResponseDTO;
