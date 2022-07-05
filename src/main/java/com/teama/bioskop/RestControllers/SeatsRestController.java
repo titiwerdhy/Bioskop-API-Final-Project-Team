@@ -17,9 +17,9 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
-public class SeatsController {
+public class SeatsRestController {
 
-    private static final Logger logger = LogManager.getLogger(SeatsController.class);
+    private static final Logger logger = LogManager.getLogger(SeatsRestController.class);
     private final SeatsService seatsService;
 
     /***
