@@ -32,12 +32,12 @@ public class ReservationsRequestDTO {
 
     public Reservations convertToReservations(){
         return Reservations.builder()
-            .reservationId(this.reservationId)
-            .users(this.users)
-            .schedule(this.schedule)
-            .isActive(this.isActive)
-            .createdAt(this.createdAt)
-            .updatedAt(this.updatedAt)
-            .build();
+                .reservationId(this.reservationId)
+                .users(this.users)
+                .schedule(this.schedule)
+                .isActive(this.isActive)
+                .createdAt(this.createdAt)
+                .updatedAt(this.updatedAt)
+                .build();
     }
 }

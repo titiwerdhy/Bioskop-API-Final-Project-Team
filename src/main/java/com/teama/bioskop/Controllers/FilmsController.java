@@ -149,7 +149,6 @@ public class FilmsController {
 
     /**
      * Find Films Data by its status isPlaying(true/flase)
-     * @param isPlaying
      * @return Get Films Data By its Status
      */
     @PostMapping("/films/isplaying")

@@ -55,7 +55,7 @@ public class ReservationsController {
             return ResponseHandler.generateResponse(e.getMessage(), HttpStatus.NOT_FOUND, null);
         }
     }
-    
+
     /***
      * Get Reservation data by ID
      * @param id
