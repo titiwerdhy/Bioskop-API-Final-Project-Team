@@ -67,13 +67,13 @@ public class UsersController {
 
     /***
      * Delete User
-     * @param mode
+     * @param model
      * @param id
      * @return
      * @throws DataNotFoundException
      */
     @DeleteMapping("/delete/user/{id}")
-    public String deleteById(Model mode, @PathVariable("id") Integer id) throws DataNotFoundException{
+    public String deleteById(Model model, @PathVariable("id") Integer id) throws DataNotFoundException{
         usersService.deleteUserById(id);
         return "redirect:/crud/users";
     }

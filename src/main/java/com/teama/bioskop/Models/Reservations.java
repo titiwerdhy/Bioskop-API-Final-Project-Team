@@ -1,10 +1,10 @@
 package com.teama.bioskop.Models;
 
+
+import com.teama.bioskop.DTOs.ReservationsResponseDTO;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-
-import com.teama.bioskop.DTOs.ReservationsResponseDTO;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 @Builder
 public class Reservations {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue (strategy = GenerationType.IDENTITY)
     private Integer reservationId;
 
     @ManyToOne
@@ -39,13 +39,13 @@ public class Reservations {
 
     public ReservationsResponseDTO convertToResponse(){
         return ReservationsResponseDTO.builder()
-            .reservationId(this.reservationId)
-            .userId(this.users.getUserId())
-            .scheduleId(this.schedule.getScheduleId())
-            .isActive(this.isActive)
-            .createdAt(this.createdAt)
-            .updatedAt(this.updatedAt)
-            .build();
+                .reservationId(this.reservationId)
+                .userId(this.users.getUserId())
+                .scheduleId(this.schedule.getScheduleId())
+                .isActive(this.isActive)
+                .createdAt(this.createdAt)
+                .updatedAt(this.updatedAt)
+                .build();
     }
 
     @Override

@@ -49,7 +49,6 @@ public class ReservationsService {
         reservations.setSchedule(optionalSchedule.get());
         return this.reservationsRepository.save(reservations);
     }
-
     public Reservations updateReservation (Reservations reservations) throws DataNotFoundException {
         Optional<Reservations>  optionalReservations = this.reservationsRepository.findById(reservations.getReservationId());
         if (optionalReservations.isEmpty()){

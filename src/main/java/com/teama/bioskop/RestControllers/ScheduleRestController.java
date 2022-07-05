@@ -21,10 +21,10 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
-public class ScheduleController {
+public class ScheduleRestController {
     private final ScheduleService scheduleService;
 
-    private static final Logger logger = LogManager.getLogger(ScheduleController.class);
+    private static final Logger logger = LogManager.getLogger(ScheduleRestController.class);
 
 
     /***
@@ -148,7 +148,7 @@ public class ScheduleController {
             Schedule schedule = scheduleRequestDTO.convertToEntity();
             schedule.setScheduleId(id);
 
-            Schedule updateSchedule = this.scheduleService.updateSchedule(schedule);
+            Schedule updateSchedule = this.scheduleService.updateScheduleById(schedule);
             ScheduleResponseDTO responseDTO = updateSchedule.convertToResponse();
 
             logger.info("------------------------------------");
@@ -188,7 +188,7 @@ public class ScheduleController {
             Schedule schedule = new Schedule();
             schedule.setScheduleId(id);
 
-            this.scheduleService.deleteSchedule(schedule);
+            this.scheduleService.deleteScheduleById(schedule);
             logger.info("------------------------------------");
             logger.info("SUCCESS DELETE DATA WITH ID " + id);
             logger.info("-------------------------------------");
