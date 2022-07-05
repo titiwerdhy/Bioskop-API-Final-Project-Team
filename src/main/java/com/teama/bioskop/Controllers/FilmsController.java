@@ -1,23 +1,30 @@
 package com.teama.bioskop.Controllers;
 
+
 import com.teama.bioskop.Helpers.DataNotFoundException;
 import com.teama.bioskop.Models.Films;
+import com.teama.bioskop.Models.Seats;
 import com.teama.bioskop.Services.FilmsService;
+import com.teama.bioskop.Services.SeatsService;
+
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.List;
 
 
 @Controller
 @AllArgsConstructor
+
 public class FilmsController {
 
     @Autowired
     private final FilmsService filmsService;
+    private final SeatsService seatsService;
 
     /**
      * Get all film from Films Table
@@ -26,6 +33,9 @@ public class FilmsController {
     @GetMapping("/crud/films")
     public String getAll(Model model) {
         List<Films> films = this.filmsService.getAllFilms();
+        Collections.reverse(films);
+        List<Seats> seats = seatsService.getAllSeats();
+        model.addAttribute("seats", seats);
         model.addAttribute("films", films);
         model.addAttribute("newFilm", new Films());
         model.addAttribute("updateFilm", new Films());
@@ -50,8 +60,9 @@ public class FilmsController {
      * @param films
      * @return
      */
-    @PutMapping("/update/film")
-    public String updateFilm(Model model, @ModelAttribute Films films) throws DataNotFoundException {
+    @PutMapping("/update/film/{id}")
+    public String updateFilm(Model model, @PathVariable Integer id,@ModelAttribute Films films) throws DataNotFoundException {
+        films.setFilmCode(id);
         this.filmsService.updateFilm(films);
         return "redirect:/crud/films";
     }
@@ -63,7 +74,7 @@ public class FilmsController {
      * @return
      */
 
-    @PostMapping("/delete/film/{id}")
+    @DeleteMapping("/delete/film/{id}")
     public String deleteFilm(Model model, @PathVariable("id") Integer id) throws DataNotFoundException {
         this.filmsService.deleteFilmById(id);
         return "redirect:/crud/films";
