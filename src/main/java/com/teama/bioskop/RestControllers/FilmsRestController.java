@@ -17,9 +17,9 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
-public class FilmsController {
+public class FilmsRestController {
     private final FilmsService filmsService;
-    private static final Logger logger = LogManager.getLogger(FilmsController.class);
+    private static final Logger logger = LogManager.getLogger(FilmsRestController.class);
 
     /**
      * Get all film from Films Table
