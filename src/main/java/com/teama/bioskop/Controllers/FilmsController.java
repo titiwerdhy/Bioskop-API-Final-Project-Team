@@ -11,8 +11,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@AllArgsConstructor
+
 @Controller
+@AllArgsConstructor
 public class FilmsController {
 
     @Autowired
