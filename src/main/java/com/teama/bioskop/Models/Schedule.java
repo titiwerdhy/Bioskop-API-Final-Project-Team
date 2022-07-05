@@ -5,6 +5,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import com.teama.bioskop.DTOs.ScheduleResponseDTO;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -26,10 +27,13 @@ public class Schedule {
     @JoinColumn(name ="film_code")
     public Films films;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate tanggalTayang;
 
+    @DateTimeFormat(pattern = "HH:mm")
     private LocalTime jamMulai;
 
+    @DateTimeFormat(pattern = "HH:mm")
     private LocalTime jamSelesai;
 
     private Double hargaTiket;
