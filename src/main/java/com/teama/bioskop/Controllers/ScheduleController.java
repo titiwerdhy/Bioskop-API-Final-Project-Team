@@ -1,241 +1,75 @@
 package com.teama.bioskop.Controllers;
 
-import com.teama.bioskop.DTOs.ScheduleRequestDTO;
-import com.teama.bioskop.DTOs.ScheduleResponseDTO;
-import com.teama.bioskop.Handlers.ResponseHandlers;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+
 import com.teama.bioskop.Helpers.DataNotFoundException;
-import com.teama.bioskop.Models.Films;
 import com.teama.bioskop.Models.Schedule;
 import com.teama.bioskop.Services.ScheduleService;
 import lombok.AllArgsConstructor;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
 
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
-import java.util.List;
-
-@RestController
+@Controller
 @AllArgsConstructor
 public class ScheduleController {
+    @Autowired
     private final ScheduleService scheduleService;
 
-    private static final Logger logger = LogManager.getLogger(ScheduleController.class);
-
-
     /***
-     * Get all data from Schedules table
-     * @return ResponseEntity fully formed
+     * CRUD Schedule
+     * @param model
+     * @return
      */
-    @GetMapping("/schedules")
-    public ResponseEntity<?> getAll() {
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.set("APP-NAME", "BIOSKOP API KELOMPOK 1");
-
-        try{
-
-            List<Schedule> schedules = scheduleService.getAllSchedule();
-            logger.info("------------------------------------");
-            logger.info("GET ALL SCHEDULE DATA " + schedules);
-            logger.info("-------------------------------------");
-
-            ResponseEntity<?> body = ResponseHandlers.generateResponse("", HttpStatus.OK, headers, ZonedDateTime.now(ZoneId.of("Asia/Tokyo")), schedules);
-            return ResponseEntity.status(body.getStatusCode()).headers(headers).body(body);
-
-        } catch (Exception e){
-
-            logger.error("------------------------------------");
-            logger.error(e.getMessage());
-            logger.error("------------------------------------");
-
-            ResponseEntity<?> body = ResponseHandlers.generateResponse("", HttpStatus.BAD_REQUEST, headers, ZonedDateTime.now(ZoneId.of("Asia/Tokyo")), null);
-            return ResponseEntity.status(body.getStatusCode()).headers(headers).body(body);
-        }
+    @GetMapping("/crud/schedule")
+    public String getAll(Model model){
+        List<Schedule> scheduleList = this.scheduleService.getAllSchedule();
+        model.addAttribute("schedule", scheduleList);
+        model.addAttribute("newSchedule", new Schedule());
+        model.addAttribute("updateSchedule", new Schedule());
+        return "schedule-crud";
     }
-
     /***
-     * Get one data from Schedules table with Path Variable
-     * @param id from Path Variable
-     * @return ResponseEntity fully formed
-     * @throws DataNotFoundException if a data is not found
+     * Create new Schedule
+     * @param model
+     * @return
      */
-
-    @GetMapping("/schedule/{id}")
-    public ResponseEntity<?> getScheduleById(@PathVariable Integer id) {
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.set("APP-NAME", "BIOSKOP API KELOMPOK 1");
-
-        try {
-
-            Schedule schedule = this.scheduleService.getOneSchedule(id);
-            ScheduleResponseDTO responseDTO = schedule.convertToResponse();
-
-            logger.info("------------------------------------");
-            logger.info("GET ALL SCHEDULE DATA " + schedule);
-            logger.info("-------------------------------------");
-
-            ResponseEntity<?> body = ResponseHandlers.generateResponse("", HttpStatus.OK, headers, ZonedDateTime.now(ZoneId.of("Asia/Tokyo")), responseDTO);
-            return ResponseEntity.ok().headers(headers).body(body);
-
-        } catch (DataNotFoundException e){
-
-            logger.error("------------------------------------");
-            logger.error("DATA WITH ID "+ id + "IS NOT FOUND");
-            logger.error("------------------------------------");
-
-            ResponseEntity<?> body = ResponseHandlers.generateResponse(e.getMessage(), HttpStatus.NOT_FOUND, headers, ZonedDateTime.now(ZoneId.of("Asia/Tokyo")), null);
-            return ResponseEntity.status(body.getStatusCode()).headers(headers).body(body);
-        }
+    @PostMapping("/create/schedule")
+    public String createNew(Model model, @ModelAttribute Schedule schedule){
+        scheduleService.createSchedule(schedule);
+        return "redirect:/crud/schedule";
     }
-
     /***
-     * Post one data into Schedules table
-     * @throws Exception if bad request happened
-     * @return ResponseEntity fully formed
+     * Update schedule
+     * @param model
+     * @param schedule
+     * @return
+     * @throws DataNotFoundException
      */
-
-    @PostMapping("/schedule")
-    public ResponseEntity<?> createSchedule(@RequestBody ScheduleRequestDTO scheduleRequestDTO){
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.set("APP-NAME", "BIOSKOP API KELOMPOK 1");
-
-        try {
-
-            Schedule newSchedule = scheduleRequestDTO.convertToEntity();
-
-            Schedule schedule = this.scheduleService.createSchedule(newSchedule);
-            ScheduleResponseDTO responseDTO = schedule.convertToResponse();
-            logger.info("------------------------------------");
-            logger.info("SUCCESS CREATE DATA " + schedule);
-            logger.info("-------------------------------------");
-
-            ResponseEntity<?> body = ResponseHandlers.generateResponse("", HttpStatus.CREATED, headers, ZonedDateTime.now(ZoneId.of("Asia/Tokyo")), responseDTO);
-            return ResponseEntity.status(body.getStatusCode()).headers(headers).body(body);
-        } catch (Exception e){
-
-            logger.error("------------------------------------");
-            logger.error(e.getMessage());
-            logger.error("------------------------------------");
-
-            ResponseEntity<?> body = ResponseHandlers.generateResponse(e.getMessage(), HttpStatus.BAD_REQUEST, headers, ZonedDateTime.now(ZoneId.of("Asia/Tokyo")), null);
-            return ResponseEntity.status(body.getStatusCode()).headers(headers).body(body);
-        }
-
+    @PutMapping("/update/schedule/{id}")
+    public String updateById(Model model, @PathVariable("id") Integer id, @ModelAttribute Schedule schedule) throws DataNotFoundException{
+        schedule.setScheduleId(id);
+        scheduleService.updateScheduleById(schedule);
+        return "redirect:/crud/schedule";
     }
-
     /***
-     * Put one data from Schedules table with Path Variable
-     * @param id from Path Variable
-     * @throws DataNotFoundException if a data is not found
-     * @return ResponseEntity fully formed
+     * Delete Schedule
+     * @param model
+     * @param id
+     * @return
+     * @throws DataNotFoundException
      */
-
-    @PutMapping("/schedule/{id}")
-    public ResponseEntity<?> updateSchedule(@PathVariable Integer id, @RequestBody ScheduleRequestDTO scheduleRequestDTO) {
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.set("APP-NAME", "BIOSKOP API KELOMPOK 1");
-
-        try {
-
-            Schedule schedule = scheduleRequestDTO.convertToEntity();
-            schedule.setScheduleId(id);
-
-            Schedule updateSchedule = this.scheduleService.updateSchedule(schedule);
-            ScheduleResponseDTO responseDTO = updateSchedule.convertToResponse();
-
-            logger.info("------------------------------------");
-            logger.info("SUCCESS UPDATE DATA " + schedule);
-            logger.info("-------------------------------------");
-
-            ResponseEntity<?> body = ResponseHandlers.generateResponse("", HttpStatus.OK, headers, ZonedDateTime.now(ZoneId.of("Asia/Tokyo")), responseDTO);
-            return ResponseEntity.status(body.getStatusCode()).headers(headers).body(body);
-
-        } catch (DataNotFoundException e){
-
-            logger.error("------------------------------------");
-            logger.error(e.getMessage());
-            logger.error("------------------------------------");
-
-            ResponseEntity<?> body = ResponseHandlers.generateResponse(e.getMessage(), HttpStatus.NOT_FOUND, headers, ZonedDateTime.now(ZoneId.of("Asia/Tokyo")), null);
-            return ResponseEntity.status(body.getStatusCode()).headers(headers).body(body);
-        }
-
-    }
-
-    /***
-     * Get one data from Schedules table with Path Variable
-     * @param id from Path Variable
-     * @return ResponseEntity fully formed
-     * @throws DataNotFoundException if a data is not found
-     */
-
-    @DeleteMapping("/schedule/{id}")
-    public ResponseEntity<?> deleteSchedule(@PathVariable Integer id) {
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.set("APP-NAME", "BIOSKOP API KELOMPOK 1");
-
-        try {
-
-            Schedule schedule = new Schedule();
-            schedule.setScheduleId(id);
-
-            this.scheduleService.deleteSchedule(schedule);
-            logger.info("------------------------------------");
-            logger.info("SUCCESS DELETE DATA WITH ID " + id);
-            logger.info("-------------------------------------");
-
-            ResponseEntity<?> body = ResponseHandlers.generateResponse("", HttpStatus.OK, headers, ZonedDateTime.now(ZoneId.of("Asia/Tokyo")), "Data is deleted");
-            return ResponseEntity.status(body.getStatusCode()).headers(headers).body(body);
-        } catch (DataNotFoundException e){
-
-            logger.error("------------------------------------");
-            logger.error(e.getMessage());
-            logger.error("------------------------------------");
-
-            ResponseEntity<?> body = ResponseHandlers.generateResponse(e.getMessage(), HttpStatus.NOT_FOUND, headers, ZonedDateTime.now(ZoneId.of("Asia/Tokyo")), "Data is deleted");
-            return ResponseEntity.status(body.getStatusCode()).headers(headers).body(body);
-        }
-    }
-
-    /***
-     * Get one data from Schedules with requestBody
-     * @return ResponseEntity fully formed
-     * @throws DataNotFoundException if data is not found
-     */
-
-    @PostMapping("/schedule/filmname")
-    public ResponseEntity<?> findScheduleByFilmName(@RequestBody Films films) throws DataNotFoundException{
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.set("APP-NAME", "BIOSKOP API KELOMPOK 1");
-
-        try {
-            List<Schedule> schedulesByFilmNameList = this.scheduleService.getSchedulesByFilmName(films.getFilmName());
-
-            logger.info("------------------------------------");
-            logger.info("SUCCESS FIND THE DATA " + schedulesByFilmNameList);
-            logger.info("-------------------------------------");
-
-            ResponseEntity<?> body = ResponseHandlers.generateResponse("", HttpStatus.OK, headers, ZonedDateTime.now(ZoneId.of("Asia/Tokyo")), schedulesByFilmNameList);
-            return ResponseEntity.status(body.getStatusCode()).headers(headers).body(body);
-
-        } catch (DataNotFoundException e){
-            logger.error("------------------------------------");
-            logger.error(e.getMessage());
-            logger.error("------------------------------------");
-
-            ResponseEntity<?> body = ResponseHandlers.generateResponse(e.getMessage(), HttpStatus.NOT_FOUND, headers, ZonedDateTime.now(ZoneId.of("Asia/Tokyo")), null);
-            return ResponseEntity.status(body.getStatusCode()).headers(headers).body(body);
-        }
-
+    @DeleteMapping("/delete/schedule/{id}")
+    public String deleteById(Model model, @PathVariable("id") Integer id) throws DataNotFoundException{
+        Schedule schedule = scheduleService.getOneSchedule(id);
+        scheduleService.deleteScheduleById(schedule);
+        return "redirect:/crud/schedule";
     }
 }

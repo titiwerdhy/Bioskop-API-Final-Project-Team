@@ -1,4 +1,4 @@
-package com.teama.bioskop.Controllers;
+package com.teama.bioskop.RestControllers;
 
 import com.teama.bioskop.DTOs.FilmRequestDTO;
 import com.teama.bioskop.DTOs.FilmResponseDTO;
@@ -149,6 +149,7 @@ public class FilmsController {
 
     /**
      * Find Films Data by its status isPlaying(true/flase)
+     * @param films
      * @return Get Films Data By its Status
      */
     @PostMapping("/films/isplaying")

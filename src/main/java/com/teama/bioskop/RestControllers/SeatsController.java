@@ -1,4 +1,4 @@
-package com.teama.bioskop.Controllers;
+package com.teama.bioskop.RestControllers;
 
 import com.teama.bioskop.DTOs.SeatsRequestDTO;
 import com.teama.bioskop.DTOs.SeatsResponseDTO;
