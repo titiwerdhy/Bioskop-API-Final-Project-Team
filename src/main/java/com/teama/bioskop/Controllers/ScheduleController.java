@@ -1,7 +1,11 @@
 package com.teama.bioskop.Controllers;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
+import com.teama.bioskop.Models.Films;
+import com.teama.bioskop.Services.FilmsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,6 +26,7 @@ import lombok.AllArgsConstructor;
 public class ScheduleController {
     @Autowired
     private final ScheduleService scheduleService;
+    private final FilmsService filmsService;
 
     /***
      * CRUD Schedule
@@ -30,8 +35,11 @@ public class ScheduleController {
      */
     @GetMapping("/crud/schedule")
     public String getAll(Model model){
+        List<Films> filmsList = this.filmsService.getAllFilms();
         List<Schedule> scheduleList = this.scheduleService.getAllSchedule();
-        model.addAttribute("schedule", scheduleList);
+        Collections.reverse(scheduleList);
+        model.addAttribute("films",filmsList);
+        model.addAttribute("schedules", scheduleList);
         model.addAttribute("newSchedule", new Schedule());
         model.addAttribute("updateSchedule", new Schedule());
         return "schedule-crud";
