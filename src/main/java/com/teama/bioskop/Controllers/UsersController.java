@@ -1,5 +1,6 @@
 package com.teama.bioskop.Controllers;
 
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,7 @@ public class UsersController {
     @GetMapping("/crud/users")
     public String getAll(Model model){
         List<Users> userList = this.usersService.getAllUsers();
+        Collections.reverse(userList);
         model.addAttribute("users", userList);
         model.addAttribute("newUser", new Users());
         model.addAttribute("updateUser", new Users());
