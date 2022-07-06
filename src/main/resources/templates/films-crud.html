@@ -59,7 +59,11 @@
                                 <li><a class="dropdown-item" href="#">Seat Id</a></li>
                                 <li><a class="dropdown-item" href="#">Film Name</a></li>
                                 <li><a class="dropdown-item" href="#">Is playing</a></li>
+<<<<<<< HEAD
                                 
+=======
+                               
+>>>>>>> main
                             </ul>
                         </li>
                     </ul> -->
@@ -71,12 +75,16 @@
 
             <!-- Tables -->
             <div class="d-flex">
+<<<<<<< HEAD
                 <div class="col-md-9 mt-1 mx-auto">
+=======
+                <div class="col-md-10 mt-5 mx-auto">
+>>>>>>> main
                     <div class="row mx-auto">
                         <div class="col-12 mt-2">
                             <h2 class="text-white text-center text-uppercase">Films CRUD Data</h2>
                         </div>
-                        <div class="col-7">
+                        <div class="col-md-7">
                             <div class="input-group mb-3">
                                 <input type="text" class="form-control" placeholder="Search by film name" aria-label="Recipient's filmsname" aria-describedby="button-addon2">
                                 <button class="btn btn-outline-secondary text-white" type="button" id="button-addon2">
@@ -113,9 +121,8 @@
                                         <a class="text-white" style="text-decoration:none;" th:href="'#showModal'+${film.filmCode}" th:text="${film.filmName}" data-bs-toggle="modal" th:attr="data-bs-target='#showModal'+${film.filmCode}"></a>
                                     </td>
                                     <td th:text="${film.seatId.seatId}"></td>
-                                    <td th:text="${film.filmName}"></td>
-                                    <td th:text="${film.isPlaying}"></td>
-                                  
+                                    <td th:text="${film.filmName}"></td>    
+                                    <td th:text="${film.isPlaying} ? 'Tayang' : 'Tidak Tayang'"></td>
                                     <td>
                                         <button type="button" class="btn btn-outline-warning" data-bs-toggle="modal" th:attr="data-bs-target='#editModal'+${film.filmCode}">
                                             <i class="fa-solid fa-pen"></i>
@@ -150,7 +157,11 @@
                                                             <div id="emailHelp" class="form-text">Enter Film Name.</div>
                                                         </div>
                                                         <div class="mb-3">
+<<<<<<< HEAD
                                                          
+=======
+                                                           
+>>>>>>> main
                                                                 <div class="form-check">
                                                                     <input th:if="${film.isPlaying} == true" th:attr="id='seatid'+${film.seatId}" th:name="isPlaying" class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" checked>
                                                                     <input th:unless="${film.isPlaying} == true" th:attr="id='seatid'+${film.seatId}" th:name="isPlaying" class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1">
@@ -165,7 +176,11 @@
                                                                       Tidak Tayang
                                                                     </label>
                                                                 </div>
+<<<<<<< HEAD
                                                          
+=======
+                                                        
+>>>>>>> main
                                                             <div id="emailHelp" class="form-text">Enter Is Playing.</div>
                                                         </div>
                                                     </div>
