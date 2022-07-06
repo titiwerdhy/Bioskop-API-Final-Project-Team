@@ -59,8 +59,7 @@
                                 <li><a class="dropdown-item" href="#">Seat Id</a></li>
                                 <li><a class="dropdown-item" href="#">Film Name</a></li>
                                 <li><a class="dropdown-item" href="#">Is playing</a></li>
-                                <li><a class="dropdown-item" href="#">Created Date</a></li>
-                                <li><a class="dropdown-item" href="#">Updated Date</a></li>
+                               
                             </ul>
                         </li>
                     </ul>
@@ -72,12 +71,12 @@
 
             <!-- Tables -->
             <div class="d-flex">
-                <div class="col-12 mt-5 mx-auto">
+                <div class="col-md-10 mt-5 mx-auto">
                     <div class="row mx-auto">
                         <div class="col-12 mt-2">
                             <h2 class="text-white text-center text-uppercase">Films CRUD Data</h2>
                         </div>
-                        <div class="col-7">
+                        <div class="col-md-7">
                             <div class="input-group mb-3">
                                 <input type="text" class="form-control" placeholder="Search by film name" aria-label="Recipient's filmsname" aria-describedby="button-addon2">
                                 <button class="btn btn-outline-secondary text-white" type="button" id="button-addon2">
@@ -102,8 +101,7 @@
                                     <th class="text-center" scope="col">Seat ID</th>
                                     <th class="text-center" scope="col">Film Name</th>
                                     <th class="text-center" scope="col">Is Playing</th>
-                                    <th class="text-center" scope="col">Crated At</th>
-                                    <th class="text-center" scope="col">Updated At</th>
+                                 
                                     <th class="text-center" scope="col">Actions</th>
                                 </tr>
                             </thead>
@@ -117,10 +115,8 @@
                                         <a class="text-white" style="text-decoration:none;" th:href="'#showModal'+${film.filmCode}" th:text="${film.filmName}" data-bs-toggle="modal" th:attr="data-bs-target='#showModal'+${film.filmCode}"></a>
                                     </td>
                                     <td th:text="${film.seatId.seatId}"></td>
-                                    <td th:text="${film.filmName}"></td>
-                                    <td th:text="${film.isPlaying}"></td>
-                                    <td th:text="${film.createdAt}"></td>
-                                    <td th:text="${film.updatedAt}"></td>
+                                    <td th:text="${film.filmName}"></td>    
+                                    <td th:text="${film.isPlaying} ? 'Tayang' : 'Tidak Tayang'"></td>
                                     <td>
                                         <button type="button" class="btn btn-outline-warning" data-bs-toggle="modal" th:attr="data-bs-target='#editModal'+${film.filmCode}">
                                             <i class="fa-solid fa-pen"></i>
@@ -155,20 +151,7 @@
                                                             <div id="emailHelp" class="form-text">Enter Film Name.</div>
                                                         </div>
                                                         <div class="mb-3">
-                                                            <!-- <label for="inputisplaying" class="form-label">Status</label>
-                                                            <div class="btn-group form-check" data-toggle="buttons">    
-                                                                <label for="" th:if="${film.isPlaying} == true" class="btn active">
-                                                                    <input type="radio" class="form-check-input" aria-describedby="seatidHelp" th:attr="id='seatid'+${film.seatId}" th:name="isPlaying">Tayang
-                                                                </label>
-                                                                <label for="" th:unless="${film.isPlaying} == true" class="btn">
-                                                                    <input type="radio" class="form-check-input" aria-describedby="seatidHelp" th:attr="id='seatid'+${film.seatId}" th:name="isPlaying">Tayang
-                                                                </label>
-                                                                <label for="" th:if="${film.isPlaying} == false" class="btn active">
-                                                                    <input type="radio" class="form-check-input" aria-describedby="seatidHelp" th:attr="id='seatid'+${film.seatId}" th:name="isPlaying">Tidak Tayang
-                                                                </label>
-                                                                <label for="" th:unless="${film.isPlaying} == false" class="btn">
-                                                                    <input type="radio" class="form-check-input" aria-describedby="seatidHelp" th:attr="id='seatid'+${film.seatId}" th:name="isPlaying">Tidak Tayang
-                                                                </label> -->
+                                                           
                                                                 <div class="form-check">
                                                                     <input th:if="${film.isPlaying} == true" th:attr="id='seatid'+${film.seatId}" th:name="isPlaying" class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" checked>
                                                                     <input th:unless="${film.isPlaying} == true" th:attr="id='seatid'+${film.seatId}" th:name="isPlaying" class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1">
@@ -183,7 +166,7 @@
                                                                       Tidak Tayang
                                                                     </label>
                                                                 </div>
-                                                            <!-- </div> -->
+                                                        
                                                             <div id="emailHelp" class="form-text">Enter Is Playing.</div>
                                                         </div>
                                                     </div>
