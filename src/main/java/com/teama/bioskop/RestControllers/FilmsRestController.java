@@ -134,12 +134,12 @@ public class FilmsRestController {
             films.setFilmCode(id);
 
             this.filmsService.deleteFilm(films);
-
+            Films deletedFilm = this.filmsService.getFilmById(id); 
             logger.info("--------------------------");
             logger.info("SUCCESS DELETE BY ID "+id);
             logger.info("--------------------------");
 
-            return ResponseHandler.generateResponse("Films Deleted!", HttpStatus.OK, films);
+            return ResponseHandler.generateResponse("Films Deleted!", HttpStatus.OK, deletedFilm);
         } catch(DataNotFoundException e){
             logger.error("--------------------------");
             logger.error(e.getMessage());

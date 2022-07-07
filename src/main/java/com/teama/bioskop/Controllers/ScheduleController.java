@@ -1,12 +1,15 @@
 package com.teama.bioskop.Controllers;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+import com.teama.bioskop.Handlers.ResponseHandler;
 import com.teama.bioskop.Models.Films;
 import com.teama.bioskop.Services.FilmsService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -27,23 +30,35 @@ public class ScheduleController {
     @Autowired
     private final ScheduleService scheduleService;
     private final FilmsService filmsService;
+    private static final Logger logger = LogManager.getLogger();
 
     /***
-     * CRUD Schedule
-     * @param model
-     * @return
+     * Get all schedule from Schedule Table
+     * @return List of schedule
      */
     @GetMapping("/crud/schedule")
-    public String getAll(Model model){
-        List<Films> filmsList = this.filmsService.getAllFilms();
-        List<Schedule> scheduleList = this.scheduleService.getAllSchedule();
-        Collections.reverse(scheduleList);
-        model.addAttribute("films",filmsList);
-        model.addAttribute("schedules", scheduleList);
-        model.addAttribute("newSchedule", new Schedule());
-        model.addAttribute("updateSchedule", new Schedule());
-        return "schedule-crud";
+    public String getAll(Model model) throws DataNotFoundException{
+        try{
+            List<Films> filmsList = this.filmsService.getAllFilms();
+            List<Schedule> scheduleList = this.scheduleService.getAllSchedule();
+            Collections.reverse(scheduleList);
+            model.addAttribute("films",filmsList);
+            model.addAttribute("schedules", scheduleList);
+            model.addAttribute("newSchedule", new Schedule());
+            model.addAttribute("updateSchedule", new Schedule());
+            logger.info("-----------------------------------");
+            logger.info("Get All Schedule Data "+scheduleList);
+            logger.info("-----------------------------------");
+            ResponseHandler.generateResponse("Successfully retrieve all Schedule!", HttpStatus.OK,scheduleList);
+            return "schedule-crud";
+        }catch(Throwable e) {
+            model.addAttribute("error", e.getMessage());
+            model.addAttribute("errorStatus",HttpStatus.INTERNAL_SERVER_ERROR);
+            ResponseHandler.generateResponse(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR,null);
+            return "error-page";
+        }
     }
+
     /***
      * Create new Schedule
      * @param model
@@ -51,33 +66,62 @@ public class ScheduleController {
      */
     @PostMapping("/create/schedule")
     public String createNew(Model model, @ModelAttribute Schedule schedule){
-        scheduleService.createSchedule(schedule);
-        return "redirect:/crud/schedule";
+        try{
+            this.scheduleService.createSchedule(schedule);
+            logger.info("-----------------------------------");
+            logger.info("Create Schedule "+schedule);
+            logger.info("-----------------------------------");
+            ResponseHandler.generateResponse("Successfully Create Schedule!", HttpStatus.OK, schedule);
+            return "redirect:/crud/schedule";
+        }catch (Throwable err){
+            model.addAttribute("error", err.getMessage());
+            model.addAttribute("errorStatus", HttpStatus.BAD_REQUEST);
+            ResponseHandler.generateResponse(err.getMessage(), HttpStatus.BAD_REQUEST,null);
+            return "error-page";
+        }
     }
     /***
      * Update schedule
      * @param model
      * @param schedule
      * @return
-     * @throws DataNotFoundException
      */
     @PutMapping("/update/schedule/{id}")
     public String updateById(Model model, @PathVariable("id") Integer id, @ModelAttribute Schedule schedule) throws DataNotFoundException{
-        schedule.setScheduleId(id);
-        scheduleService.updateScheduleById(schedule);
-        return "redirect:/crud/schedule";
+        try{
+            schedule.setScheduleId(id);
+            this.scheduleService.updateScheduleById(schedule);
+            logger.info("-----------------------------------");
+            logger.info("Update Schedule "+schedule);
+            logger.info("-----------------------------------");
+            ResponseHandler.generateResponse("Successfully Update Schedule", HttpStatus.OK, schedule);
+            return "redirect:/crud/schedule";
+        }catch (Throwable err){
+            model.addAttribute("error", err.getMessage());
+            model.addAttribute("errorStatus", HttpStatus.BAD_REQUEST);
+            ResponseHandler.generateResponse(err.getMessage(), HttpStatus.BAD_REQUEST, null);
+            return "error-page";
+        }
     }
     /***
      * Delete Schedule
      * @param model
      * @param id
      * @return
-     * @throws DataNotFoundException
      */
     @DeleteMapping("/delete/schedule/{id}")
     public String deleteById(Model model, @PathVariable("id") Integer id) throws DataNotFoundException{
-        Schedule schedule = scheduleService.getOneSchedule(id);
-        scheduleService.deleteScheduleById(schedule);
-        return "redirect:/crud/schedule";
+        try{
+            Schedule schedule = this.scheduleService.getOneSchedule(id);
+            this.scheduleService.deleteScheduleById(schedule);
+            logger.info("-----------------------------------");
+            ResponseHandler.generateResponse("Successfully Delete Schedule", HttpStatus.OK, null);
+            return "redirect:/crud/schedule";
+        }catch (Throwable err){
+            model.addAttribute("error", err.getMessage());
+            model.addAttribute("errorStatus", HttpStatus.INTERNAL_SERVER_ERROR);
+            ResponseHandler.generateResponse(err.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR, null);
+            return "error-page";
+        }
     }
 }

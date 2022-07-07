@@ -15,9 +15,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RequestMapping("/api/")
 @RestController
 @AllArgsConstructor
+@RequestMapping("/api")
 public class SeatsRestController {
 
     private static final Logger logger = LogManager.getLogger(SeatsRestController.class);
@@ -67,7 +67,7 @@ public class SeatsRestController {
 
     /***
      * Insert new data to Seat table
-     * @param seats new users data
+     * @param seatsRequestDTO
      * @return new Seat
      */
     @PostMapping("/seats")
@@ -93,7 +93,7 @@ public class SeatsRestController {
 
     /***
      * Update data to Seat table
-     * @param seats Seat which going to be updated
+     * @param seatsRequestDTO
      * @return updated Seat
      * @throws DataNotFoundException
      */
@@ -158,8 +158,7 @@ public class SeatsRestController {
         } catch (Exception e) {
             logger.error("------------------------------------");
             logger.error(e.getMessage());
-
-            return null;
+            return ResponseHandler.generateResponse(e.getMessage(), HttpStatus.NOT_FOUND, null);
         }
     }
 }

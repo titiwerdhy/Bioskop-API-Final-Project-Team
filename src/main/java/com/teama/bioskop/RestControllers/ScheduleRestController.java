@@ -21,6 +21,7 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
+@RequestMapping("/api")
 public class ScheduleRestController {
     private final ScheduleService scheduleService;
 

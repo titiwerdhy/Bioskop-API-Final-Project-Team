@@ -95,7 +95,7 @@ public class FilmsController {
             logger.info("--------------------------");
             logger.info("Update films "+films);
             logger.info("--------------------------");
-            ResponseHandler.generateResponse("Successfully create Film!", HttpStatus.OK, films);
+            ResponseHandler.generateResponse("Successfully update Film!", HttpStatus.OK, films);
             return "redirect:/crud/films";
         }catch (Throwable err){
             model.addAttribute("error", err.getMessage());
@@ -117,7 +117,7 @@ public class FilmsController {
         try{
             this.filmsService.deleteFilmById(id);
             logger.info("--------------------------");
-            ResponseHandler.generateResponse("Successfully create Film!", HttpStatus.OK, null);
+            ResponseHandler.generateResponse("Successfully delete Film!", HttpStatus.OK, null);
             return "redirect:/crud/films";
         }catch (Throwable err){
             model.addAttribute("error", err.getMessage());
