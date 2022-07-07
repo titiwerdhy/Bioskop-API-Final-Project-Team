@@ -35,7 +35,7 @@ public class ReservationsRestController {
     public ResponseEntity<Object> getAll() throws DataNotFoundException{
         try {
             List<Reservations> reservationsList = this.reservationsService.getAllReservations();
-            List<ReservationsResponseDTO> reservationsResponseDTOs = new ArrayList<ReservationsResponseDTO>();
+            List<ReservationsResponseDTO> reservationsResponseDTOs = new ArrayList<>();
             for(Reservations reservation : reservationsList){
                 reservationsResponseDTOs.add(reservation.convertToResponse());
             }

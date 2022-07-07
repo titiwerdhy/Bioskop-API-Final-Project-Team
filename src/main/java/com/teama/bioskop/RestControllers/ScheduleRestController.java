@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -40,14 +41,18 @@ public class ScheduleRestController {
 
         try{
 
-            List<Schedule> schedules = scheduleService.getAllSchedule();
+            List<Schedule> schedules = this.scheduleService.getAllSchedule();
+            List<ScheduleResponseDTO> scheduleResponseDTOs = new ArrayList<>();
+            for(Schedule schedule : schedules){
+                scheduleResponseDTOs.add(schedule.convertToResponse());
+            }
             logger.info("------------------------------------");
             logger.info("GET ALL SCHEDULE DATA " + schedules);
             logger.info("-------------------------------------");
 
-            ResponseEntity<?> body = ResponseHandlers.generateResponse("", HttpStatus.OK, headers,
-                    ZonedDateTime.now(ZoneId.of("Asia/Tokyo")), schedules);
-            return ResponseEntity.status(body.getStatusCode()).headers(headers).body(body);
+             ResponseEntity<?> body = ResponseHandlers.generateResponse("Successfully retrieved data!",
+                     HttpStatus.OK , headers, ZonedDateTime.now(ZoneId.of("Asia/Tokyo")), scheduleResponseDTOs);
+            return ResponseEntity.ok().headers(headers).body(body);
 
         } catch (Exception e){
 
