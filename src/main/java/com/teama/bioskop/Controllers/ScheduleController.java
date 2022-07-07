@@ -1,7 +1,6 @@
 package com.teama.bioskop.Controllers;
 
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 
 import com.teama.bioskop.Handlers.ResponseHandler;
