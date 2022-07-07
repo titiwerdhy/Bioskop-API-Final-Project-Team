@@ -45,7 +45,8 @@ public class ScheduleRestController {
             logger.info("GET ALL SCHEDULE DATA " + schedules);
             logger.info("-------------------------------------");
 
-            ResponseEntity<?> body = ResponseHandlers.generateResponse("", HttpStatus.OK, headers, ZonedDateTime.now(ZoneId.of("Asia/Tokyo")), schedules);
+            ResponseEntity<?> body = ResponseHandlers.generateResponse("", HttpStatus.OK, headers,
+                    ZonedDateTime.now(ZoneId.of("Asia/Tokyo")), schedules);
             return ResponseEntity.status(body.getStatusCode()).headers(headers).body(body);
 
         } catch (Exception e){
@@ -54,7 +55,8 @@ public class ScheduleRestController {
             logger.error(e.getMessage());
             logger.error("------------------------------------");
 
-            ResponseEntity<?> body = ResponseHandlers.generateResponse("", HttpStatus.BAD_REQUEST, headers, ZonedDateTime.now(ZoneId.of("Asia/Tokyo")), null);
+            ResponseEntity<?> body = ResponseHandlers.generateResponse("",
+                    HttpStatus.BAD_REQUEST, headers, ZonedDateTime.now(ZoneId.of("Asia/Tokyo")), null);
             return ResponseEntity.status(body.getStatusCode()).headers(headers).body(body);
         }
     }
