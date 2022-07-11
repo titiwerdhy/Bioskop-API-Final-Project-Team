@@ -1,0 +1,111 @@
+<!-- Content Tittle -->
+<div th:fragment="tittle(val)" class="row mx-auto mb-3">
+    <div class="col text-center">
+        <h2 th:text="${val}" class="ms-3 text-uppercase"></h2>
+    </div>
+</div>
+
+<!-- Action Menu -->
+<div th:fragment="action-menu(sort_list)" class="row">
+    <!-- Create new Button -->
+    <div class="col">
+        <div class="me-3 d-grid gap-2 d-flex">
+            <button class="btn btn-success" type="button" data-bs-toggle="modal" data-bs-target="#createModal">
+                <lord-icon
+                    src="https://cdn.lordicon.com/diyeocup.json"
+                    trigger="morph"
+                    colors="primary:#ffffff"
+                    style="width:25px;height:25px">
+                </lord-icon>
+                Create New Reservations
+            </button>
+        </div>
+    </div>
+    <!-- Search -->
+    <div class="col">
+        <div class="col-5 input-group mb-3">
+            <input type="text" class="form-control" placeholder="Search by username" aria-label="Recipient's username" aria-describedby="button-addon2">
+            <button class="btn btn-outline-light border border-secondary text-white" type="button" id="button-addon2">
+                <lord-icon
+                    src="https://cdn.lordicon.com/pvbutfdk.json"
+                    trigger="morph"
+                    style="width:32px;height:32px">
+                </lord-icon>
+            </button>
+        </div>
+    </div>
+    <!-- Additional Fungtion -->
+    <div class="col">
+        <div class="d-grid gap-3 d-flex justify-content-end">
+            <!-- Reset -->
+            <button class="btn btn-secondary" type="button">
+                <lord-icon
+                    src="https://cdn.lordicon.com/sihdhmit.json"
+                    trigger="morph"
+                    colors="primary:#ffffff"
+                    style="width:25px;height:25px">
+                </lord-icon>
+            </button>
+            <!-- Save to PDF -->
+            <button class="btn btn-success" type="button" onclick="printJS({
+                printable: 'content-table',
+                type: 'html',
+                targetStyles: ['*']})">
+                <lord-icon
+                    src="https://cdn.lordicon.com/biwxmlnf.json"
+                    trigger="morph"
+                    colors="primary:#ffffff"
+                    style="width:25px;height:25px">
+                </lord-icon>
+                Save PDF
+            </button>
+            <!-- Sort -->
+            <div class="dropdown">
+                <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                    Sort By
+                </button>
+                <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton1">
+                    <th:block th:replace="${sort_list}" />
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Table -->
+<div th:fragment="table(head, data, loop, entity, id)" class="row overflow-auto my-3 rounded rounded-2 table-responsive" style="height: 400px;">
+    <table class="table table-light table-sm table-striped table-hover align-middle table-bordered">
+        <thead class="bg-dark" style="position: sticky; top: 0; z-index: 6;">
+            <tr>
+                <th:block th:include="${head}" />
+                <th class="text-center" scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <th:block th:each="${loop}, iter : ${entity}">
+                <tr>
+                    <th:block th:include="${data}" />
+                    <td class="text-center">
+                        <a type="button" class="btn btn-light border border-secondary" data-bs-toggle="modal" th:attr="data-bs-target='#editModal'+${__${loop}__.__${id}__}">
+                            <lord-icon
+                                src="https://cdn.lordicon.com/ryyjawhw.json"
+                                trigger="morph"
+                                style="width:25px;height:25px;">
+                            </lord-icon>
+                            Edit
+                        </a>
+                        <a type="button" class="btn btn-light border border-secondary" data-bs-toggle="modal" th:attr="data-bs-target='#deleteModal'+${__${loop}__.__${id}__}">
+                            <lord-icon
+                                src="https://cdn.lordicon.com/qsloqzpf.json"
+                                trigger="morph"
+                                colors="primary:#ff0303"
+                                style="width:25px;height:25px">
+                            </lord-icon>
+                            Delete
+                        </a>
+                    </td>
+                </tr>
+            </th:block>
+        </tbody>
+    </table>
+</div>
