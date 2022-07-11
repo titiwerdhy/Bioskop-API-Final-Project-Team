@@ -9,6 +9,10 @@ import com.teama.bioskop.Repositories.ScheduleRepository;
 import com.teama.bioskop.Repositories.UsersRepository;
 
 import lombok.AllArgsConstructor;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,6 +31,15 @@ public class ReservationsService {
             throw new DataNotFoundException("No reservations exist!");
         }
         return this.reservationsRepository.findAll();
+    }
+
+    public Page<Reservations> getAllReservationsPaged(int pageNo, int pageSize) throws DataNotFoundException{
+        List<Reservations> reservationsList = this.reservationsRepository.findAll();
+        if (reservationsList.isEmpty()) {
+            throw new DataNotFoundException("No reservations exist!");
+        }
+        Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
+        return this.reservationsRepository.findAll(pageable);
     }
 
     public Reservations getReservationById(Integer Id) throws DataNotFoundException {

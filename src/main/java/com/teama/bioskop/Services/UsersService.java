@@ -5,6 +5,9 @@ import com.teama.bioskop.Models.Users;
 import com.teama.bioskop.Repositories.UsersRepository;
 import lombok.AllArgsConstructor;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,6 +20,11 @@ public class UsersService {
 
     public List<Users> getAllUsers(){
         return this.usersRepository.findAll();
+    }
+
+    public Page<Users> getAllUsersPaged(int pageNo, int pageSize){
+        Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
+        return this.usersRepository.findAll(pageable);
     }
 
     public Users getUserById(Integer id) throws DataNotFoundException {
