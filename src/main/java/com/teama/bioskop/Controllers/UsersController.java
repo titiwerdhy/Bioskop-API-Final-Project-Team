@@ -1,9 +1,10 @@
 package com.teama.bioskop.Controllers;
 
-import java.util.Collections;
+// import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -31,10 +32,15 @@ public class UsersController {
      * @param model
      * @return
      */
-    @GetMapping("/crud/users")
-    public String getAll(Model model){
-        List<Users> userList = this.usersService.getAllUsers();
-        Collections.reverse(userList);
+    @GetMapping("/crud/users/{pageNo}")
+    public String getAll(Model model, @PathVariable("pageNo") int pageNo){
+        int pageSize = 10;
+        Page<Users> page = usersService.getAllUsersPaged(pageNo, pageSize);
+        List<Users> userList = page.getContent();
+        // Collections.reverse(userList);
+        model.addAttribute("currentPage", pageNo);
+        model.addAttribute("totalPages", page.getTotalPages());
+        model.addAttribute("totalItems", page.getTotalElements());
         model.addAttribute("users", userList);
         model.addAttribute("newUser", new Users());
         model.addAttribute("updateUser", new Users());

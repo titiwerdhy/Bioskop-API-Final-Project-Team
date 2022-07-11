@@ -55,7 +55,7 @@ public class ScheduleController {
             model.addAttribute("error", e.getMessage());
             model.addAttribute("errorStatus",HttpStatus.INTERNAL_SERVER_ERROR);
             ResponseHandler.generateResponse(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR,null);
-            return "error-page";
+            return "schedule-crud";
         }
     }
 

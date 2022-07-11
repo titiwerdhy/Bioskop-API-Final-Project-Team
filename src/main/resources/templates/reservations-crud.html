@@ -41,6 +41,9 @@
                             <td th:unless="${reservation.isActive}==true" class="text-center"></td>
                         </div>
                     </div>
+
+                    <!-- Pagination -->
+                    <th:block th:replace="fragments/content :: pagination"></th:block>
                 </div>
             </div>
 
@@ -98,7 +101,7 @@
             <!-- Create Modal -->
             <div th:replace="fragments/modal :: create(tittle='Create Reservation', form=~{this::#create-form})">
                 <th:block id="create-form">
-                    <form method="post" th:action="@{/create/reservation}" th:object="${newReservation}">
+                    <form method="post" th:action="@{/create/reservation}" th:object="${newReserv}">
                         <div class="modal-body">
                             <div class="mb-3">
                                 <label for="exampleInputEmail" class="form-label">User</label>
@@ -183,8 +186,6 @@
                     <th class="text-center" scope="col">User</th>
                     <th class="text-center" scope="col">Schedule</th>
                     <th class="text-center" scope="col">Active</th>
-                    <th class="text-center" scope="col">Created At</th>
-                    <th class="text-center" scope="col">Updated At</th>
                 </th:block>
                 <th:block id="print-body">
                     <th class="text-center" th:text="${iter.index+1}"></th>
@@ -192,8 +193,6 @@
                     <td class="text-center" th:text="${reservation.schedule.scheduleId}"></td>
                     <td th:if="${reservation.isActive}==true" class="text-center">v</td>
                     <td th:unless="${reservation.isActive}==true" class="text-center"></td>
-                    <td class="text-center" th:text="${#temporals.format(reservation.createdAt, 'dd-MM-yyyy HH:mm:ss')}"></td>
-                    <td class="text-center" th:text="${#temporals.format(reservation.updatedAt, 'dd-MM-yyyy HH:mm:ss')}"></td>
                 </th:block>
             </div>
         </div>

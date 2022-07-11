@@ -1,8 +1,9 @@
 package com.teama.bioskop.Controllers;
 
-import java.util.Collections;
+// import java.util.Collections;
 import java.util.List;
 
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -35,20 +36,23 @@ public class ReservationsController {
      * @return
      * @throws DataNotFoundException
      */
-    @GetMapping("/crud/reservations")
-    public String getAll(Model model) throws DataNotFoundException{
-        model.addAttribute("newReservation", new Reservations());
+    @GetMapping("/crud/reservations/{pageNo}")
+    public String getAll(Model model, @PathVariable("pageNo") int pageNo) throws DataNotFoundException{
         try {
-            List<Reservations> reservList = reservationsService.getAllReservations();
-            Collections.reverse(reservList);
+            int pageSize = 10;
+            Page<Reservations> page = reservationsService.getAllReservationsPaged(pageNo, pageSize);
+            List<Reservations> reservList = page.getContent();
+            // Collections.reverse(reservList);
             List<Users> userList = usersService.getAllUsers();
             List<Schedule> scheduleList = scheduleService.getAllSchedule();
             model.addAttribute("error", false);
             model.addAttribute("message", null);
+            model.addAttribute("currentPage", pageNo);
+            model.addAttribute("totalPages", page.getTotalPages());
+            model.addAttribute("totalItems", page.getTotalElements());
             model.addAttribute("reservations", reservList);
-            model.addAttribute("newReserv", new Reservations());
             model.addAttribute("users", userList);
-            model.addAttribute("loop", "reservation");
+            model.addAttribute("newReserv", new Reservations());
             model.addAttribute("schedules", scheduleList);
             return "reservations-crud";
         }catch(DataNotFoundException e) {
