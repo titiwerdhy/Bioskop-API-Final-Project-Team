@@ -4,12 +4,16 @@
         <thead>
             <tr>
                 <th:block th:insert="${head}"></th:block>
+                <th class="text-center" scope="col">Created At</th>
+                <th class="text-center" scope="col">Updated At</th>
             </tr>
         </thead>
         <tbody>
             <th:block th:each="${loop}, iter : ${entity}">
                 <tr>
                     <th:block th:insert="${body}"></th:block>
+                    <td class="text-center" th:text="${#temporals.format(__${loop}__.createdAt, 'dd-MM-yyyy HH:mm:ss')}"></td>
+                    <td class="text-center" th:text="${#temporals.format(__${loop}__.updatedAt, 'dd-MM-yyyy HH:mm:ss')}"></td>
                 </tr>
             </th:block>
         </tbody>
