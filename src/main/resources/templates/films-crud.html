@@ -23,15 +23,15 @@
 
                 <!-- Tables -->
                 <div th:replace="fragments/content :: table(head=~{this::#table-head}, data=~{::#data}, loop='film', entity=${films}, id='filmCode')" th:with="id=${film.filmCode}" th:remove="tag">
-                    <th:block id="table-head">
+                    <div id="table-head">
                         <th class="text-center" scope="col">No.</th>
                         <th class="text-center" scope="col">Film Code</th>
                         <th class="text-center" scope="col">Film Name</th>
                         <th class="text-center" scope="col">Seat</th>
                         <th class="text-center" scope="col">Playing</th>
-                    </th:block>
+                    </div>
 
-                    <th:block id="data">
+                    <div id="data">
                         <th scope="row" th:text="${iter.index + 1}"></th>
                         <td th:text="${film.filmCode}">
                             <!-- <a class="text-lowercase text-dark" style="text-decoration:none;" th:href="'#showModal'+${film.filmCode}" th:text="${film.filmName}" data-bs-toggle="modal" th:attr="data-bs-target='#showModal'+${film.filmCode}"></a> -->
@@ -39,7 +39,7 @@
                         <td th:text="${film.filmName}"></td>
                         <td th:text="${film.seatId.seatId}"></td>
                         <td th:text="${film.isPlaying} ? 'Tayang' : 'Tidak Tayang'"></td>
-                    </th:block>
+                    </div>
                 </div>
             </div>
         </div>
@@ -47,58 +47,76 @@
         <!-- Modals -->
 
         <!-- Edit Modal -->
-        <div th:replace="fragments/modal :: edit(tittle='Edit Film', form=~{this::#edit-form}, loop='film', entity=${films}, id='filmCode')"> 
+        <div th:replace="fragments/modal :: edit(tittle='Edit Film', form=~{this::#edit-form}, loop='film', entity=${films}, id='filmCode')">
             <th:block id="edit-form">
                 <form th:method="PUT" th:action="@{/update/film/} + ${film.filmCode}" th:object="${updateFilm}">
                     <div class="modal-body">
                         <div class="mb-3">
                             <label for="exampleInputEmail" class="form-label">Film Code</label>
-                            <input type="text" class="form-control" aria-describedby="filmcodeHelp" th:attr="id='filmcode'+${film.filmCode}" th:name="filmcode" th:value="${film.filmCode}">
-                            <label for="exampleInputEmail" class="form-label">Film Name</label>
-                            <input type="text" class="form-control" aria-describedby="filmnameHelp" th:attr="id='filmname'+${film.filmCode}" th:name="filmname" th:value="${film.filmName}">
-                            <select class="form-select" th:field="*{seatId}" aria-label="Default select example">
-                           
-                                <option th:each="seat:${seats}" th:text="${seat.seatId}" th:value="${seat.seatId}"></option>
-
-                              </select>
+                            <input type="text" class="form-control" aria-describedby="filmNameHelp" th:attr="id='filmName'+${film.filmCode}" th:name="filmCode" th:value="${film.filmCode}">
+                            <div id="emailHelp" class="form-text">film code must be unique.</div>
                         </div>
                         <div class="mb-3">
-                            <label for="exampleInputEmail1" class="form-label">Email address</label>
-                            <input type="email" class="form-control" aria-describedby="emailHelp" th:attr="id='username'+${user.userId}" th:name="emailAddress" th:value="${user.emailAddress}">
-                            <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+                            <label for="exampleInputEmail1" class="form-label">Seat Id</label>
+                            <input type="textl" class="form-control" aria-describedby="seatidHelp" th:attr="id='seatid'+${film.seatId}" th:name="seatId" th:value="${film.seatId.seatId}">
+                            <div id="emailHelp" class="form-text">Enter Seat Id.</div>
                         </div>
+                        <div class="mb-3">
+                            <label for="exampleInputEmail1" class="form-label">Film Name</label>
+                            <input type="textl" class="form-control" th:attr="id='filmname'+${film.filmName}" th:name="filmName" th:value="${film.filmName}">
+                            <div id="emailHelp" class="form-text">Enter Film Name.</div>
+                        </div>
+                        <div class="mb-3">                               
+                            <div class="form-check">
+                                <input th:if="${film.isPlaying} == true" th:attr="id='seatid'+${film.seatId}" th:name="isPlaying" class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" checked>
+                                <input th:unless="${film.isPlaying} == true" th:attr="id='seatid'+${film.seatId}" th:name="isPlaying" class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1">
+                                <label class="form-check-label" for="exampleRadios1">
+                                  Tayang
+                                </label>
+                              </div>
+                              <div class="form-check">
+                                <input th:if="${film.isPlaying} == false" th:attr="id='seatid'+${film.seatId}" th:name="isPlaying" class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" checked>
+                                <input th:unless="${film.isPlaying} == false" th:attr="id='seatid'+${film.seatId}" th:name="isPlaying" class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1">
+                                <label class="form-check-label" for="exampleRadios2">
+                                  Tidak Tayang
+                                </label>
+                            </div>
+                    
+                        
+                    </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Save changes</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                            Close
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                            Save changes
+                        </button>
                     </div>
                 </form>
             </th:block>
         </div>
-
+                   
 
         <!-- Delete Modal -->
-        <div class="modal fade" th:attr="id='deleteModal'+${film.filmCode}" tabindex="-1" aria-labelledby="deleteModal${film.filmCode}Label" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Delete films</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <div th:replace="fragments/modal :: delete(tittle='Delete Schedule', form=~{this::#edit-form}, loop='film', entity=${films}, id='filmCode')">
+            <th:block id="delete-form">
+                <form th:method="delete" th:action="@{/delete/film/} + ${film.filmCode}">
+                    <div class="modal-body">
+                        <span>Are you sure you want to delete schedule with Id</span>
+                        <span th:text="${film.filmCode}"></span>
+                        <span>?</span>
                     </div>
-                    <form th:method="delete" th:action="@{/delete/film/} + ${film.filmCode}">
-                        <div class="modal-body">
-                            <span>Are you sure you you want to delete </span>
-                            <span th:text="${film.filmName}"></span>
-                            <span>?</span>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary"
-                            data-bs-dismiss="modal">Cancel</button>
-                            <button type="submit" class="btn btn-primary">Yes</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                            Cancel
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                            Yes
+                        </button>
+                    </div>
+                </form>
+            </th:block>
         </div>
 
         <!-- Create Modal -->
