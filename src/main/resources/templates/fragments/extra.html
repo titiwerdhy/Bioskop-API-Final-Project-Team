@@ -1,0 +1,17 @@
+<!-- Print Table -->
+<div th:fragment="print(head, body, loop, entity)" class="row overflow-auto my-3 rounded rounded-2 visually-hidden" style="height: 400px;">
+    <table id="content-table" class="table table-bordered table-sm">
+        <thead>
+            <tr>
+                <th:block th:insert="${head}"></th:block>
+            </tr>
+        </thead>
+        <tbody>
+            <th:block th:each="${loop}, iter : ${entity}">
+                <tr>
+                    <th:block th:insert="${body}"></th:block>
+                </tr>
+            </th:block>
+        </tbody>
+    </table>
+</div>
