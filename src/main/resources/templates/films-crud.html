@@ -1,300 +1,168 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Team B | Film CRUD</title>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
-        <script src="https://kit.fontawesome.com/f83d51abbf.js" crossorigin="anonymous"></script>
-        <link rel="stylesheet" th:href="@{/styles/css/custom-scrollbar.css}">
-        <link rel="icon" href="https://ist.id/image/Logo-09.png">
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
-        <style>
-            *{
-                font-family: 'Roboto', sans-serif;
-            }
-        </style>
+    <head th:replace="fragments/head :: common(~{::title},~{})">
+        <title>Bioskop | Films CRUD</title>
     </head>
-    <body style="background-color: #25e8da;">
-        <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
-        <!-- Navbar -->
-            <div class="container-fluid">
-                <a class="navbar-brand fw-bold" href="#">
-                    <img src="https://ist.id/image/Logo-09.png" alt="" width="30"  class="d-inline-block align-text-top">
-                    Team B | Chapter 5
-                </a>
-                <button class="navbar-toggler" type="button"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#navbarNavDropdown"
-                    aria-controls="navbarNavDropdown" aria-expanded="false"
-                    aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse"
-                    id="navbarNavDropdown">
-                    <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href="#">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Docs</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link active" href="#">CRUD</a>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#"
-                                id="navbarDropdownMenuLink" role="button"
-                                data-bs-toggle="dropdown"
-                                aria-expanded="false">
-                                CRUD List
-                            </a>
-                            <ul class="dropdown-menu"
-                                aria-labelledby="navbarDropdownMenuLink">
-                                <li><a class="dropdown-item" href="#">Film Code</a></li>
-                                <li><a class="dropdown-item" href="#">Seat Id</a></li>
-                                <li><a class="dropdown-item" href="#">Film Name</a></li>
-                                <li><a class="dropdown-item" href="#">Is playing</a></li>
-                               
-                            </ul>
-                        </li>
-                    </ul>
+    <body>
+    <div th:replace="fragments/navigation :: main"></div>
+    <div class="container">
+
+        <!-- Content -->
+        <div class="d-flex border px-5 rounded my-3" style="background-color: #ededed;">
+            <div class="col mt-3 mx-auto">
+                <!-- Tittle -->
+                <div th:replace="fragments/content :: tittle('Films')">
                 </div>
-            </div>
-        </nav>
 
-        <div class="container">
-
-            <!-- Tables -->
-            <div class="d-flex">
-                <div class="col-md-10 mt-5 mx-auto">
-                    <div class="row mx-auto">
-                        <div class="col-12 mt-2">
-                            <h2 class="text-white text-center text-uppercase">Films CRUD Data</h2>
-                        </div>
-                        <div class="col-md-7">
-                            <div class="input-group mb-3">
-                                <input type="text" class="form-control" placeholder="Search by film name" aria-label="Recipient's filmsname" aria-describedby="button-addon2">
-                                <button class="btn btn-outline-secondary text-white" type="button" id="button-addon2">
-                                    <i class="fa-solid fa-magnifying-glass"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="col-2"></div> 
-                        <div class="col-md-3">
-                        <button class="btn btn-success float-right" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                            <i class="fa-regular fa-square-plus"></i> Create New films
-                        </button>
-                    </div>
-                    </div>
-                    <div class="row overflow-auto my-3 rounded rounded-4"
-                        style="height: 400px;">
-                        <table class="table table-striped table-dark align-middle">
-                            <thead style="position: sticky;top: 0">
-                                <tr>
-                                    <th class="text-center" scope="col">No</th>
-                                    <th class="text-center" scope="col">Film Code</th>
-                                    <th class="text-center" scope="col">Seat ID</th>
-                                    <th class="text-center" scope="col">Film Name</th>
-                                    <th class="text-center" scope="col">Is Playing</th>
-                                 
-                                    <th class="text-center" scope="col">Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr th:each="film, iter : ${films}">
-                                    <th scope="row" th:text="${iter.index + 1}"></th>
-                                    <!-- <td>
-                                        <a class="text-lowercase text-white" style="text-decoration:none;" th:href="'#showModal'+${user.userId}" th:text="${user.username}" data-bs-toggle="modal" th:attr="data-bs-target='#showModal'+${user.userId}"></a>
-                                    </td> -->
-                                    <td  th:text="${film.filmCode}">
-                                        <a class="text-white" style="text-decoration:none;" th:href="'#showModal'+${film.filmCode}" th:text="${film.filmName}" data-bs-toggle="modal" th:attr="data-bs-target='#showModal'+${film.filmCode}"></a>
-                                    </td>
-                                    <td th:text="${film.seatId.seatId}"></td>
-                                    <td th:text="${film.filmName}"></td>    
-                                    <td th:text="${film.isPlaying} ? 'Tayang' : 'Tidak Tayang'"></td>
-                                    <td>
-                                        <button type="button" class="btn btn-outline-warning" data-bs-toggle="modal" th:attr="data-bs-target='#editModal'+${film.filmCode}">
-                                            <i class="fa-solid fa-pen"></i>
-                                        </button>
-                                        <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" th:attr="data-bs-target='#deleteModal'+${film.filmCode}">
-                                            <i class="fa-solid fa-trash-can"></i>
-                                        </button>
-                                    </td>
-                                    <!-- Edit Modal -->
-                                    <div class="modal fade" th:attr="id='editModal'+${film.filmCode}" tabindex="-1" aria-labelledby="editModal${film.filmCode}Label" aria-hidden="true">
-                                        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="exampleModalLabel">Edit films</h5>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                </div>
-                                                <form th:method="PUT" th:action="@{/update/film/} + ${film.filmCode}" th:object="${updateFilm}">
-                                                    <div class="modal-body">
-                                                        <div class="mb-3">
-                                                            <label for="exampleInputEmail" class="form-label">Film Code</label>
-                                                            <input type="text" class="form-control" aria-describedby="filmNameHelp" th:attr="id='filmName'+${film.filmCode}" th:name="filmCode" th:value="${film.filmCode}">
-                                                            <div id="emailHelp" class="form-text">film code must be unique.</div>
-                                                        </div>
-                                                        <div class="mb-3">
-                                                            <label for="exampleInputEmail1" class="form-label">Seat Id</label>
-                                                            <input type="textl" class="form-control" aria-describedby="seatidHelp" th:attr="id='seatid'+${film.seatId}" th:name="seatId" th:value="${film.seatId.seatId}">
-                                                            <div id="emailHelp" class="form-text">Enter Seat Id.</div>
-                                                        </div>
-                                                        <div class="mb-3">
-                                                            <label for="exampleInputEmail1" class="form-label">Film Name</label>
-                                                            <input type="textl" class="form-control" th:attr="id='filmname'+${film.filmName}" th:name="filmName" th:value="${film.filmName}">
-                                                            <div id="emailHelp" class="form-text">Enter Film Name.</div>
-                                                        </div>
-                                                        <div class="mb-3">
-                                                           
-                                                                <div class="form-check">
-                                                                    <input th:if="${film.isPlaying} == true" th:attr="id='seatid'+${film.seatId}" th:name="isPlaying" class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" checked>
-                                                                    <input th:unless="${film.isPlaying} == true" th:attr="id='seatid'+${film.seatId}" th:name="isPlaying" class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1">
-                                                                    <label class="form-check-label" for="exampleRadios1">
-                                                                      Tayang
-                                                                    </label>
-                                                                  </div>
-                                                                  <div class="form-check">
-                                                                    <input th:if="${film.isPlaying} == false" th:attr="id='seatid'+${film.seatId}" th:name="isPlaying" class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" checked>
-                                                                    <input th:unless="${film.isPlaying} == false" th:attr="id='seatid'+${film.seatId}" th:name="isPlaying" class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1">
-                                                                    <label class="form-check-label" for="exampleRadios2">
-                                                                      Tidak Tayang
-                                                                    </label>
-                                                                </div>
-                                                        
-                                                            <div id="emailHelp" class="form-text">Enter Is Playing.</div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                        <button type="submit" class="btn btn-primary">Save changes</button>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- Delete Modal -->
-                                    <div class="modal fade" th:attr="id='deleteModal'+${film.filmCode}" tabindex="-1" aria-labelledby="deleteModal${film.filmCode}Label" aria-hidden="true">
-                                        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="exampleModalLabel">Delete films</h5>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                </div>
-                                                <form th:method="delete" th:action="@{/delete/film/} + ${film.filmCode}">
-                                                    <div class="modal-body">
-                                                        <span>Are you sure you you want to delete </span>
-                                                        <span th:text="${film.filmName}"></span>
-                                                        <span>?</span>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary"
-                                                        data-bs-dismiss="modal">Cancel</button>
-                                                        <button type="submit" class="btn btn-primary">Yes</button>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    
+                <!-- Action menu -->
+                <div th:replace="fragments/content :: action-menu(~{::li})">
+                    <li><a class="dropdown-item" href="#">Film Code</a></li>
+                    <li><a class="dropdown-item" href="#">Film Name</a></li>
+                    <li><a class="dropdown-item" href="#">Playing</a></li>
                 </div>
-            </div>
 
-            <!-- Create New films Modal -->
-            <div class="modal fade" id="exampleModal" tabindex="-1"
-                aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered
-                    modal-dialog-scrollable">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Create New films</h5>
-                            <button type="button" class="btn-close"
-                                data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <form method="post" th:action="@{/create/film}" th:object="${newFilm}">
-                            <div class="modal-body">
-                                <div class="mb-3">
-                                    <label for="inputfilmcode" class="form-label">Films Code</label>
-                                    <input type="text" class="form-control" id="inputfilmcode" aria-describedby="filmnameHelp" th:field="*{filmCode}">
-                                    <div id="emailHelp" class="form-text">films code must be unique.</div>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="inputfilmname" class="form-label">Film Name</label>
-                                    <input type="text" class="form-control" id="inputfilmname" aria-describedby="filmnameHelp" th:field="*{filmName}">
-                                    <div id="enterfilmname" class="form-text">Enter Film Name</div>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="inputseatid" class="form-label">Seat Id</label>
-                                    <select class="form-select" th:field="*{seatId}" aria-label="Default select example">
-                                        <!-- <option th:each="seat : ${seats}" th:text="${seat.seatId}" th:value="${seat.seatId}"></option> -->
-                                        <option th:each="seat:${seats}" th:text="${seat.seatId}" th:value="${seat.seatId}"></option>
+                <!-- Tables -->
+                <div th:replace="fragments/content :: table(head=~{this::#table-head}, data=~{::#data}, loop='film', entity=${films}, id='filmCode')" th:with="id=${film.filmCode}" th:remove="tag">
+                    <th:block id="table-head">
+                        <th class="text-center" scope="col">No.</th>
+                        <th class="text-center" scope="col">Film Code</th>
+                        <th class="text-center" scope="col">Film Name</th>
+                        <th class="text-center" scope="col">Seat</th>
+                        <th class="text-center" scope="col">Playing</th>
+                    </th:block>
 
-                                      </select>
-                                    <!-- <input type="text" class="form-control" id="inputfilmname" aria-describedby="filmnameHelp" th:field="*{filmName}"> -->
-                                    <div id="enterfilmname" class="form-text">Enter Film Name</div>
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-primary">Save changes</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-            <!-- Get By Id Modal -->
-            <div th:each="film : ${films}" class="modal fade" th:attr="id='showModal'+${film.filmCode}" tabindex="-1" aria-labelledby="showModal${film.filmCode}Label" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">films Detail</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <table class="table table-condensed">
-                                <tbody>
-                                    <tr>
-                                        <th scope="row">Film Code</th>
-                                        <td th:text="${film.filmsName}"></td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">Seat Id</th>
-                                        <td th:text="${film.seatId}"></td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">Film Name</th>
-                                        <td th:text="${film.filmName}"></td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">createdAt</th>
-                                        <td th:text="${#temporals.format(film.createdAt, 'dd-MM-yyyy HH:mm:ss')}"></td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">updatedAt</th>
-                                        <td th:text="${#temporals.format(film.updatedAt, 'dd-MM-yyyy HH:mm:ss')}"></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Save changes</button>
-                        </div>
-                    </div>
+                    <th:block id="data">
+                        <th scope="row" th:text="${iter.index + 1}"></th>
+                        <td th:text="${film.filmCode}">
+                            <!-- <a class="text-lowercase text-dark" style="text-decoration:none;" th:href="'#showModal'+${film.filmCode}" th:text="${film.filmName}" data-bs-toggle="modal" th:attr="data-bs-target='#showModal'+${film.filmCode}"></a> -->
+                        </td>
+                        <td th:text="${film.filmName}"></td>
+                        <td th:text="${film.seatId.seatId}"></td>
+                        <td th:text="${film.isPlaying} ? 'Tayang' : 'Tidak Tayang'"></td>
+                    </th:block>
                 </div>
             </div>
         </div>
-    </body>
-    <script type="script/javascript" th:src="@{/styles/js/popper.js}"></script>
-    <script type="script/javascript" th:src="@{/styles/js/jquery.min.js}"></script>
-    <script type="script/javascript" th:src="@{/styles/js/main.js}"></script>
+
+        <!-- Modals -->
+
+        <!-- Edit Modal -->
+        <div th:replace="fragments/modal :: edit(tittle='Edit Film', form=~{this::#edit-form}, loop='film', entity=${films}, id='filmCode')"> 
+            <th:block id="edit-form">
+                <form th:method="PUT" th:action="@{/update/film/} + ${film.filmCode}" th:object="${updateFilm}">
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="exampleInputEmail" class="form-label">Film Code</label>
+                            <input type="text" class="form-control" aria-describedby="filmcodeHelp" th:attr="id='filmcode'+${film.filmCode}" th:name="filmcode" th:value="${film.filmCode}">
+                            <label for="exampleInputEmail" class="form-label">Film Name</label>
+                            <input type="text" class="form-control" aria-describedby="filmnameHelp" th:attr="id='filmname'+${film.filmCode}" th:name="filmname" th:value="${film.filmName}">
+                            <select class="form-select" th:field="*{seatId}" aria-label="Default select example">
+                           
+                                <option th:each="seat:${seats}" th:text="${seat.seatId}" th:value="${seat.seatId}"></option>
+
+                              </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleInputEmail1" class="form-label">Email address</label>
+                            <input type="email" class="form-control" aria-describedby="emailHelp" th:attr="id='username'+${user.userId}" th:name="emailAddress" th:value="${user.emailAddress}">
+                            <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                    </div>
+                </form>
+            </th:block>
+        </div>
+
+
+        <!-- Delete Modal -->
+        <div class="modal fade" th:attr="id='deleteModal'+${film.filmCode}" tabindex="-1" aria-labelledby="deleteModal${film.filmCode}Label" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Delete films</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form th:method="delete" th:action="@{/delete/film/} + ${film.filmCode}">
+                        <div class="modal-body">
+                            <span>Are you sure you you want to delete </span>
+                            <span th:text="${film.filmName}"></span>
+                            <span>?</span>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary"
+                            data-bs-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-primary">Yes</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Create Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1"
+        aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered
+            modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Create New films</h5>
+                    <button type="button" class="btn-close"
+                        data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form method="post" th:action="@{/create/film}" th:object="${newFilm}">
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="inputfilmcode" class="form-label">Films Code</label>
+                            <input type="text" class="form-control" id="inputfilmcode" aria-describedby="filmnameHelp" th:field="*{filmCode}">
+                            <div id="emailHelp" class="form-text">films code must be unique.</div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="inputfilmname" class="form-label">Film Name</label>
+                            <input type="text" class="form-control" id="inputfilmname" aria-describedby="filmnameHelp" th:field="*{filmName}">
+                            <div id="enterfilmname" class="form-text">Enter Film Name</div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="inputseatid" class="form-label">Seat Id</label>
+                            <select class="form-select" th:field="*{seatId}" aria-label="Default select example">
+                                <!-- <option th:each="seat : ${seats}" th:text="${seat.seatId}" th:value="${seat.seatId}"></option> -->
+                                <option th:each="seat:${seats}" th:text="${seat.seatId}" th:value="${seat.seatId}"></option>
+
+                              </select>
+                            <!-- <input type="text" class="form-control" id="inputfilmname" aria-describedby="filmnameHelp" th:field="*{filmName}"> -->
+                            <div id="enterfilmname" class="form-text">Enter Film Name</div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        </div>
+
+
+        <!-- Print Table -->
+        <div th:replace="fragments/extra :: print(head=~{this::#print-head}, body=~{this::#print-body}, loop='film', entity=${films})">
+            <th:block id="print-head">
+                <th class="text-center" scope="col">Film Code</th>
+                <th class="text-center" scope="col">Film Name</th>
+                <th class="text-center" scope="col">Playing</th>
+            </th:block>
+            <th:block id="print-body">
+                <th scope="row" th:text="${iter.index + 1}"></th>
+                <td>
+                    <a class="text-lowercase text-dark" style="text-decoration:none;" th:href="'#showModal'+${film.filmCode}" th:text="${film.filmName}" data-bs-toggle="modal" th:attr="data-bs-target='#showModal'+${film.filmCode}"></a>
+                </td>
+                <td th:text="${film.isPlaying}"></td>
+            </th:block>
+        </div>
+    </div>
+    <footer th:replace="fragments/footer :: crud">
+
+    </footer>
+   </body>
 </html>
