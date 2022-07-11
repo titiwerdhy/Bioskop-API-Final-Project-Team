@@ -99,11 +99,11 @@
                    
 
         <!-- Delete Modal -->
-        <div th:replace="fragments/modal :: delete(tittle='Delete Schedule', form=~{this::#edit-form}, loop='film', entity=${films}, id='filmCode')">
+        <div th:replace="fragments/modal :: delete(tittle='Delete Films', form=~{this::#edit-form}, loop='film', entity=${films}, id='filmCode')">
             <th:block id="delete-form">
                 <form th:method="delete" th:action="@{/delete/film/} + ${film.filmCode}">
                     <div class="modal-body">
-                        <span>Are you sure you want to delete schedule with Id</span>
+                        <span>Are you sure you want to delete this Film with code </span>
                         <span th:text="${film.filmCode}"></span>
                         <span>?</span>
                     </div>
