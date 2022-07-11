@@ -48,6 +48,7 @@ public class ReservationsController {
             model.addAttribute("reservations", reservList);
             model.addAttribute("newReserv", new Reservations());
             model.addAttribute("users", userList);
+            model.addAttribute("loop", "reservation");
             model.addAttribute("schedules", scheduleList);
             return "reservations-crud";
         }catch(DataNotFoundException e) {
