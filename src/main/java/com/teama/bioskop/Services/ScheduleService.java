@@ -2,8 +2,12 @@ package com.teama.bioskop.Services;
 
 import com.teama.bioskop.Helpers.DataNotFoundException;
 import com.teama.bioskop.Models.Schedule;
+import com.teama.bioskop.Models.Users;
 import com.teama.bioskop.Repositories.ScheduleRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,6 +20,11 @@ public class ScheduleService {
 
     public List<Schedule> getAllSchedule(){
         return this.scheduleRepository.findAll();
+    }
+
+    public Page<Schedule> getAllSchedulePaged(int pageNo, int pageSize){
+        Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
+        return this.scheduleRepository.findAll(pageable);
     }
 
     public Schedule createSchedule (Schedule schedule){

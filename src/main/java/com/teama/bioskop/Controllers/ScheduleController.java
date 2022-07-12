@@ -5,10 +5,12 @@ import java.util.List;
 
 import com.teama.bioskop.Handlers.ResponseHandler;
 import com.teama.bioskop.Models.Films;
+import com.teama.bioskop.Models.Users;
 import com.teama.bioskop.Services.FilmsService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -36,12 +38,17 @@ public class ScheduleController {
      * Get all schedule from Schedule Table
      * @return List of schedule
      */
-    @GetMapping("/crud/schedule")
-    public String getAll(Model model) throws DataNotFoundException{
+    @GetMapping("/crud/schedule/{pageNo}")
+    public String getAll(Model model, @PathVariable("pageNo") int pageNo) throws DataNotFoundException{
         try{
+            int pageSize = 10;
+            Page<Schedule> page = scheduleService.getAllSchedulePaged(pageNo, pageSize);
             List<Films> filmsList = this.filmsService.getAllFilms();
-            List<Schedule> scheduleList = this.scheduleService.getAllSchedule();
-            Collections.reverse(scheduleList);
+            List<Schedule> scheduleList = page.getContent();
+            //Collections.reverse(scheduleList);
+            model.addAttribute("currentPage", pageNo);
+            model.addAttribute("totalPages", page.getTotalPages());
+            model.addAttribute("totalItems", page.getTotalElements());
             model.addAttribute("films",filmsList);
             model.addAttribute("schedules", scheduleList);
             model.addAttribute("newSchedule", new Schedule());

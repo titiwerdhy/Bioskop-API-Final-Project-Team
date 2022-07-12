@@ -34,7 +34,7 @@
                 </div>
 
                 <div id="data">
-                    <th class="text-center" scope="row" th:text="${iter.index + 1}"></th>
+                    <td class="text-center" scope="row" th:text="${iter.index + 1 + ((currentPage-1)*10)}"></td>
                     <td class="text-capitalize" th:text="${schedule.films.filmName}"></td>
                     <td class="text-center" th:text="${#temporals.format(schedule.tanggalTayang,'dd-MM-yyyy')}"></td>
                     <td class="text-center" th:text="${#temporals.format(schedule.jamMulai,'HH:mm')}"></td>
@@ -42,6 +42,8 @@
                     <td class="text-center" th:text="Rp + ${#numbers.formatDecimal(schedule.hargaTiket,0, 'POINT', 0, 'COMMA')}"></td>
                 </div>
             </div>
+            <!-- Pagination -->
+            <th:block th:replace="fragments/content :: pagination"></th:block>
         </div>
     </div>
 
