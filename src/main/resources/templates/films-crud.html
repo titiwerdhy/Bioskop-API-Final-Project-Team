@@ -32,7 +32,8 @@
                     </div>
 
                     <div id="data">
-                        <th scope="row" th:text="${iter.index + 1}"></th>
+                        <td class="text-center" scope="row" th:text="${iter.index + 1 + ((currentPage-1)*10)}"></td>
+                    
                         <td>
                             <a class="text-lowercase text-dark" style="text-decoration:none;" th:href="'#showModal'+${film.filmCode}" th:text="${film.filmCode}" data-bs-toggle="modal" th:attr="data-bs-target='#showModal'+${film.filmCode}"></a>
                         </td>
@@ -41,6 +42,8 @@
                         <td th:text="${film.isPlaying} ? 'Tayang' : 'Tidak Tayang'"></td>
                     </div>
                 </div>
+                <!-- Pagination -->
+            <th:block th:replace="fragments/content :: pagination"></th:block>
             </div>
         </div>
 
