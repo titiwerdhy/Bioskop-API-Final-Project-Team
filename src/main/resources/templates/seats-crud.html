@@ -41,6 +41,9 @@
                     <td class="text-center" th:unless="${seat.isAvailable}==true"></td>
                 </div>
             </div>
+
+            <!-- Pagination -->
+            <th:block th:replace="fragments/content :: pagination"></th:block>
         </div>
     </div>
 

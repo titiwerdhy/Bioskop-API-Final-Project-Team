@@ -1,9 +1,11 @@
 package com.teama.bioskop.Controllers;
 
 import com.teama.bioskop.Helpers.DataNotFoundException;
+import com.teama.bioskop.Models.Reservations;
 import com.teama.bioskop.Models.Seats;
 import com.teama.bioskop.Services.SeatsService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -22,10 +24,15 @@ public class SeatsController {
      * @param model
      * @return
      */
-    @GetMapping("/crud/seats")
-    public String getAll(Model model){
-        List<Seats> seatsList = this.seatsService.getAllSeats();
-        Collections.reverse(seatsList);
+    @GetMapping("/crud/seats/{pageNo}")
+    public String getAll(Model model, @PathVariable("pageNo") int pageNo) throws DataNotFoundException {
+        int pageSize = 10;
+        Page<Seats> page = seatsService.getAllSeatsPaged(pageNo, pageSize);
+        List<Seats> seatsList = page.getContent();
+//        Collections.reverse(seatsList);
+        model.addAttribute("currentPage", pageNo);
+        model.addAttribute("totalPages", page.getTotalPages());
+        model.addAttribute("totalItems", page.getTotalElements());
         model.addAttribute("seats", seatsList);
         model.addAttribute("newSeats", new Seats());
         model.addAttribute("updateSeats", new Seats());
@@ -75,3 +82,7 @@ public class SeatsController {
 
 
 }
+
+
+
+

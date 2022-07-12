@@ -1,9 +1,13 @@
 package com.teama.bioskop.Services;
 
 import com.teama.bioskop.Helpers.DataNotFoundException;
+import com.teama.bioskop.Models.Reservations;
 import com.teama.bioskop.Models.Seats;
 import com.teama.bioskop.Repositories.SeatsRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,6 +20,15 @@ public class SeatsService {
 
     public List<Seats> getAllSeats(){
         return this.seatsRepository.findAll();
+    }
+
+    public Page<Seats> getAllSeatsPaged(int pageNo, int pageSize) throws DataNotFoundException{
+        List<Seats> seatsList = this.seatsRepository.findAll();
+        if (seatsList.isEmpty()) {
+            throw new DataNotFoundException("No reservations exist!");
+        }
+        Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
+        return this.seatsRepository.findAll(pageable);
     }
 
     public Seats insertNewSeats(Seats seats) {
