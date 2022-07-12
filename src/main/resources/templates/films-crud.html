@@ -33,8 +33,8 @@
 
                     <div id="data">
                         <th scope="row" th:text="${iter.index + 1}"></th>
-                        <td th:text="${film.filmCode}">
-                            <!-- <a class="text-lowercase text-dark" style="text-decoration:none;" th:href="'#showModal'+${film.filmCode}" th:text="${film.filmName}" data-bs-toggle="modal" th:attr="data-bs-target='#showModal'+${film.filmCode}"></a> -->
+                        <td>
+                            <a class="text-lowercase text-dark" style="text-decoration:none;" th:href="'#showModal'+${film.filmCode}" th:text="${film.filmCode}" data-bs-toggle="modal" th:attr="data-bs-target='#showModal'+${film.filmCode}"></a>
                         </td>
                         <td th:text="${film.filmName}"></td>
                         <td th:text="${film.seatId.seatId}"></td>
@@ -57,42 +57,38 @@
                             <div id="emailHelp" class="form-text">film code must be unique.</div>
                         </div>
                         <div class="mb-3">
-                            <label for="exampleInputEmail1" class="form-label">Seat</label>
-                                <select class="form-select" th:field="*{seats}" aria-label="Default select example">
-                                    <option th:each="seat : ${seats}" th:value="${seat.seatId}" th:text="${seat.seatId}"></option>
-                                </select>
+                            <label for="exampleInputEmail1" class="form-label">Seat Id</label>
+                            <input type="textl" class="form-control" aria-describedby="seatidHelp" th:attr="id='seatid'+${film.seatId}" th:name="seatId" th:value="${film.seatId.seatId}">
+                            <div id="emailHelp" class="form-text">Enter Seat Id.</div>
                         </div>
                         <div class="mb-3">
                             <label for="exampleInputEmail1" class="form-label">Film Name</label>
                             <input type="textl" class="form-control" th:attr="id='filmname'+${film.filmName}" th:name="filmName" th:value="${film.filmName}">
                             <div id="emailHelp" class="form-text">Enter Film Name.</div>
                         </div>
-                        <div class="mb-3">                               
-                            <div class="form-check">
-                                <input th:if="${film.isPlaying} == true" th:attr="id='seatid'+${film.seatId}" th:name="isPlaying" class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" checked>
-                                <input th:unless="${film.isPlaying} == true" th:attr="id='seatid'+${film.seatId}" th:name="isPlaying" class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1">
-                                <label class="form-check-label" for="exampleRadios1">
-                                  Tayang
-                                </label>
-                              </div>
-                              <div class="form-check">
-                                <input th:if="${film.isPlaying} == false" th:attr="id='seatid'+${film.seatId}" th:name="isPlaying" class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" checked>
-                                <input th:unless="${film.isPlaying} == false" th:attr="id='seatid'+${film.seatId}" th:name="isPlaying" class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1">
-                                <label class="form-check-label" for="exampleRadios2">
-                                  Tidak Tayang
-                                </label>
-                            </div>
-                    
+                        <div class="mb-3">
+                           
+                                <div class="form-check">
+                                    <input th:if="${film.isPlaying} == true" th:attr="id='seatid'+${film.seatId}" th:name="isPlaying" class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" checked>
+                                    <input th:unless="${film.isPlaying} == true" th:attr="id='seatid'+${film.seatId}" th:name="isPlaying" class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1">
+                                    <label class="form-check-label" for="exampleRadios1">
+                                      Tayang
+                                    </label>
+                                  </div>
+                                  <div class="form-check">
+                                    <input th:if="${film.isPlaying} == false" th:attr="id='seatid'+${film.seatId}" th:name="isPlaying" class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" checked>
+                                    <input th:unless="${film.isPlaying} == false" th:attr="id='seatid'+${film.seatId}" th:name="isPlaying" class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1">
+                                    <label class="form-check-label" for="exampleRadios2">
+                                      Tidak Tayang
+                                    </label>
+                                </div>
                         
+                            <div id="emailHelp" class="form-text">Enter Is Playing.</div>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                            Close
-                        </button>
-                        <button type="submit" class="btn btn-primary">
-                            Save changes
-                        </button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
                     </div>
                 </form>
             </th:block>
@@ -100,21 +96,18 @@
                    
 
         <!-- Delete Modal -->
-        <div th:replace="fragments/modal :: delete(tittle='Delete Films', form=~{this::#edit-form}, loop='film', entity=${films}, id='filmCode')">
+        <div th:replace="fragments/modal :: delete(tittle='Delete Films', form=~{this::#delete-form}, loop='film', entity=${films}, id='filmCode')">
             <th:block id="delete-form">
                 <form th:method="delete" th:action="@{/delete/film/} + ${film.filmCode}">
                     <div class="modal-body">
-                        <span>Are you sure you want to delete this Film with code </span>
+                        <span>Are you sure you you want to delete </span>
                         <span th:text="${film.filmCode}"></span>
                         <span>?</span>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                            Cancel
-                        </button>
-                        <button type="submit" class="btn btn-primary">
-                            Yes
-                        </button>
+                        <button type="button" class="btn btn-secondary"
+                        data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Yes</button>
                     </div>
                 </form>
             </th:block>
@@ -126,49 +119,68 @@
                 <form method="post" th:action="@{/create/film}" th:object="${newFilm}">
                     <div class="modal-body">
                         <div class="mb-3">
-                            <label for="exampleInputEmail1" class="form-label">Film Code</label>
-                            <input id="filmCode" class="form-control" type="text" th:field="*{filmCode}" />
+                            <label for="inputfilmcode" class="form-label">Films Code</label>
+                            <input type="text" class="form-control" id="inputfilmcode" aria-describedby="filmnameHelp" th:field="*{filmCode}">
+                            <div id="emailHelp" class="form-text">films code must be unique.</div>
                         </div>
                         <div class="mb-3">
-                            <label for="exampleInputEmail1" class="form-label">Film Name</label>
-                            <input id="startDate" class="form-control" type="date" th:field="*{tanggalTayang}" />
+                            <label for="inputfilmname" class="form-label">Film Name</label>
+                            <input type="text" class="form-control" id="inputfilmname" aria-describedby="filmnameHelp" th:field="*{filmName}">
+                            <div id="enterfilmname" class="form-text">Enter Film Name</div>
                         </div>
                         <div class="mb-3">
-                            <label for="exampleInputTime" class="form-label">Start Time</label>
-                            <input type="time" id="appt" th:field="*{jamMulai}" />
-                        </div>
-                        <div class="mb-3">
-                            <label for="exampleInputTime" class="form-label">End Time</label>
-                            <input type="time" id="appt" th:field="*{jamSelesai}" />
-                        </div>
-                        <div class="mb-3">
-                            <label for="exampleInputPrice" class="form-label">Price</label>
-                            <input type="number" min="0.00" step="0.05" value="1.00" id="exampleInputAmount" class="form-control" th:field="*{hargaTiket}" />
+                            <label for="inputseatid" class="form-label">Seat Id</label>
+                            <select class="form-select" th:field="*{seatId}" aria-label="Default select example">
+                                <!-- <option th:each="seat : ${seats}" th:text="${seat.seatId}" th:value="${seat.seatId}"></option> -->
+                                <option th:each="seat:${seats}" th:text="${seat.seatId}" th:value="${seat.seatId}"></option>
+
+                              </select>
+                            <!-- <input type="text" class="form-control" id="inputfilmname" aria-describedby="filmnameHelp" th:field="*{filmName}"> -->
+                            <div id="enterfilmname" class="form-text">Enter Film Name</div>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                            Close
-                        </button>
-                        <button type="submit" class="btn btn-primary">
-                            Save changes
-                        </button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
                     </div>
                 </form>
             </th:block>
         </div>
     
-
+        <!-- Get One -->
+        <div th:replace="fragments/modal :: get(tittle='Film Detail', form=~{this::#getone-form}, loop='film', entity=${films}, id='filmCode')">
+            <th:block id="getone-form">
+                <table class="table table-condensed">
+                    <tbody>
+                        <tr>
+                            <th scope="row">Film Code</th>
+                            <td th:text="${film.filmCode}"></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Seat Id</th>
+                            <td th:text="${film.seatId.seatId}"></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Film Name</th>
+                            <td th:text="${film.filmName}"></td>
+                        </tr>
+                        
+                    </tbody>
+                </table>
+            </th:block>
+        </div>
 
         <!-- Print Table -->
         <div th:replace="fragments/extra :: print(head=~{this::#print-head}, body=~{this::#print-body}, loop='film', entity=${films})">
             <th:block id="print-head">
+                <th class="text-center" scope="col">No.</th>
                 <th class="text-center" scope="col">Film Code</th>
                 <th class="text-center" scope="col">Film Name</th>
                 <th class="text-center" scope="col">Playing</th>
             </th:block>
             <th:block id="print-body">
                 <th scope="row" th:text="${iter.index + 1}"></th>
+                <th scope="row" th:text="${film.filmCode}"></th>
                 <td>
                     <a class="text-lowercase text-dark" style="text-decoration:none;" th:href="'#showModal'+${film.filmCode}" th:text="${film.filmName}" data-bs-toggle="modal" th:attr="data-bs-target='#showModal'+${film.filmCode}"></a>
                 </td>
