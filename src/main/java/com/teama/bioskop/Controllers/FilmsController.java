@@ -8,6 +8,7 @@ import com.teama.bioskop.Services.FilmsService;
 import com.teama.bioskop.Services.SeatsService;
 import com.teama.bioskop.Handlers.ResponseHandler;
 import org.springframework.http.HttpStatus;
+import org.springframework.data.domain.Page;
 
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,14 +35,19 @@ public class FilmsController {
      * Get all film from Films Table
      * @return List of films
      */
-    @GetMapping("/crud/films")
-    public String getAll(Model model) throws DataNotFoundException{
+    @GetMapping("/crud/films/{pageNo}")
+    public String getAll(Model model, @PathVariable("pageNo") int pageNo) throws DataNotFoundException{
         try{
-            List<Films> films = this.filmsService.getAllFilms();
-            Collections.reverse(films);
-            List<Seats> seats = seatsService.getAllSeats();
+            int pageSize = 10;
+            Page<Films> films = this.filmsService.getAllFilmsPaged(pageNo, pageSize);
+            // Collections.reverse(films);
+            List<Seats> seats = this.seatsService.getAllSeats();
+            List<Films> filmPage = films.getContent();
+            model.addAttribute("currentPage", pageNo);
+            model.addAttribute("totalPages", films.getTotalPages());
+            model.addAttribute("totalItems", films.getTotalElements());
             model.addAttribute("seats", seats);
-            model.addAttribute("films", films);
+            model.addAttribute("films", filmPage);
             model.addAttribute("newFilm", new Films());
             model.addAttribute("updateFilm", new Films());
             logger.info("--------------------------");
