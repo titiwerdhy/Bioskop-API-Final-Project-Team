@@ -3,6 +3,7 @@ package com.teama.bioskop.RestControllers;
 import com.teama.bioskop.DTOs.FilmRequestDTO;
 import com.teama.bioskop.DTOs.FilmResponseDTO;
 import com.teama.bioskop.Handlers.ResponseHandler;
+import com.teama.bioskop.Handlers.ResponseHandlers;
 import com.teama.bioskop.Helpers.DataNotFoundException;
 import com.teama.bioskop.Models.Films;
 import com.teama.bioskop.Services.FilmsService;
@@ -12,7 +13,11 @@ import org.apache.log4j.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.http.HttpHeaders;
 
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -27,15 +32,28 @@ public class FilmsRestController {
      * @return List of films
      */
     @GetMapping("/films")
-    public ResponseEntity<Object> getAll(){
+    public ResponseEntity<?> getAll(){
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("APP-NAME", "BIOSKOP API KELOMPOK B");
         try{
-            List<Films> films = filmsService.getAllFilms();
+            List<Films> films = this.filmsService.getAllFilms();
+            List<FilmResponseDTO> filmResponseDTOs = new ArrayList<FilmResponseDTO>();
+            for(Films film : films) {
+                filmResponseDTOs.add(film.convertToResponse());
+            }
             logger.info("--------------------------");
             logger.info("Get All Films Data "+films);
             logger.info("--------------------------");
-            return ResponseHandler.generateResponse("Successfully retrieve all Films!", HttpStatus.OK, films);
+            ResponseEntity<?> body = ResponseHandlers.generateResponse("Successfully retrieved data!", 
+            HttpStatus.OK, headers, ZonedDateTime.now(ZoneId.of("Asia/Tokyo")), filmResponseDTOs);
+            return ResponseEntity.ok().headers(headers).body(body);
         } catch (Exception e){
-            return ResponseHandler.generateResponse(e.getMessage(),HttpStatus.MULTI_STATUS,null);
+            logger.error("------------------------------------");
+            logger.error(e.getMessage());
+            logger.error("------------------------------------");
+
+            ResponseEntity<?> body = ResponseHandlers.generateResponse(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR, headers, ZonedDateTime.now(ZoneId.of("Asia/Tokyo")), null);
+            return ResponseEntity.ok().headers(headers).body(body);
         }
     }
 
@@ -47,6 +65,8 @@ public class FilmsRestController {
      */
     @GetMapping("/films/{id}")
     public ResponseEntity<Object> getFilmById(@PathVariable Integer id) throws DataNotFoundException{
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("APP-NAME", "BIOSKOP API KELOMPOK B");
         try {
             Films films = this.filmsService.getOneFilms(id);
             FilmResponseDTO responseDTO = films.convertToResponse();
@@ -54,14 +74,15 @@ public class FilmsRestController {
             logger.info("--------------------------");
             logger.info("GET FILMS BY ID "+ films);
             logger.info("--------------------------");
-
-            return ResponseHandler.generateResponse("Successfully get film by id!",HttpStatus.OK, responseDTO);
+            ResponseEntity<?> body = ResponseHandlers.generateResponse("", HttpStatus.OK, headers, ZonedDateTime.now(ZoneId.of("Asia/Tokyo")), responseDTO);
+            return ResponseEntity.ok().headers(headers).body(body);
         } catch (DataNotFoundException e){
             logger.error("--------------------------");
             logger.error("GET FILMS BY ID "+ id + " NOT FOUND");
             logger.error("--------------------------");
 
-            return ResponseHandler.generateResponse(e.getMessage(), HttpStatus.MULTI_STATUS, null);
+            ResponseEntity<?> body = ResponseHandlers.generateResponse(e.getMessage(), HttpStatus.NOT_FOUND, headers, ZonedDateTime.now(ZoneId.of("Asia/Tokyo")), null);
+            return ResponseEntity.ok().headers(headers).body(body);
         }
     }
 
@@ -71,7 +92,10 @@ public class FilmsRestController {
      * @return insert New FIlm to Films Database
      */
     @PostMapping("/films")
-    public ResponseEntity<Object> createFilm(@RequestBody FilmRequestDTO filmRequestDTO){
+    public ResponseEntity<?> createFilm(@RequestBody FilmRequestDTO filmRequestDTO){
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("APP-NAME", "BIOSKOP API KELOMPOK B");
+
         try{
             Films newFilm = filmRequestDTO.convertToEntity();
 
@@ -79,16 +103,18 @@ public class FilmsRestController {
             FilmResponseDTO responseDTO = films.convertToResponse();
 
             logger.info("--------------------------");
-            logger.info("FILM SUCCESSFULLY RECORDED");
+            logger.info("FILM SUCCESSFULLY CREATE "+films);
             logger.info("--------------------------");
 
-            return ResponseHandler.generateResponse("Films Successfully Recorded", HttpStatus.OK, responseDTO);
+            ResponseEntity<?> body = ResponseHandlers.generateResponse("Success create Film", HttpStatus.OK, headers, ZonedDateTime.now(ZoneId.of("Asia/Tokyo")), responseDTO);
+            return ResponseEntity.status(body.getStatusCode()).headers(headers).body(body);
         } catch (Exception e) {
             logger.error("--------------------------");
             logger.error(e.getMessage());
             logger.error("--------------------------");
 
-            return ResponseHandler.generateResponse(e.getMessage(), HttpStatus.MULTI_STATUS, null);
+            ResponseEntity<?> body = ResponseHandlers.generateResponse(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR, headers, ZonedDateTime.now(ZoneId.of("Asia/Tokyo")), null);
+            return ResponseEntity.status(body.getStatusCode()).headers(headers).body(body);
         }
     }
 
@@ -100,24 +126,29 @@ public class FilmsRestController {
      * @throws DataNotFoundException
      */
     @PutMapping("/films/{id}")
-    public ResponseEntity<Object> updateFilms(@PathVariable Integer id, @RequestBody FilmRequestDTO filmRequestDTO) throws DataNotFoundException {
+    public ResponseEntity<?> updateFilms(@PathVariable Integer id, @RequestBody FilmRequestDTO filmRequestDTO) throws DataNotFoundException {
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("APP-NAME", "BIOSKOP API KELOMPOK B");
         try{
             Films films = filmRequestDTO.convertToEntity();
             films.setFilmCode(id);
             Films updateFilms = this.filmsService.updateFilm(films);
+            FilmResponseDTO responseDTO = updateFilms.convertToResponse();
 
             logger.info("--------------------------");
             logger.info("FILM SUCCESSFULLY UPDATED"+updateFilms);
             logger.info("--------------------------");
 
-            return ResponseHandler.generateResponse("Films Updated!",HttpStatus.OK, updateFilms);
+            ResponseEntity<?> body = ResponseHandlers.generateResponse("Success update Film", HttpStatus.OK, headers, ZonedDateTime.now(ZoneId.of("Asia/Tokyo")), responseDTO);
+            return ResponseEntity.status(body.getStatusCode()).headers(headers).body(body);
         } catch (Exception e){
 
             logger.error("--------------------------");
             logger.error(e.getMessage());
             logger.error("--------------------------");
 
-            return ResponseHandler.generateResponse(e.getMessage(), HttpStatus.MULTI_STATUS, null);
+            ResponseEntity<?> body = ResponseHandlers.generateResponse(e.getMessage(),HttpStatus.NOT_FOUND, headers, ZonedDateTime.now(ZoneId.of("Asia/Tokyo")), null);
+            return ResponseEntity.status(body.getStatusCode()).headers(headers).body(body);
         }
     }
 
@@ -128,23 +159,26 @@ public class FilmsRestController {
      * @throws DataNotFoundException
      */
     @DeleteMapping("/films/{id}")
-    public ResponseEntity<Object> deleteFilm(@PathVariable Integer id) throws DataNotFoundException{
+    public ResponseEntity<?> deleteFilm(@PathVariable Integer id){
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("APP-NAME", "BIOSKOP API KELOMPOK B");
         try{
             Films films = new Films();
             films.setFilmCode(id);
 
             this.filmsService.deleteFilm(films);
-            Films deletedFilm = this.filmsService.getFilmById(id); 
             logger.info("--------------------------");
             logger.info("SUCCESS DELETE BY ID "+id);
             logger.info("--------------------------");
 
-            return ResponseHandler.generateResponse("Films Deleted!", HttpStatus.OK, deletedFilm);
-        } catch(DataNotFoundException e){
+            ResponseEntity<?> body = ResponseHandlers.generateResponse("", HttpStatus.OK, headers, ZonedDateTime.now(ZoneId.of("Asia/Tokyo")), "Data is deleted");
+            return ResponseEntity.status(body.getStatusCode()).headers(headers).body(body);
+        } catch(Throwable e){
             logger.error("--------------------------");
             logger.error(e.getMessage());
             logger.error("--------------------------");
-            return ResponseHandler.generateResponse(e.getMessage(), HttpStatus.MULTI_STATUS, null);
+            ResponseEntity<?> body = ResponseHandlers.generateResponse(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR, headers, ZonedDateTime.now(ZoneId.of("Asia/Tokyo")), null);
+            return ResponseEntity.status(body.getStatusCode()).headers(headers).body(body);
         }
     }
 

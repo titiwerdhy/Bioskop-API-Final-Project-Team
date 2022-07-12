@@ -57,9 +57,10 @@
                             <div id="emailHelp" class="form-text">film code must be unique.</div>
                         </div>
                         <div class="mb-3">
-                            <label for="exampleInputEmail1" class="form-label">Seat Id</label>
-                            <input type="textl" class="form-control" aria-describedby="seatidHelp" th:attr="id='seatid'+${film.seatId}" th:name="seatId" th:value="${film.seatId.seatId}">
-                            <div id="emailHelp" class="form-text">Enter Seat Id.</div>
+                            <label for="exampleInputEmail1" class="form-label">Seat</label>
+                                <select class="form-select" th:field="*{seats}" aria-label="Default select example">
+                                    <option th:each="seat : ${seats}" th:value="${seat.seatId}" th:text="${seat.seatId}"></option>
+                                </select>
                         </div>
                         <div class="mb-3">
                             <label for="exampleInputEmail1" class="form-label">Film Name</label>
@@ -83,7 +84,7 @@
                             </div>
                     
                         
-                    </div>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
@@ -120,47 +121,43 @@
         </div>
 
         <!-- Create Modal -->
-        <div class="modal fade" id="exampleModal" tabindex="-1"
-        aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered
-            modal-dialog-scrollable">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Create New films</h5>
-                    <button type="button" class="btn-close"
-                        data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
+        <div th:replace="fragments/modal :: create(tittle='Create Film', form=~{this::#create-form})">
+            <th:block id="create-form">
                 <form method="post" th:action="@{/create/film}" th:object="${newFilm}">
                     <div class="modal-body">
                         <div class="mb-3">
-                            <label for="inputfilmcode" class="form-label">Films Code</label>
-                            <input type="text" class="form-control" id="inputfilmcode" aria-describedby="filmnameHelp" th:field="*{filmCode}">
-                            <div id="emailHelp" class="form-text">films code must be unique.</div>
+                            <label for="exampleInputEmail1" class="form-label">Film Code</label>
+                            <input id="filmCode" class="form-control" type="text" th:field="*{filmCode}" />
                         </div>
                         <div class="mb-3">
-                            <label for="inputfilmname" class="form-label">Film Name</label>
-                            <input type="text" class="form-control" id="inputfilmname" aria-describedby="filmnameHelp" th:field="*{filmName}">
-                            <div id="enterfilmname" class="form-text">Enter Film Name</div>
+                            <label for="exampleInputEmail1" class="form-label">Film Name</label>
+                            <input id="startDate" class="form-control" type="date" th:field="*{tanggalTayang}" />
                         </div>
                         <div class="mb-3">
-                            <label for="inputseatid" class="form-label">Seat Id</label>
-                            <select class="form-select" th:field="*{seatId}" aria-label="Default select example">
-                                <!-- <option th:each="seat : ${seats}" th:text="${seat.seatId}" th:value="${seat.seatId}"></option> -->
-                                <option th:each="seat:${seats}" th:text="${seat.seatId}" th:value="${seat.seatId}"></option>
-
-                              </select>
-                            <!-- <input type="text" class="form-control" id="inputfilmname" aria-describedby="filmnameHelp" th:field="*{filmName}"> -->
-                            <div id="enterfilmname" class="form-text">Enter Film Name</div>
+                            <label for="exampleInputTime" class="form-label">Start Time</label>
+                            <input type="time" id="appt" th:field="*{jamMulai}" />
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleInputTime" class="form-label">End Time</label>
+                            <input type="time" id="appt" th:field="*{jamSelesai}" />
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleInputPrice" class="form-label">Price</label>
+                            <input type="number" min="0.00" step="0.05" value="1.00" id="exampleInputAmount" class="form-control" th:field="*{hargaTiket}" />
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Save changes</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                            Close
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                            Save changes
+                        </button>
                     </div>
                 </form>
-            </div>
+            </th:block>
         </div>
-        </div>
+    
 
 
         <!-- Print Table -->
