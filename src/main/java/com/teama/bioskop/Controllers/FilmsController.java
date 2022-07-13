@@ -35,10 +35,10 @@ public class FilmsController {
      * @return List of films
      */
     @GetMapping("/crud/films/{pageNo}")
-    public String getAll(Model model, @PathVariable("pageNo") int pageNo) throws DataNotFoundException{
+    public String getAll(Model model, @RequestParam(value="searchby", required = false) String filmName, @RequestParam(value="sortby", required = false) String sortby, @RequestParam(value="order", required = false) String order, @PathVariable("pageNo") int pageNo) throws DataNotFoundException{
         try{
             int pageSize = 10;
-            Page<Films> films = this.filmsService.getAllFilmsPaged(pageNo, pageSize);
+            Page<Films> films = this.filmsService.getAllFilmsPaged(filmName, pageNo, pageSize, sortby, order);
             // Collections.reverse(films);
             List<Seats> seats = this.seatsService.getAllSeats();
             List<Films> filmPage = films.getContent();
@@ -47,6 +47,9 @@ public class FilmsController {
             model.addAttribute("totalItems", films.getTotalElements());
             model.addAttribute("seats", seats);
             model.addAttribute("films", filmPage);
+            model.addAttribute("searchby", filmName);
+            model.addAttribute("sortby", sortby);
+            model.addAttribute("order", order);
             model.addAttribute("newFilm", new Films());
             model.addAttribute("updateFilm", new Films());
             logger.info("--------------------------");
@@ -77,7 +80,7 @@ public class FilmsController {
             logger.info("Create films "+films);
             logger.info("--------------------------");
             ResponseHandler.generateResponse("Successfully create Film!", HttpStatus.OK, films);
-            return "redirect:/crud/films";
+            return "redirect:/crud/films/1";
         }catch (Throwable err) {
             model.addAttribute("error", err.getMessage());
             model.addAttribute("errorStatus", HttpStatus.BAD_REQUEST);
@@ -101,7 +104,7 @@ public class FilmsController {
             logger.info("Update films "+films);
             logger.info("--------------------------");
             ResponseHandler.generateResponse("Successfully update Film!", HttpStatus.OK, films);
-            return "redirect:/crud/films";
+            return "redirect:/crud/films/1";
         }catch (Throwable err){
             model.addAttribute("error", err.getMessage());
             model.addAttribute("errorStatus", HttpStatus.BAD_REQUEST);
@@ -123,7 +126,7 @@ public class FilmsController {
             this.filmsService.deleteFilmById(id);
             logger.info("--------------------------");
             ResponseHandler.generateResponse("Successfully delete Film!", HttpStatus.OK, null);
-            return "redirect:/crud/films";
+            return "redirect:/crud/films/1";
         }catch (Throwable err){
             model.addAttribute("error", err.getMessage());
             model.addAttribute("errorStatus", HttpStatus.INTERNAL_SERVER_ERROR);

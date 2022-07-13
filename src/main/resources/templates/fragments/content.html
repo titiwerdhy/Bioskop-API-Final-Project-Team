@@ -121,7 +121,7 @@
         </li>
         <div th:each="i : ${#numbers.sequence(1, totalPages)}">
             <li th:if="${currentPage == i}" class="page-item active">
-                <span class="page-link">[[${i}]]<span/>
+                <span class="page-link">[[${i}]]</span>
             </li>
             <li th:unless="${currentPage == i}" class="page-item">
                 <a th:if="${searchby != null && sortby == null}" class="page-link" th:href="@{/crud/__${action}__/__${i}__/?searchby=__${searchby}__}">[[${i}]]</a>

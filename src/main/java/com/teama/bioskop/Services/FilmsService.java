@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 import java.util.List;
 import java.util.Optional;
@@ -21,6 +22,29 @@ public class FilmsService {
     public List<Films> getAllFilms(){
         return this.filmsRepository.findAll();
     }
+
+    public Page<Films> getAllFilmsPaged(String filmName, int pageNo, int pageSize, String sort, String order){
+        Pageable pageable;
+        if (sort == null) {
+            if (filmName == null) {
+                pageable = PageRequest.of(pageNo - 1, pageSize, Sort.by("updatedAt").descending());
+            }else{
+                pageable = PageRequest.of(pageNo - 1, pageSize, Sort.by("updated_at").descending());
+            }
+        }else{
+            if (order.equals("ascending")) {
+                pageable = PageRequest.of(pageNo - 1, pageSize, Sort.by(sort).ascending());
+            }else{
+                pageable = PageRequest.of(pageNo - 1, pageSize, Sort.by(sort).descending());
+            }
+        }
+        if (filmName == null) {
+            return this.filmsRepository.findAll(pageable);
+        }else{
+            return this.filmsRepository.searchFilmsByFilmNamePaged(filmName, pageable);
+        }
+    }
+
 
     public Films getOneFilms(Integer id) throws DataNotFoundException{
         Optional<Films> optionalFilms = this.filmsRepository.findById(id);
