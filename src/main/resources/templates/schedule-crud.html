@@ -1,7 +1,13 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/head :: common(~{::title},~{})">
+<head th:replace="fragments/head :: common(~{::title},~{this::#additional})">
     <title>Bioskop | Schedule CRUD</title>
+    <th:block id="additional">
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+        <script src="https://unpkg.com/bootstrap-table@1.20.2/dist/bootstrap-table.min.js"></script>
+        <script src="https://cdn.lordicon.com/xdjxvujz.js"></script>
+        <script th:src="@{/styles/js/print.min.js}"></script>
+    </th:block>
 </head>
 <body>
 <div th:replace="fragments/navigation :: main"></div>
@@ -16,21 +22,35 @@
             </div>
 
             <!-- Action menu -->
-            <div th:replace="fragments/content :: action-menu(~{::li})">
-                <li><a class="dropdown-item" href="#">ID</a></li>
-                <li><a class="dropdown-item" href="#">Film</a></li>
-                <li><a class="dropdown-item" href="#">Last updated</a></li>
+            <div th:replace="fragments/content :: action-menu('schedule')">
+
             </div>
 
             <!-- Tables -->
             <div th:replace="fragments/content :: table(head=~{this::#table-head}, data=~{::#data}, loop='schedule', entity=${schedules}, id='scheduleId')" th:with="id=${schedule.scheduleId}" th:remove="tag">
                 <div id="table-head">
                     <th class="text-center" scope="col">No.</th>
-                    <th class="text-center" scope="col">Film Name</th>
-                    <th class="text-center" scope="col">Show Date</th>
-                    <th class="text-center" scope="col">Start Time</th>
-                    <th class="text-center" scope="col">End Time</th>
-                    <th class="text-center" scope="col">Price</th>
+                    <th class="text-center" scope="col">
+                        Film Name
+                        <th:block th:replace="fragments/content :: sort(sorting='films.filmName',action='schedule')"></th:block>
+                    </th>
+
+                    <th class="text-center" scope="col">
+                        Show Date
+                        <th:block th:replace="fragments/content :: sort(sorting='tanggalTayang',action='schedule')"></th:block>
+                    </th>
+                    <th class="text-center" scope="col">
+                        Start Time
+                        <th:block th:replace="fragments/content :: sort(sorting='jamMulai',action='schedule')"></th:block>
+                    </th>
+                    <th class="text-center" scope="col">
+                        End Time
+                        <th:block th:replace="fragments/content :: sort(sorting='jamSelesai',action='schedule')"></th:block>
+                    </th>
+                    <th class="text-center" scope="col">
+                        Price
+                        <th:block th:replace="fragments/content :: sort(sorting='hargaTiket',action='schedule')"></th:block>
+                    </th>
                 </div>
 
                 <div id="data">
@@ -43,7 +63,7 @@
                 </div>
             </div>
             <!-- Pagination -->
-            <th:block th:replace="fragments/content :: pagination"></th:block>
+            <th:block th:replace="fragments/content :: pagination('schedule')"></th:block>
         </div>
     </div>
 

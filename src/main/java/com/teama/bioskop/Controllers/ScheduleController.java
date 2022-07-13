@@ -12,12 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.*;
 
 import com.teama.bioskop.Helpers.DataNotFoundException;
 import com.teama.bioskop.Models.Schedule;
@@ -37,10 +32,10 @@ public class ScheduleController {
      * @return List of schedule
      */
     @GetMapping("/crud/schedule/{pageNo}")
-    public String getAll(Model model, @PathVariable("pageNo") int pageNo) throws DataNotFoundException{
+    public String getAll(Model model, @RequestParam(value="searchby", required = false) Double price, @RequestParam(value="sortby", required = false) String sortby, @RequestParam(value="order", required = false) String order, @PathVariable("pageNo") int pageNo) throws DataNotFoundException{
         try{
             int pageSize = 10;
-            Page<Schedule> page = scheduleService.getAllSchedulePaged(pageNo, pageSize);
+            Page<Schedule> page = scheduleService.getAllSchedulePaged(price, pageNo, pageSize, sortby, order);
             List<Films> filmsList = this.filmsService.getAllFilms();
             List<Schedule> scheduleList = page.getContent();
             //Collections.reverse(scheduleList);
@@ -49,6 +44,10 @@ public class ScheduleController {
             model.addAttribute("totalItems", page.getTotalElements());
             model.addAttribute("films",filmsList);
             model.addAttribute("schedules", scheduleList);
+            model.addAttribute("searchby", price);
+            model.addAttribute("sortby", sortby);
+            model.addAttribute("order", order);
+            model.addAttribute("reset", "/crud/schedule/1");
             model.addAttribute("newSchedule", new Schedule());
             model.addAttribute("updateSchedule", new Schedule());
             logger.info("-----------------------------------");
