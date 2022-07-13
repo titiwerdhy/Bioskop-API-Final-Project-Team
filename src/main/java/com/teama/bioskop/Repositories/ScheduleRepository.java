@@ -15,6 +15,7 @@ import org.springframework.stereotype.Repository;
 public interface ScheduleRepository extends JpaRepository<Schedule, Integer> {
     @Query("select s from Schedule s where s.films.filmName =?1")
     public List<Schedule> getScheduleByFilmName(String filmName);
-    @Query(value = "select * from schedule where harga_tiket =:price", nativeQuery = true)
+
+    @Query("select s from Schedule s where s.hargaTiket = :price")
     public Page<Schedule> getScheduleByPrice(@Param("price") double price, Pageable pageable);
 }

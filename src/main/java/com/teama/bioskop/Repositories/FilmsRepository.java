@@ -20,6 +20,6 @@ public interface FilmsRepository extends JpaRepository<Films,Integer>{
     @Query("Select f from Films f where f.seatId.studioName =?1")
     public List<Films> getFilmByStudioName(String studioName);
 
-    @Query(value="select * from films where UPPER(film_name) like UPPER('%'||:filmName||'%')", nativeQuery = true)
+    @Query("select f from Films f where lower(f.filmName) like lower(concat('%',:filmName,'%'))")
     public Page<Films> searchFilmsByFilmNamePaged(@Param("filmName") String filmName, Pageable pageable);
 }

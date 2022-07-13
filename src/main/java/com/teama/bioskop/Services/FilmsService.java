@@ -26,11 +26,7 @@ public class FilmsService {
     public Page<Films> getAllFilmsPaged(String filmName, int pageNo, int pageSize, String sort, String order){
         Pageable pageable;
         if (sort == null) {
-            if (filmName == null) {
-                pageable = PageRequest.of(pageNo - 1, pageSize, Sort.by("updatedAt").descending());
-            }else{
-                pageable = PageRequest.of(pageNo - 1, pageSize, Sort.by("updated_at").descending());
-            }
+            pageable = PageRequest.of(pageNo - 1, pageSize, Sort.by("updatedAt").descending());
         }else{
             if (order.equals("ascending")) {
                 pageable = PageRequest.of(pageNo - 1, pageSize, Sort.by(sort).ascending());
