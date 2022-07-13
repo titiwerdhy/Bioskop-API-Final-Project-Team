@@ -15,10 +15,8 @@
                 </div>
 
                 <!-- Action menu -->
-                <div th:replace="fragments/content :: action-menu(~{::li})">
-                    <li><a class="dropdown-item" href="#">Film Code</a></li>
-                    <li><a class="dropdown-item" href="#">Film Name</a></li>
-                    <li><a class="dropdown-item" href="#">Playing</a></li>
+                <div th:replace="fragments/content :: action-menu">
+                    
                 </div>
 
                 <!-- Tables -->
@@ -26,7 +24,8 @@
                     <div id="table-head">
                         <th class="text-center" scope="col">No.</th>
                         <th class="text-center" scope="col">Film Code</th>
-                        <th class="text-center" scope="col">Film Name</th>
+                        <th class="text-center" scope="col">Film Name<th:block th:replace="fragments/content :: sort(sorting='filmName')"></th:block></th>
+                        
                         <th class="text-center" scope="col">Seat</th>
                         <th class="text-center" scope="col">Playing</th>
                     </div>
