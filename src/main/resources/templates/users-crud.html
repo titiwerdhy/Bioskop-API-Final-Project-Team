@@ -1,7 +1,13 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-    <head th:replace="fragments/head :: common(~{::title},~{})">
+    <head th:replace="fragments/head :: common(~{::title},~{this::#additional})">
         <title>Bioskop | Users CRUD</title>
+        <th:block id="additional">
+            <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+            <script src="https://unpkg.com/bootstrap-table@1.20.2/dist/bootstrap-table.min.js"></script>
+            <script src="https://cdn.lordicon.com/xdjxvujz.js"></script>
+            <script th:src="@{/styles/js/print.min.js}"></script>
+        </th:block>
     </head>
     <body>
         <div th:replace="fragments/navigation :: main"></div>
@@ -9,25 +15,28 @@
         <div class="container">
 
             <!-- Content -->
-            <div class="d-flex border px-5 rounded my-3" style="background-color: #ededed;">
+            <div class="d-flex border px-5 rounded my-3" style="background-color: #ededed; height: 650px;">
                 <div class="col mt-3 mx-auto">
                     <!-- Tittle -->
                     <div th:replace="fragments/content :: tittle('Users')">
                     </div>
 
                     <!-- Action menu -->
-                    <div th:replace="fragments/content :: action-menu(~{::li})">
-                        <li><a class="dropdown-item" href="#">User</a></li>
-                        <li><a class="dropdown-item" href="#">Film</a></li>
-                        <li><a class="dropdown-item" href="#">Last updated</a></li>
+                    <div th:replace="fragments/content :: action-menu">
                     </div>
 
                     <!-- Tables -->
                     <div th:replace="fragments/content :: table(head=~{this::#table-head}, data=~{::#data}, loop='user', entity=${users}, id='userId')" th:with="id=${user.userId}" th:remove="tag">
                         <th:block id="table-head">
                             <th class="text-center" scope="col">No.</th>
-                            <th class="text-center" scope="col">Username</th>
-                            <th class="text-center" scope="col">Email Address</th>
+                            <th class="text-center" scope="col">
+                                Username
+                                <th:block th:replace="fragments/content :: sort(sorting='username')"></th:block>
+                            </th>
+                            <th class="text-center" scope="col">
+                                Email Address
+                                <th:block th:replace="fragments/content :: sort(sorting='emailAddress')"></th:block>
+                            </th>
                         </th:block>
 
                         <th:block id="data">

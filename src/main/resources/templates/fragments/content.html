@@ -6,7 +6,7 @@
 </div>
 
 <!-- Action Menu -->
-<div th:fragment="action-menu(sort_list)" class="row">
+<div th:fragment="action-menu" class="row">
     <!-- Create new Button -->
     <div class="col">
         <div class="me-3 d-grid gap-2 d-flex">
@@ -23,29 +23,32 @@
     </div>
     <!-- Search -->
     <div class="col">
-        <div class="col-5 input-group mb-3">
-            <input type="text" class="form-control" placeholder="Search by username" aria-label="Recipient's username" aria-describedby="button-addon2">
-            <button class="btn btn-outline-light border border-secondary text-white" type="button" id="button-addon2">
-                <lord-icon
-                    src="https://cdn.lordicon.com/pvbutfdk.json"
-                    trigger="morph"
-                    style="width:32px;height:32px">
-                </lord-icon>
-            </button>
-        </div>
+        <form th:action="@{/crud/users/1}">
+            <div class="col-5 input-group mb-3">
+                <input th:if="${username != null}" type="text" class="form-control" placeholder="Search by username" aria-label="Recipient's username" th:name="username" th:value="${username}" aria-describedby="button-addon2">
+                <input th:unless="${username != null}" type="text" class="form-control" placeholder="Search by username" aria-label="Recipient's username" th:name="username" aria-describedby="button-addon2">
+                <button class="btn btn-outline-light border border-secondary text-white" type="submit" id="button-addon2">
+                    <lord-icon
+                        src="https://cdn.lordicon.com/pvbutfdk.json"
+                        trigger="morph"
+                        style="width:32px;height:32px">
+                    </lord-icon>
+                </button>
+            </div>
+        </form>
     </div>
     <!-- Additional Fungtion -->
     <div class="col">
         <div class="d-grid gap-3 d-flex justify-content-end">
             <!-- Reset -->
-            <button class="btn btn-secondary" type="button">
+            <a class="btn btn-secondary" th:href="@{__${reset}__}" type="button">
                 <lord-icon
                     src="https://cdn.lordicon.com/sihdhmit.json"
                     trigger="morph"
                     colors="primary:#ffffff"
                     style="width:25px;height:25px">
                 </lord-icon>
-            </button>
+            </a>
             <!-- Save to PDF -->
             <button class="btn btn-success" type="button" onclick="printJS({
                 printable: 'content-table',
@@ -59,21 +62,12 @@
                 </lord-icon>
                 Save PDF
             </button>
-            <!-- Sort -->
-            <div class="dropdown">
-                <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                    Sort By
-                </button>
-                <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton1">
-                    <th:block th:replace="${sort_list}" />
-                </ul>
-            </div>
         </div>
     </div>
 </div>
 
 <!-- Table -->
-<div th:fragment="table(head, data, loop, entity, id)" class="row overflow-auto my-3 rounded rounded-2 table-responsive" style="height: 400px;">
+<div th:fragment="table(head, data, loop, entity, id)" class="row overflow-auto my-3 rounded rounded-2 table-responsive" style="max-height: 400px;">
     <table class="table table-light table-sm table-striped table-hover align-middle table-bordered">
         <thead class="bg-dark" style="position: sticky; top: 0; z-index: 6;">
             <tr>
@@ -108,8 +102,16 @@
     </table>
 </div>
 
+<!-- Sorting -->
+<th:block th:fragment="sort(sorting)">
+    <a th:if="${username != null}" class="btn btn-sm btn-outline-dark border-0" th:href="@{/crud/users/1?username=__${username}__&sortby=__${sorting}__&order=ascending}">&#9650</a>
+    <a th:unless="${username != null}" class="btn btn-sm btn-outline-dark border-0" th:href="@{/crud/users/1?sortby=__${sorting}__&order=ascending}">&#9650</a>
+    <a th:if="${username != null}" class="btn btn-sm btn-outline-dark border-0" th:href="@{/crud/users/1?username=__${username}__&sortby=__${sorting}__&order=descending}">&#9660</a>
+    <a th:unless="${username != null}" class="btn btn-sm btn-outline-dark border-0" th:href="@{/crud/users/1?sortby=__${sorting}__&order=descending}">&#9660</a>
+</th:block>
+
 <!-- Pagination -->
-<nav th:fragment="pagination" aria-label="Page navigation example">
+<nav th:fragment="pagination" th:if="${totalPages > 1}" aria-label="Page navigation example">
     <ul class="pagination justify-content-center">
         <li th:if="${currentPage <= 1}" class="page-item disabled">
             <a class="page-link">Previous</a>
@@ -122,7 +124,10 @@
                 <span class="page-link">[[${i}]]<span/>
             </li>
             <li th:unless="${currentPage == i}" class="page-item">
-                <a class="page-link" th:href="@{${i}}">[[${i}]]<a/>
+                <a th:if="${username != null && sortby == null}" class="page-link" th:href="@{/crud/users/__${i}__/?username=__${username}__}">[[${i}]]</a>
+                <a th:if="${username == null && sortby != null}" class="page-link" th:href="@{/crud/users/__${i}__/?sortby=__${sortby}__&order=__${order}__}">[[${i}]]</a>
+                <a th:if="${username != null && sortby != null}" class="page-link" th:href="@{/crud/users/__${i}__/?username=__${username}__&sortby=__${sortby}__&order=__${order}__}">[[${i}]]</a>
+                <a th:if="${username == null && sortby == null}" class="page-link" th:href="@{${i}}">[[${i}]]</a>
             </li>
         </div>
         <li th:if="${currentPage < totalPages}" class="page-item">
