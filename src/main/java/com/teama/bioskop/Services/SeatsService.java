@@ -2,11 +2,13 @@ package com.teama.bioskop.Services;
 
 import com.teama.bioskop.Helpers.DataNotFoundException;
 import com.teama.bioskop.Models.Seats;
+import com.teama.bioskop.Models.Users;
 import com.teama.bioskop.Repositories.SeatsRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,13 +23,26 @@ public class SeatsService {
         return this.seatsRepository.findAll();
     }
 
-    public Page<Seats> getAllSeatsPaged(int pageNo, int pageSize) throws DataNotFoundException{
-        List<Seats> seatsList = this.seatsRepository.findAll();
-        if (seatsList.isEmpty()) {
-            throw new DataNotFoundException("No reservations exist!");
+    public Page<Seats> getAllSeatsPaged(String studioName, int pageNo, int pageSize, String sort, String order){
+        Pageable pageable;
+        if (sort == null) {
+            if (studioName == null) {
+                pageable = PageRequest.of(pageNo - 1, pageSize, Sort.by("updatedAt").descending());
+            }else{
+                pageable = PageRequest.of(pageNo - 1, pageSize, Sort.by("updated_at").descending());
+            }
+        }else{
+            if (order.equals("ascending")) {
+                pageable = PageRequest.of(pageNo - 1, pageSize, Sort.by(sort).ascending());
+            }else{
+                pageable = PageRequest.of(pageNo - 1, pageSize, Sort.by(sort).descending());
+            }
         }
-        Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
-        return this.seatsRepository.findAll(pageable);
+        if (studioName == null) {
+            return this.seatsRepository.findAll(pageable);
+        }else{
+            return this.seatsRepository.getStudioName(studioName, pageable);
+        }
     }
 
     public Seats insertNewSeats(Seats seats) {
