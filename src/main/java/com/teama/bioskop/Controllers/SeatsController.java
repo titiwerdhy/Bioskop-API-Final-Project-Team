@@ -29,16 +29,20 @@ public class SeatsController {
      * @return
      */
     @GetMapping("/crud/seats/{pageNo}")
-    public String getAll(Model model, @PathVariable("pageNo") int pageNo) throws DataNotFoundException {
+    public String getAll(Model model, @RequestParam(value="searchby", required = false) String studioName, @RequestParam(value="sortby", required = false) String sortby, @RequestParam(value="order", required = false) String order,@PathVariable("pageNo") int pageNo) throws DataNotFoundException {
         try {
             int pageSize = 10;
-            Page<Seats> page = seatsService.getAllSeatsPaged(pageNo, pageSize);
+            Page<Seats> page = seatsService.getAllSeatsPaged(studioName, pageNo, pageSize, sortby, order);
             List<Seats> seatsList = page.getContent();
 //        Collections.reverse(seatsList);
             model.addAttribute("currentPage", pageNo);
             model.addAttribute("totalPages", page.getTotalPages());
             model.addAttribute("totalItems", page.getTotalElements());
             model.addAttribute("seats", seatsList);
+            model.addAttribute("searchby", studioName);
+            model.addAttribute("sortby", sortby);
+            model.addAttribute("order", order);
+            model.addAttribute("reset", "/crud/seats/1");
             model.addAttribute("newSeats", new Seats());
             model.addAttribute("updateSeats", new Seats());
             logger.info("--------------------------");
