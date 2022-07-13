@@ -22,7 +22,7 @@
                     </div>
 
                     <!-- Action menu -->
-                    <div th:replace="fragments/content :: action-menu">
+                    <div th:replace="fragments/content :: action-menu('users')">
                     </div>
 
                     <!-- Tables -->
@@ -31,11 +31,11 @@
                             <th class="text-center" scope="col">No.</th>
                             <th class="text-center" scope="col">
                                 Username
-                                <th:block th:replace="fragments/content :: sort(sorting='username')"></th:block>
+                                <th:block th:replace="fragments/content :: sort(sorting='username',action='users')"></th:block>
                             </th>
                             <th class="text-center" scope="col">
                                 Email Address
-                                <th:block th:replace="fragments/content :: sort(sorting='emailAddress')"></th:block>
+                                <th:block th:replace="fragments/content :: sort(sorting='emailAddress', action='users')"></th:block>
                             </th>
                         </th:block>
 
@@ -49,7 +49,7 @@
                     </div>
 
                     <!-- Pagination -->
-                    <th:block th:replace="fragments/content :: pagination"></th:block>
+                    <th:block th:replace="fragments/content :: pagination('users')"></th:block>
                 </div>
             </div>
 

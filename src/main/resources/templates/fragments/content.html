@@ -6,7 +6,7 @@
 </div>
 
 <!-- Action Menu -->
-<div th:fragment="action-menu" class="row">
+<div th:fragment="action-menu(action)" class="row">
     <!-- Create new Button -->
     <div class="col">
         <div class="me-3 d-grid gap-2 d-flex">
@@ -23,7 +23,7 @@
     </div>
     <!-- Search -->
     <div class="col">
-        <form th:action="@{/crud/users/1}">
+        <form th:action="@{/crud/__${action}__/1}">
             <div class="col-5 input-group mb-3">
                 <input th:if="${searchby != null}" type="text" class="form-control" placeholder="Search by username" aria-label="Recipient's username" th:name="searchby" th:value="${searchby}" aria-describedby="button-addon2">
                 <input th:unless="${searchby != null}" type="text" class="form-control" placeholder="Search by username" aria-label="Recipient's username" th:name="searchby" aria-describedby="button-addon2">
@@ -103,15 +103,15 @@
 </div>
 
 <!-- Sorting -->
-<th:block th:fragment="sort(sorting)">
-    <a th:if="${searchbby != null}" class="btn btn-sm btn-outline-dark border-0" th:href="@{/crud/users/1?searchby=__${searchby}__&sortby=__${sorting}__&order=ascending}">&#9650</a>
-    <a th:unless="${searchbby != null}" class="btn btn-sm btn-outline-dark border-0" th:href="@{/crud/users/1?sortby=__${sorting}__&order=ascending}">&#9650</a>
-    <a th:if="${searchbby != null}" class="btn btn-sm btn-outline-dark border-0" th:href="@{/crud/users/1?searchby=__${searchby}__&sortby=__${sorting}__&order=descending}">&#9660</a>
-    <a th:unless="${searchbby != null}" class="btn btn-sm btn-outline-dark border-0" th:href="@{/crud/users/1?sortby=__${sorting}__&order=descending}">&#9660</a>
+<th:block th:fragment="sort(sorting, action)">
+    <a th:if="${searchbby != null}" class="btn btn-sm btn-outline-dark border-0" th:href="@{/crud/__${action}__/1?searchby=__${searchby}__&sortby=__${sorting}__&order=ascending}">&#9650</a>
+    <a th:unless="${searchbby != null}" class="btn btn-sm btn-outline-dark border-0" th:href="@{/crud/__${action}__/1?sortby=__${sorting}__&order=ascending}">&#9650</a>
+    <a th:if="${searchbby != null}" class="btn btn-sm btn-outline-dark border-0" th:href="@{/crud/__${action}__/1?searchby=__${searchby}__&sortby=__${sorting}__&order=descending}">&#9660</a>
+    <a th:unless="${searchbby != null}" class="btn btn-sm btn-outline-dark border-0" th:href="@{/crud/__${action}__/1?sortby=__${sorting}__&order=descending}">&#9660</a>
 </th:block>
 
 <!-- Pagination -->
-<nav th:fragment="pagination" th:if="${totalPages > 1}" aria-label="Page navigation example">
+<nav th:fragment="pagination(action)" th:if="${totalPages > 1}" aria-label="Page navigation example">
     <ul class="pagination justify-content-center">
         <li th:if="${currentPage <= 1}" class="page-item disabled">
             <a class="page-link">Previous</a>
@@ -124,9 +124,9 @@
                 <span class="page-link">[[${i}]]<span/>
             </li>
             <li th:unless="${currentPage == i}" class="page-item">
-                <a th:if="${searchby != null && sortby == null}" class="page-link" th:href="@{/crud/users/__${i}__/?searchby=__${searchby}__}">[[${i}]]</a>
-                <a th:if="${searchby == null && sortby != null}" class="page-link" th:href="@{/crud/users/__${i}__/?sortby=__${sortby}__&order=__${order}__}">[[${i}]]</a>
-                <a th:if="${searchby != null && sortby != null}" class="page-link" th:href="@{/crud/users/__${i}__/?searchby=__${searchby}__&sortby=__${sortby}__&order=__${order}__}">[[${i}]]</a>
+                <a th:if="${searchby != null && sortby == null}" class="page-link" th:href="@{/crud/__${action}__/__${i}__/?searchby=__${searchby}__}">[[${i}]]</a>
+                <a th:if="${searchby == null && sortby != null}" class="page-link" th:href="@{/crud/__${action}__/__${i}__/?sortby=__${sortby}__&order=__${order}__}">[[${i}]]</a>
+                <a th:if="${searchby != null && sortby != null}" class="page-link" th:href="@{/crud/__${action}__/__${i}__/?searchby=__${searchby}__&sortby=__${sortby}__&order=__${order}__}">[[${i}]]</a>
                 <a th:if="${searchby == null && sortby == null}" class="page-link" th:href="@{${i}}">[[${i}]]</a>
             </li>
         </div>
