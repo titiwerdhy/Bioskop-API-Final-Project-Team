@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,9 +23,26 @@ public class UsersService {
         return this.usersRepository.findAll();
     }
 
-    public Page<Users> getAllUsersPaged(int pageNo, int pageSize){
-        Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
-        return this.usersRepository.findAll(pageable);
+    public Page<Users> getAllUsersPaged(String username, int pageNo, int pageSize, String sort, String order){
+        Pageable pageable;
+        if (sort == null) {
+            if (username == null) {
+                pageable = PageRequest.of(pageNo - 1, pageSize, Sort.by("updatedAt").ascending());
+            }else{
+                pageable = PageRequest.of(pageNo - 1, pageSize, Sort.by("updated_at").ascending());
+            }
+        }else{
+            if (order.equals("ascending")) {
+                pageable = PageRequest.of(pageNo - 1, pageSize, Sort.by(sort).ascending());
+            }else{
+                pageable = PageRequest.of(pageNo - 1, pageSize, Sort.by(sort).descending());
+            }
+        }
+        if (username == null) {
+            return this.usersRepository.findAll(pageable);
+        }else{
+            return this.usersRepository.searchUsersByUsernamePaged(username, pageable);
+        }
     }
 
     public Users getUserById(Integer id) throws DataNotFoundException {
