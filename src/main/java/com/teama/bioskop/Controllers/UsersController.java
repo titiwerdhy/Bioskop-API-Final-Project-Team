@@ -35,7 +35,7 @@ public class UsersController {
      * @return
      */
     @GetMapping("/crud/users/{pageNo}")
-    public String getAll(Model model, @RequestParam(value="username", required = false) String username, @RequestParam(value="sortby", required = false) String sortby, @RequestParam(value="order", required = false) String order, @PathVariable("pageNo") int pageNo){
+    public String getAll(Model model, @RequestParam(value="searchby", required = false) String username, @RequestParam(value="sortby", required = false) String sortby, @RequestParam(value="order", required = false) String order, @PathVariable("pageNo") int pageNo){
         int pageSize = 10;
         Page<Users> page = usersService.getAllUsersPaged(username, pageNo, pageSize, sortby, order);
         // Page<Users> page = usersService.getAllUsersPaged(pageNo, pageSize);
@@ -45,7 +45,7 @@ public class UsersController {
         model.addAttribute("totalPages", page.getTotalPages());
         model.addAttribute("totalItems", page.getTotalElements());
         model.addAttribute("users", userList);
-        model.addAttribute("username", username);
+        model.addAttribute("searchby", username);
         model.addAttribute("sortby", sortby);
         model.addAttribute("order", order);
         model.addAttribute("reset", "/crud/users/1");

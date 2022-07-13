@@ -2,7 +2,6 @@ package com.teama.bioskop.Controllers;
 
 import com.teama.bioskop.Handlers.ResponseHandler;
 import com.teama.bioskop.Helpers.DataNotFoundException;
-import com.teama.bioskop.Models.Reservations;
 import com.teama.bioskop.Models.Seats;
 import com.teama.bioskop.Services.SeatsService;
 import lombok.AllArgsConstructor;
@@ -14,7 +13,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collections;
 import java.util.List;
 
 @Controller

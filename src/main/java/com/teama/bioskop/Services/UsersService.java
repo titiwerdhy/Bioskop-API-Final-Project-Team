@@ -27,9 +27,9 @@ public class UsersService {
         Pageable pageable;
         if (sort == null) {
             if (username == null) {
-                pageable = PageRequest.of(pageNo - 1, pageSize, Sort.by("updatedAt").ascending());
+                pageable = PageRequest.of(pageNo - 1, pageSize, Sort.by("updatedAt").descending());
             }else{
-                pageable = PageRequest.of(pageNo - 1, pageSize, Sort.by("updated_at").ascending());
+                pageable = PageRequest.of(pageNo - 1, pageSize, Sort.by("updated_at").descending());
             }
         }else{
             if (order.equals("ascending")) {

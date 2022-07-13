@@ -1,7 +1,6 @@
 package com.teama.bioskop.Services;
 
 import com.teama.bioskop.Helpers.DataNotFoundException;
-import com.teama.bioskop.Models.Reservations;
 import com.teama.bioskop.Models.Seats;
 import com.teama.bioskop.Repositories.SeatsRepository;
 import lombok.AllArgsConstructor;

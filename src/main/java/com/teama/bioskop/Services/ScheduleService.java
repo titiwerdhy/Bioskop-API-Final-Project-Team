@@ -2,7 +2,6 @@ package com.teama.bioskop.Services;
 
 import com.teama.bioskop.Helpers.DataNotFoundException;
 import com.teama.bioskop.Models.Schedule;
-import com.teama.bioskop.Models.Users;
 import com.teama.bioskop.Repositories.ScheduleRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;

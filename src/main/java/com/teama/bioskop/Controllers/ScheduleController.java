@@ -1,11 +1,9 @@
 package com.teama.bioskop.Controllers;
 
-import java.util.Collections;
 import java.util.List;
 
 import com.teama.bioskop.Handlers.ResponseHandler;
 import com.teama.bioskop.Models.Films;
-import com.teama.bioskop.Models.Users;
 import com.teama.bioskop.Services.FilmsService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
