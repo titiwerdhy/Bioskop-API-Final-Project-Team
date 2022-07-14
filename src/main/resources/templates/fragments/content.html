@@ -67,8 +67,8 @@
 </div>
 
 <!-- Table -->
-<div th:fragment="table(head, data, loop, entity, id)" class="row overflow-auto my-3 rounded rounded-2 table-responsive" style="height: 400px;">
-    <table class="table table-light table-sm table-striped table-hover align-middle table-bordered">
+<div th:fragment="table(head, data, loop, entity, id)" class="row overflow-auto my-3 rounded rounded-2 table-responsive" style="min-height: 500px;">
+    <table class="table table-light table-sm table-striped table-hover align-middle table-bordered mb-auto">
         <thead class="bg-dark" style="position: sticky; top: 0; z-index: 6;">
             <tr>
                 <th:block th:include="${head}" />
@@ -104,10 +104,12 @@
 
 <!-- Sorting -->
 <th:block th:fragment="sort(sorting, action)">
-    <a th:if="${searchby != null}" class="btn btn-sm btn-outline-dark border-0" th:href="@{/crud/__${action}__/1?searchby=__${searchby}__&sortby=__${sorting}__&order=ascending}">&#9650</a>
-    <a th:unless="${searchby != null}" class="btn btn-sm btn-outline-dark border-0" th:href="@{/crud/__${action}__/1?sortby=__${sorting}__&order=ascending}">&#9650</a>
-    <a th:if="${searchby != null}" class="btn btn-sm btn-outline-dark border-0" th:href="@{/crud/__${action}__/1?searchby=__${searchby}__&sortby=__${sorting}__&order=descending}">&#9660</a>
-    <a th:unless="${searchby != null}" class="btn btn-sm btn-outline-dark border-0" th:href="@{/crud/__${action}__/1?sortby=__${sorting}__&order=descending}">&#9660</a>
+    <div class="d-grid  justify-content-md-end" style="width: 10px">
+        <a th:if="${searchby != null}" class="btn btn-sm btn-outline-dark border-0" style="--bs-btn-padding-y: .05rem; --bs-btn-padding-x: .2rem; --bs-btn-font-size: .50rem;" th:href="@{/crud/__${action}__/1?searchby=__${searchby}__&sortby=__${sorting}__&order=ascending}">&#9650</a>
+        <a th:unless="${searchby != null}" class="btn btn-sm btn-outline-dark border-0" style="--bs-btn-padding-y: .05rem; --bs-btn-padding-x: .2rem; --bs-btn-font-size: .50rem;" th:href="@{/crud/__${action}__/1?sortby=__${sorting}__&order=ascending}">&#9650</a>
+        <a th:if="${searchby != null}" class="btn btn-sm btn-outline-dark border-0" style="--bs-btn-padding-y: .05rem; --bs-btn-padding-x: .2rem; --bs-btn-font-size: .50rem;" th:href="@{/crud/__${action}__/1?searchby=__${searchby}__&sortby=__${sorting}__&order=descending}">&#9660</a>
+        <a th:unless="${searchby != null}" class="btn btn-sm btn-outline-dark border-0" style="--bs-btn-padding-y: .05rem; --bs-btn-padding-x: .2rem; --bs-btn-font-size: .50rem;" th:href="@{/crud/__${action}__/1?sortby=__${sorting}__&order=descending}">&#9660</a>
+    </div>
 </th:block>
 
 <!-- Pagination -->

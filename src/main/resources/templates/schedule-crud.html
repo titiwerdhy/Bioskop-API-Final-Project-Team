@@ -31,34 +31,55 @@
                 <div id="table-head">
                     <th class="text-center" scope="col">No.</th>
                     <th class="text-center" scope="col">
-                        Film Name
-                        <th:block th:replace="fragments/content :: sort(sorting='films.filmName',action='schedule')"></th:block>
+                        <div class="row">
+                            <div class="col">
+                                Film Name
+                            </div>
+                            <div class="col-1">
+                                <th:block th:replace="fragments/content :: sort(sorting='films.filmName',action='schedule')"></th:block>
+                            </div>
+                        </div>
                     </th>
 
                     <th class="text-center" scope="col">
-                        Show Date
-                        <th:block th:replace="fragments/content :: sort(sorting='tanggalTayang',action='schedule')"></th:block>
+                        <div class="row">
+                            <div class="col">
+                                Show Date
+                            </div>
+                            <div class="col-2">
+                                <th:block th:replace="fragments/content :: sort(sorting='tanggalTayang',action='schedule')"></th:block>
+                            </div>
+                        </div>
                     </th>
                     <th class="text-center" scope="col">
-                        Start Time
-                        <th:block th:replace="fragments/content :: sort(sorting='jamMulai',action='schedule')"></th:block>
+                        <div class="row">
+                            <div class="col">
+                                Start Time
+                            </div>
+                            <div class="col-2">
+                                <th:block th:replace="fragments/content :: sort(sorting='jamMulai',action='schedule')"></th:block>
+                            </div>
+                        </div>
                     </th>
                     <th class="text-center" scope="col">
-                        End Time
-                        <th:block th:replace="fragments/content :: sort(sorting='jamSelesai',action='schedule')"></th:block>
-                    </th>
-                    <th class="text-center" scope="col">
-                        Price
-                        <th:block th:replace="fragments/content :: sort(sorting='hargaTiket',action='schedule')"></th:block>
+                        <div class="row">
+                            <div class="col">
+                                Price
+                            </div>
+                            <div class="col-2">
+                                <th:block th:replace="fragments/content :: sort(sorting='hargaTiket',action='schedule')"></th:block>
+                            </div>
+                        </div>
                     </th>
                 </div>
 
                 <div id="data">
                     <td class="text-center" scope="row" th:text="${iter.index + 1 + ((currentPage-1)*10)}"></td>
-                    <td class="text-capitalize" th:text="${schedule.films.filmName}"></td>
+                    <td>
+                        <a class="text-dark text-capitalize" style="text-decoration:none;" th:href="'#showModal'+${schedule.scheduleId}" th:text="${schedule.films.filmName}" data-bs-toggle="modal" th:attr="data-bs-target='#showModal'+${schedule.scheduleId}"></a>
+                    </td>
                     <td class="text-center" th:text="${#temporals.format(schedule.tanggalTayang,'dd-MM-yyyy')}"></td>
-                    <td class="text-center" th:text="${#temporals.format(schedule.jamMulai,'HH:mm')}"></td>
-                    <td class="text-center" th:text="${#temporals.format(schedule.jamSelesai,'HH:mm')}"></td>
+                    <td class="text-center">[[${#temporals.format(schedule.jamMulai,'HH:mm')}]] - [[${#temporals.format(schedule.jamSelesai,'HH:mm')}]]</td>
                     <td class="text-center" th:text="Rp + ${#numbers.formatDecimal(schedule.hargaTiket,0, 'POINT', 0, 'COMMA')}"></td>
                 </div>
             </div>

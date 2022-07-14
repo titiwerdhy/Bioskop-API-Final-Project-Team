@@ -24,11 +24,15 @@
                     <div id="table-head">
                         <th class="text-center" scope="col">No.</th>
                         <th class="text-center" scope="col">Film Code</th>
-                        <th class="text-center" scope="col">Film Name
-                            <th:block th:replace="fragments/content :: sort(sorting='filmName', action='films')">
-
-                            </th:block></th>
-                        
+                        <th class="text-center" scope="col">
+                            <div class="row">
+                                <div class="col">
+                                    Film Name
+                                </div>
+                                <div class="col-1">
+                                    <th:block th:replace="fragments/content :: sort(sorting='filmName', action='films')">
+                                </div>
+                            </div>
                         <th class="text-center" scope="col">Seat</th>
                         <th class="text-center" scope="col">Playing</th>
                     </div>

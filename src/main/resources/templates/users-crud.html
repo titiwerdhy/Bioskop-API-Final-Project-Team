@@ -29,13 +29,25 @@
                     <div th:replace="fragments/content :: table(head=~{this::#table-head}, data=~{::#data}, loop='user', entity=${users}, id='userId')" th:with="id=${user.userId}" th:remove="tag">
                         <th:block id="table-head">
                             <th class="text-center" scope="col">No.</th>
-                            <th class="text-center" scope="col">
-                                Username
-                                <th:block th:replace="fragments/content :: sort(sorting='username',action='users')"></th:block>
+                            <th scope="col">
+                                <div class="row m-0">
+                                    <div class="text-center col">
+                                        Username
+                                    </div>
+                                    <div class="col-1">
+                                        <th:block th:replace="fragments/content :: sort(sorting='username',action='users')"></th:block>
+                                    </div>
+                                </div>
                             </th>
-                            <th class="text-center" scope="col">
-                                Email Address
-                                <th:block th:replace="fragments/content :: sort(sorting='emailAddress', action='users')"></th:block>
+                            <th scope="col">
+                                <div class="row">
+                                    <div class="text-center col">
+                                        Email Address
+                                    </div>
+                                    <div class="col-1">
+                                        <th:block th:replace="fragments/content :: sort(sorting='emailAddress', action='users')"></th:block>
+                                    </div>
+                                </div>
                             </th>
                         </th:block>
 

@@ -31,8 +31,14 @@
                         <div id="table-head">
                             <th class="text-center" scope="col">No.</th>
                             <th class="text-center" scope="col">
-                                User
-                                <th:block th:replace="fragments/content :: sort(sorting='users.username', action='reservations')"></th:block>
+                                <div class="row">
+                                    <div class="col">
+                                        User
+                                    </div>
+                                    <div class="col-1">
+                                        <th:block th:replace="fragments/content :: sort(sorting='users.username', action='reservations')"></th:block>
+                                    </div>
+                                </div>
                             </th>
                             <th class="text-center" scope="col">Schedule</th>
                             <th class="text-center" scope="col">Active</th>
