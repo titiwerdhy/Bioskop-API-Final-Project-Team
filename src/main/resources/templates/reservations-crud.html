@@ -1,7 +1,13 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-    <head th:replace="fragments/head :: common(~{::title},~{})">
+    <head th:replace="fragments/head :: common(~{::title},~{this::#additional})">
         <title>Bioskop | Reservations CRUD</title>
+        <th:block id="additional">
+            <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+            <script src="https://unpkg.com/bootstrap-table@1.20.2/dist/bootstrap-table.min.js"></script>
+            <script src="https://cdn.lordicon.com/xdjxvujz.js"></script>
+            <script th:src="@{/styles/js/print.min.js}"></script>
+        </th:block>
     </head>
     <body>
         <div th:replace="fragments/navigation :: main"></div>
@@ -16,17 +22,24 @@
                     </div>
 
                     <!-- Action menu -->
-                    <div th:replace="fragments/content :: action-menu(~{::li})">
-                        <li><a class="dropdown-item" href="#">User</a></li>
-                        <li><a class="dropdown-item" href="#">Film</a></li>
-                        <li><a class="dropdown-item" href="#">Last updated</a></li>
+                    <div th:replace="fragments/content :: action-menu('reservations')">
+                        
                     </div>
 
                     <!-- Tables -->
                     <div th:replace="fragments/content :: table(head=~{this::#table-head}, data=~{::#data}, loop='reservation', entity=${reservations}, id='reservationId')" th:with="id=${reservation.reservationId}" th:remove="tag">
                         <div id="table-head">
                             <th class="text-center" scope="col">No.</th>
-                            <th class="text-center" scope="col">User</th>
+                            <th scope="col">
+                                <div class="row">
+                                    <div class="text-center col me-auto">
+                                        User
+                                    </div>
+                                    <div class="col-auto">
+                                        <th:block th:replace="fragments/content :: sort(sorting='users.username', action='reservations')"></th:block>
+                                    </div>
+                                </div>
+                            </th>
                             <th class="text-center" scope="col">Schedule</th>
                             <th class="text-center" scope="col">Active</th>
                         </div>
@@ -43,7 +56,7 @@
                     </div>
 
                     <!-- Pagination -->
-                    <th:block th:replace="fragments/content :: pagination"></th:block>
+                    <th:block th:replace="fragments/content :: pagination('reservations')"></th:block>
                 </div>
             </div>
 

@@ -13,6 +13,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -33,13 +34,22 @@ public class ReservationsService {
         return this.reservationsRepository.findAll();
     }
 
-    public Page<Reservations> getAllReservationsPaged(int pageNo, int pageSize) throws DataNotFoundException{
-        List<Reservations> reservationsList = this.reservationsRepository.findAll();
-        if (reservationsList.isEmpty()) {
-            throw new DataNotFoundException("No reservations exist!");
+    public Page<Reservations> getAllUsersPaged(String username, int pageNo, int pageSize, String sort, String order){
+        Pageable pageable;
+        if (sort == null) {
+            pageable = PageRequest.of(pageNo - 1, pageSize, Sort.by("updatedAt").descending());
+        }else{
+            if (order.equals("ascending")) {
+                pageable = PageRequest.of(pageNo - 1, pageSize, Sort.by(sort).ascending());
+            }else{
+                pageable = PageRequest.of(pageNo - 1, pageSize, Sort.by(sort).descending());
+            }
         }
-        Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
-        return this.reservationsRepository.findAll(pageable);
+        if (username == null) {
+            return this.reservationsRepository.findAll(pageable);
+        }else{
+            return this.reservationsRepository.getReservationByUsername(username, pageable);
+        }
     }
 
     public Reservations getReservationById(Integer Id) throws DataNotFoundException {

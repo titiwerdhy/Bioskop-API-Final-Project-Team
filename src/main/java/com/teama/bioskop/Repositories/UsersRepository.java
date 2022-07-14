@@ -12,6 +12,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UsersRepository extends JpaRepository<Users,Integer>{
 
-    @Query(value="select * from users where UPPER(username) like UPPER('%'||:username||'%')", nativeQuery = true)
+    @Query("select u from Users u where lower(u.username) like lower(concat('%',:username,'%'))")
     public Page<Users> searchUsersByUsernamePaged(@Param("username") String username, Pageable pageable);
 }

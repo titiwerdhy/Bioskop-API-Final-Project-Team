@@ -67,8 +67,8 @@
 </div>
 
 <!-- Table -->
-<div th:fragment="table(head, data, loop, entity, id)" class="row overflow-auto my-3 rounded rounded-2 table-responsive" style="max-height: 400px;">
-    <table class="table table-light table-sm table-striped table-hover align-middle table-bordered">
+<div th:fragment="table(head, data, loop, entity, id)" class="row overflow-auto my-3 rounded rounded-2 table-responsive" style="min-height: 500px;">
+    <table class="table table-light table-sm table-striped table-hover align-middle table-bordered mb-auto">
         <thead class="bg-dark" style="position: sticky; top: 0; z-index: 6;">
             <tr>
                 <th:block th:include="${head}" />
@@ -104,10 +104,12 @@
 
 <!-- Sorting -->
 <th:block th:fragment="sort(sorting, action)">
-    <a th:if="${searchbby != null}" class="btn btn-sm btn-outline-dark border-0" th:href="@{/crud/__${action}__/1?searchby=__${searchby}__&sortby=__${sorting}__&order=ascending}">&#9650</a>
-    <a th:unless="${searchbby != null}" class="btn btn-sm btn-outline-dark border-0" th:href="@{/crud/__${action}__/1?sortby=__${sorting}__&order=ascending}">&#9650</a>
-    <a th:if="${searchbby != null}" class="btn btn-sm btn-outline-dark border-0" th:href="@{/crud/__${action}__/1?searchby=__${searchby}__&sortby=__${sorting}__&order=descending}">&#9660</a>
-    <a th:unless="${searchbby != null}" class="btn btn-sm btn-outline-dark border-0" th:href="@{/crud/__${action}__/1?sortby=__${sorting}__&order=descending}">&#9660</a>
+    <div class="d-grid  justify-content-md-end" style="width: 10px">
+        <a th:if="${searchby != null}" class="btn btn-sm btn-outline-dark border-0" style="--bs-btn-padding-y: .05rem; --bs-btn-padding-x: .2rem; --bs-btn-font-size: .50rem;" th:href="@{/crud/__${action}__/1?searchby=__${searchby}__&sortby=__${sorting}__&order=ascending}">&#9650</a>
+        <a th:unless="${searchby != null}" class="btn btn-sm btn-outline-dark border-0" style="--bs-btn-padding-y: .05rem; --bs-btn-padding-x: .2rem; --bs-btn-font-size: .50rem;" th:href="@{/crud/__${action}__/1?sortby=__${sorting}__&order=ascending}">&#9650</a>
+        <a th:if="${searchby != null}" class="btn btn-sm btn-outline-dark border-0" style="--bs-btn-padding-y: .05rem; --bs-btn-padding-x: .2rem; --bs-btn-font-size: .50rem;" th:href="@{/crud/__${action}__/1?searchby=__${searchby}__&sortby=__${sorting}__&order=descending}">&#9660</a>
+        <a th:unless="${searchby != null}" class="btn btn-sm btn-outline-dark border-0" style="--bs-btn-padding-y: .05rem; --bs-btn-padding-x: .2rem; --bs-btn-font-size: .50rem;" th:href="@{/crud/__${action}__/1?sortby=__${sorting}__&order=descending}">&#9660</a>
+    </div>
 </th:block>
 
 <!-- Pagination -->
@@ -117,7 +119,10 @@
             <a class="page-link">Previous</a>
         </li>
         <li th:if="${currentPage > 1}" class="page-item">
-            <a th:href="@{${currentPage - 1}}" class="page-link">Previous</a>
+            <a th:if="${searchby != null && sortby == null}" th:href="@{/crud/__${action}__/__${currentPage - 1}__/?searchby=__${searchby}__}" class="page-link">Previous</a>
+            <a th:if="${searchby == null && sortby != null}" th:href="@{/crud/__${action}__/__${currentPage - 1}__/?sortby=__${sortby}__&order=__${order}__}" class="page-link">Previous</a>
+            <a th:if="${searchby != null && sortby != null}" th:href="@{/crud/__${action}__/__${currentPage - 1}__/?searchby=__${searchby}__&sortby=__${sortby}__&order=__${order}__}" class="page-link">Previous</a>
+            <a th:if="${searchby == null && sortby == null}" th:href="@{${currentPage - 1}}" class="page-link">Previous</a>
         </li>
         <div th:each="i : ${#numbers.sequence(1, totalPages)}">
             <li th:if="${currentPage == i}" class="page-item active">
@@ -131,7 +136,10 @@
             </li>
         </div>
         <li th:if="${currentPage < totalPages}" class="page-item">
-            <a class="page-link" th:href="@{${currentPage + 1}}">Next</a>
+            <a th:if="${searchby != null && sortby == null}" class="page-link" th:href="@{/crud/__${action}__/__${currentPage + 1}__/?searchby=__${searchby}__}">Next</a>
+            <a th:if="${searchby == null && sortby != null}" class="page-link" th:href="@{/crud/__${action}__/__${currentPage + 1}__/?sortby=__${sortby}__&order=__${order}__}">Next</a>
+            <a th:if="${searchby != null && sortby != null}" class="page-link" th:href="@{/crud/__${action}__/__${currentPage + 1}__/?searchby=__${searchby}__&sortby=__${sortby}__&order=__${order}__}">Next</a>
+            <a th:if="${searchby == null && sortby == null}" class="page-link" th:href="@{${currentPage + 1}}">Next</a>
         </li>
         <li th:unless="${currentPage < totalPages}" class="page-item disabled">
             <a class="page-link">Next</a>

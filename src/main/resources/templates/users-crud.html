@@ -15,7 +15,7 @@
         <div class="container">
 
             <!-- Content -->
-            <div class="d-flex border px-5 rounded my-3" style="background-color: #ededed; height: 650px;">
+            <div class="d-flex border px-5 rounded my-3" style="background-color: #ededed;">
                 <div class="col mt-3 mx-auto">
                     <!-- Tittle -->
                     <div th:replace="fragments/content :: tittle('Users')">
@@ -29,13 +29,25 @@
                     <div th:replace="fragments/content :: table(head=~{this::#table-head}, data=~{::#data}, loop='user', entity=${users}, id='userId')" th:with="id=${user.userId}" th:remove="tag">
                         <th:block id="table-head">
                             <th class="text-center" scope="col">No.</th>
-                            <th class="text-center" scope="col">
-                                Username
-                                <th:block th:replace="fragments/content :: sort(sorting='username',action='users')"></th:block>
+                            <th scope="col">
+                                <div class="row m-0 justify-content-end">
+                                    <div class="text-center col me-auto">
+                                        Username
+                                    </div>
+                                    <div class="col-auto">
+                                        <th:block th:replace="fragments/content :: sort(sorting='username',action='users')"></th:block>
+                                    </div>
+                                </div>
                             </th>
-                            <th class="text-center" scope="col">
-                                Email Address
-                                <th:block th:replace="fragments/content :: sort(sorting='emailAddress', action='users')"></th:block>
+                            <th scope="col">
+                                <div class="row justify-content-end">
+                                    <div class="text-center col me-auto">
+                                        Email Address
+                                    </div>
+                                    <div class="col-auto">
+                                        <th:block th:replace="fragments/content :: sort(sorting='emailAddress', action='users')"></th:block>
+                                    </div>
+                                </div>
                             </th>
                         </th:block>
 

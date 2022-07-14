@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.teama.bioskop.Helpers.DataNotFoundException;
 import com.teama.bioskop.Models.Reservations;
@@ -37,10 +38,10 @@ public class ReservationsController {
      * @throws DataNotFoundException
      */
     @GetMapping("/crud/reservations/{pageNo}")
-    public String getAll(Model model, @PathVariable("pageNo") int pageNo) throws DataNotFoundException{
+    public String getAll(Model model,  @RequestParam(value="searchby", required = false) String username, @RequestParam(value="sortby", required = false) String sortby, @RequestParam(value="order", required = false) String order, @PathVariable("pageNo") int pageNo) throws DataNotFoundException{
         try {
             int pageSize = 10;
-            Page<Reservations> page = reservationsService.getAllReservationsPaged(pageNo, pageSize);
+            Page<Reservations> page = reservationsService.getAllUsersPaged(username, pageNo, pageSize, sortby, order);
             List<Reservations> reservList = page.getContent();
             // Collections.reverse(reservList);
             List<Users> userList = usersService.getAllUsers();
@@ -52,10 +53,14 @@ public class ReservationsController {
             model.addAttribute("totalItems", page.getTotalElements());
             model.addAttribute("reservations", reservList);
             model.addAttribute("users", userList);
+            model.addAttribute("searchby", username);
+            model.addAttribute("sortby", sortby);
+            model.addAttribute("order", order);
+            model.addAttribute("reset", "/crud/users/1");
             model.addAttribute("newReserv", new Reservations());
             model.addAttribute("schedules", scheduleList);
             return "reservations-crud";
-        }catch(DataNotFoundException e) {
+        }catch(Exception e) {
             model.addAttribute("error", false);
             model.addAttribute("message", e.getMessage());
             model.addAttribute("reservations", null);
