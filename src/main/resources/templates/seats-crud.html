@@ -44,7 +44,7 @@
                 </div>
 
                 <div id="data">
-                    <th class="text-center" scope="row" th:text="${iter.index + 1 + ((currentPage-1)*10)}"></th>
+                    <td class="text-center" th:text="${iter.index + 1 + ((currentPage-1)*10)}"></td>
                     <td class="text-center">
                         <a class="text-dark" style="text-decoration:none;" th:href="'#showModal'+${seat.seatId}" th:text="${seat.studioName}" data-bs-toggle="modal" th:attr="data-bs-target='#showModal'+${seat.seatId}"></a>
                     </td>
