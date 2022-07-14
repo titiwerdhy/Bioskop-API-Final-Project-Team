@@ -30,12 +30,12 @@
                     <div th:replace="fragments/content :: table(head=~{this::#table-head}, data=~{::#data}, loop='reservation', entity=${reservations}, id='reservationId')" th:with="id=${reservation.reservationId}" th:remove="tag">
                         <div id="table-head">
                             <th class="text-center" scope="col">No.</th>
-                            <th class="text-center" scope="col">
+                            <th scope="col">
                                 <div class="row">
-                                    <div class="col">
+                                    <div class="text-center col me-auto">
                                         User
                                     </div>
-                                    <div class="col-1">
+                                    <div class="col-auto">
                                         <th:block th:replace="fragments/content :: sort(sorting='users.username', action='reservations')"></th:block>
                                     </div>
                                 </div>

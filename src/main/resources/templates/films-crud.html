@@ -23,13 +23,22 @@
                 <div th:replace="fragments/content :: table(head=~{this::#table-head}, data=~{::#data}, loop='film', entity=${films}, id='filmCode')" th:with="id=${film.filmCode}" th:remove="tag">
                     <div id="table-head">
                         <th class="text-center" scope="col">No.</th>
-                        <th class="text-center" scope="col">Film Code</th>
                         <th class="text-center" scope="col">
                             <div class="row">
-                                <div class="col">
+                                <div class="text-center col me-auto">
+                                    Film Code
+                                </div>
+                                <div class="col-auto">
+                                    <th:block th:replace="fragments/content :: sort(sorting='filmCode', action='films')">
+                                </div>
+                            </div>
+                        </th>
+                        <th scope="col">
+                            <div class="row">
+                                <div class="text-center col me-auto">
                                     Film Name
                                 </div>
-                                <div class="col-1">
+                                <div class="col-auto">
                                     <th:block th:replace="fragments/content :: sort(sorting='filmName', action='films')">
                                 </div>
                             </div>

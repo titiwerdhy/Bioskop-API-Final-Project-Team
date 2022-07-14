@@ -30,21 +30,21 @@
                         <th:block id="table-head">
                             <th class="text-center" scope="col">No.</th>
                             <th scope="col">
-                                <div class="row m-0">
-                                    <div class="text-center col">
+                                <div class="row m-0 justify-content-end">
+                                    <div class="text-center col me-auto">
                                         Username
                                     </div>
-                                    <div class="col-1">
+                                    <div class="col-auto">
                                         <th:block th:replace="fragments/content :: sort(sorting='username',action='users')"></th:block>
                                     </div>
                                 </div>
                             </th>
                             <th scope="col">
-                                <div class="row">
-                                    <div class="text-center col">
+                                <div class="row justify-content-end">
+                                    <div class="text-center col me-auto">
                                         Email Address
                                     </div>
-                                    <div class="col-1">
+                                    <div class="col-auto">
                                         <th:block th:replace="fragments/content :: sort(sorting='emailAddress', action='users')"></th:block>
                                     </div>
                                 </div>

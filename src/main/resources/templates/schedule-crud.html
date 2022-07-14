@@ -30,43 +30,43 @@
             <div th:replace="fragments/content :: table(head=~{this::#table-head}, data=~{::#data}, loop='schedule', entity=${schedules}, id='scheduleId')" th:with="id=${schedule.scheduleId}" th:remove="tag">
                 <div id="table-head">
                     <th class="text-center" scope="col">No.</th>
-                    <th class="text-center" scope="col">
+                    <th scope="col">
                         <div class="row">
-                            <div class="col">
+                            <div class="text-center col me-auto">
                                 Film Name
                             </div>
-                            <div class="col-1">
+                            <div class="col-auto">
                                 <th:block th:replace="fragments/content :: sort(sorting='films.filmName',action='schedule')"></th:block>
                             </div>
                         </div>
                     </th>
 
-                    <th class="text-center" scope="col">
+                    <th scope="col">
                         <div class="row">
-                            <div class="col">
+                            <div class="text-center col me-auto">
                                 Show Date
                             </div>
-                            <div class="col-2">
+                            <div class="col-auto">
                                 <th:block th:replace="fragments/content :: sort(sorting='tanggalTayang',action='schedule')"></th:block>
                             </div>
                         </div>
                     </th>
-                    <th class="text-center" scope="col">
+                    <th scope="col">
                         <div class="row">
-                            <div class="col">
+                            <div class="text-center col me-auto">
                                 Start Time
                             </div>
-                            <div class="col-2">
+                            <div class="col-auto">
                                 <th:block th:replace="fragments/content :: sort(sorting='jamMulai',action='schedule')"></th:block>
                             </div>
                         </div>
                     </th>
-                    <th class="text-center" scope="col">
+                    <th scope="col">
                         <div class="row">
-                            <div class="col">
+                            <div class="text-center col me-auto">
                                 Price
                             </div>
-                            <div class="col-2">
+                            <div class="col-auto">
                                 <th:block th:replace="fragments/content :: sort(sorting='hargaTiket',action='schedule')"></th:block>
                             </div>
                         </div>
